@@ -4,8 +4,8 @@ For each task or sub-task, record who is responsible, the deadline, and any depe
 Use the entries below as an example.
 
 ## Week 4
-
-Everyone: create application skeleton - meeting 14:00 19 Mar
+meeting time: 14:00 16 Mar
+Everyone: cloned group repo and added members in members.yml.
 
 ## Week 5
 
