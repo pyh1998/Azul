@@ -5,15 +5,11 @@ Use the entries below as an example.
 
 ## Week 4
 meeting time: 14:00 16 Mar
+
 Everyone: cloned group repo and added members in members.yml.
 
 ## Week 5
 
-Zhang San: Task 3 isPlayerStateWellFormed - 23 Mar
-
-Jane Bloggs: Task 5 drawTileFromBag - 23 Mar
-
-Erika Mustermann: Task 6 refillFactories - 25 Mar (depends on Task 5)
 
 ## Week 6
 
