@@ -55,6 +55,17 @@ public class Azul {
      */
     public static boolean isSharedStateWellFormed(String sharedState) {
         // FIXME Task 2
+        // separate the sharedState is in [factories][centre][bag][discard]
+        int totalLength = sharedState.length();
+        int fLocated = sharedState.indexOf("F");
+        int cLocated = sharedState.indexOf("C");
+        int bLocated = sharedState.indexOf("B");
+        int dLocated = sharedState.indexOf("D");
+        String factories = sharedState.substring(fLocated,cLocated);
+        String centre = sharedState.substring(cLocated,bLocated);
+        String bag = sharedState.substring(bLocated,dLocated);
+        String discard = sharedState.substring(dLocated,totalLength);
+
         return false;
     }
 
