@@ -9,7 +9,9 @@ meeting time: 14:00 16 Mar
 Everyone: cloned group repo and added members in members.yml.
 
 ## Week 5
+meeting time: 12:00 25 Mar
 
+Everyone: Discuss the skeleton design
 
 ## Week 6
 
