@@ -66,7 +66,9 @@ public class Azul {
         String bag = sharedState.substring(bLocated,dLocated);
         String discard = sharedState.substring(dLocated,totalLength);
 
-        return false;
+
+
+        return true;
     }
 
     /**
