@@ -53,20 +53,32 @@ public class Azul {
      * @return true if sharedState is well-formed, otherwise return false
      * TASK 2
      */
-    public static boolean isSharedStateWellFormed(String sharedState) {
-        // FIXME Task 2
-        // separate the sharedState is in [factories][centre][bag][discard]
-        int totalLength = sharedState.length();
-        int fLocated = sharedState.indexOf("F");
-        int cLocated = sharedState.indexOf("C");
-        int bLocated = sharedState.indexOf("B");
-        int dLocated = sharedState.indexOf("D");
-        String factories = sharedState.substring(fLocated,cLocated);
-        String centre = sharedState.substring(cLocated,bLocated);
-        String bag = sharedState.substring(bLocated,dLocated);
-        String discard = sharedState.substring(dLocated,totalLength);
+    public static boolean isSharedStateWellFormed(String sharedState) { // FIXME Task 2
+        int indexF = sharedState.indexOf("F");
+        int indexC = sharedState.indexOf("C");
+        int indexB = sharedState.indexOf("B", 1);
+        int indexD = sharedState.indexOf("D");
+        if (indexF == -1 || indexC == -1 || indexB == -1 || indexD == -1) return false;
 
+        // part 1: F: For example: given the string "F1aabc2abbb4ddee": up to 5 5-charartor tiles..
+        String factoryStr = sharedState.substring(indexF, indexC);
+        if (factoryStr.length() > (1 + 5 * 5)) return false;
+        if ((factoryStr.length() - 1) % 5 != 0) return false;
+        for (int i = 1; i < factoryStr.length(); i += 5) if (!Character.isDigit(factoryStr.charAt(i))) return false;
 
+        // part 2: C: // Caaabcdde C followed by *up to* 15 characters
+        String centreStr = sharedState.substring(indexC, indexB);
+        if (centreStr.length() > 16) return false;
+
+        // part 3: B: // B by 5 2-character substrings
+        String bagStr = sharedState.substring(indexB, indexD);
+        if (bagStr.length() > (1 + 5 * 2)) return false;
+        for (int i = 1; i < 11; i++) if (!Character.isDigit(bagStr.charAt(i))) return false;
+
+        // part 4: D:
+        String discardStr = sharedState.substring(indexD);
+        if (discardStr.length() > (1 + 5 * 2)) return false;
+        for (int i = 1; i < 11; i++) if (!Character.isDigit(discardStr.charAt(i))) return false;
 
         return true;
     }
