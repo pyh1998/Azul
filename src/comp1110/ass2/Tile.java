@@ -20,14 +20,9 @@ enum TileType {
     A, B, C, D, E, First;
 }
 /**
- * The color of the tiles.
- */
-public enum TileColor {
-    Blue, Green, Orange, Purple, Red, Black;
-}
-/**
  * The location of the tile.
  */
 enum Location {
     Factory, Centre, Bag, Discard, Mosaic, Storage, Floor;
+
 }
