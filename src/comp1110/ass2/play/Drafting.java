@@ -1,64 +1,44 @@
 package comp1110.ass2.play;
 
 import comp1110.ass2.Tile.Tile;
+import comp1110.ass2.Tile.TileColor;
 
 public class Drafting {
-    public Tile[] movement = new Tile[2];
-    public Tile before;
-    public Tile after;
+    public Tile[] tiles;
+    public TileColor tileColor;
+    public int row;
+
 
     /**
-     * Constructor of the Drafting move
-     * @param movement an array of Tiles contains the tile before and after the move
+     * Constructor of the Drafting
      */
-    public Drafting(Tile[] movement) {
-        this.movement = movement;
-        this.before = movement[0];
-        this.after = movement[1];
+    public Drafting() {
+        this.tiles = new Tile[0];
     }
-
-    public boolean isValidDrafting (Tile[] movement) {
-        // TODO FIX the function of isValidDrafting
-        return false;
-    }
-
     /**
-     * set the tile before Drafting move
-     * @param before the tile before Drafting move
+     * Get the array of tiles from Factory
      */
-    public void setBefore(Tile before) {
-        this.before = before;
-    }
+    public void getFromFactory () {
 
+    }
     /**
-     * set the tile after Drafting move
-     * @param after the tile after Drafting move
+     * Move array of tiles to Storage
      */
-    public void setAfter(Tile after) {
-        this.after = after;
+    public void moveToStorage () {
+
+    }
+    /**
+     * Move array of tiles to the Floor
+     */
+    public void moveToFloor () {
+
     }
 
     /**
-     * get the Drafting move
-     * @return an array of Tiles contains the tile before and after the move
+     * Get array of tiles from Center to Storage
      */
-    public Tile[] getMovement() {
-        return movement;
-    }
+    public void getFromCentre () {
 
-    /**
-     * get the tile before the Drafting move
-     * @return the tile before the Drafting move
-     */
-    public Tile getBefore() {
-        return before;
-    }
-
-    /**
-     * get the tile after the Drafting move
-     * @return
-     */
-    public Tile getAfter() {
-        return after;
     }
 }
+
