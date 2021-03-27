@@ -6,14 +6,16 @@ public class Player {
     }
 
     public int score = 0;
+    public boolean onTurn;
     Id id;
 
     /**
      * Constructor of the Player
      * @param id the id of the player
      */
-    public Player(Id id) {
+    public Player(Id id, boolean onTurn) {
         this.id = id;
+        this.onTurn = onTurn;
     }
 
     /**
