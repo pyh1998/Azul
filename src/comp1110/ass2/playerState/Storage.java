@@ -37,26 +37,36 @@ public class Storage {
 
     /**
      * After picking up tiles, add them to one of the five storage rows
-     * According to following the rules:
-     *
-     * You must place the tiles from right to left in your chosen row.
-     *
-     * If a row already contains tiles, you may only add tiles of the same colour to it.
-     *
-     * If you have more tiles than can fit in your chosen row,
-     * then you must place the excess tiles on the floor.
-     *
-     * You are not allowed to place tiles of a certain colour in a row
-     * if the corresponding mosaic row already contains a tile of that colour.
-     *
-     * If you cannot or do not want to place tiles on a row, you may place them directly onto the floor.
      *
      * @param tiles an array of tiles to be added to the storage
      * @param rowNumber the row number to add the tiles
      */
     public void addTiles (Tile[] tiles, int rowNumber) {
         // TODO FIX the function of addTiles
+    }
 
+    /**
+     * Decide whether a placement of tiles in the storage is valid.
+     *      *
+     *      * You must place the tiles from right to left in your chosen row.
+     *      *
+     *      * If a row already contains tiles, you may only add tiles of the same colour to it.
+     *      *
+     *      * If you have more tiles than can fit in your chosen row,
+     *      * then you must place the excess tiles on the floor.
+     *      *
+     *      * You are not allowed to place tiles of a certain colour in a row
+     *      * if the corresponding mosaic row already contains a tile of that colour.
+     *      *
+     *      * If you cannot or do not want to place tiles on a row, you may place them directly onto the floor.
+     *
+     * @param tiles an array of tiles to be added to the storage
+     * @param rowNumber the row number to add the tiles
+     * @return whether the placement is valid
+     */
+    public boolean isValidPlacement (Tile[] tiles, int rowNumber) {
+        // TODO FIX the function of isValidPlacement
+        return false;
     }
 
     /**
