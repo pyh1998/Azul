@@ -36,6 +36,25 @@ public class Storage {
     }
 
     /**
+     * Pick the right most tile of a complete row
+     * @param rowNumber row number
+     * @return the right most tile of a complete row
+     */
+    public Tile pickTile (int rowNumber) {
+        return tiles[rowNumber][-1];
+    }
+
+    /**
+     * Determine whether a row is complete. ie, whether the row is full
+     * @param rowNumber the row number
+     * @return the right most tile of a complete row
+     */
+    public boolean rowIsComplete (int rowNumber) {
+        // TODO FIX the function of rowIsComplete
+        return false;
+    }
+
+    /**
      * After picking up tiles, add them to one of the five storage rows
      *
      * @param tiles an array of tiles to be added to the storage
