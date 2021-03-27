@@ -5,6 +5,8 @@ public class Tile {
     private final TileType TILE_TYPE;
     private final TileColor TILE_COLOR;
     private TileLocation tileLocation;
+    public int col;
+    public int row;
 
     /**
      * Constructor of Tile
@@ -16,6 +18,28 @@ public class Tile {
     public Tile(TileType type) {
         this.tileLocation= TileLocation.Bag;
         this.TILE_TYPE = type;
+        switch (type){
+            case A -> this.TILE_COLOR = TileColor.Blue;
+            case B -> this.TILE_COLOR = TileColor.Green;
+            case C -> this.TILE_COLOR = TileColor.Orange;
+            case D -> this.TILE_COLOR = TileColor.Purple;
+            case E -> this.TILE_COLOR = TileColor.Red;
+            case First -> this.TILE_COLOR = TileColor.Black;
+            default -> this.TILE_COLOR = null;
+        }
+    }
+
+    /**
+     * Constructor of Tile that mainly used when teh tile is in the Mosaic pile
+     * @param type
+     * @param col
+     * @param row
+     */
+    public Tile(TileType type, int col, int row) {
+        this.tileLocation= TileLocation.Mosaic;
+        this.TILE_TYPE = type;
+        this.col = col;
+        this.row = row;
         switch (type){
             case A -> this.TILE_COLOR = TileColor.Blue;
             case B -> this.TILE_COLOR = TileColor.Green;
