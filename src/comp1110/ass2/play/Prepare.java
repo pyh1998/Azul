@@ -34,6 +34,7 @@ public class Prepare {
      * @param isEnd
      */
     public void updateState(boolean beginning, boolean isEnd) {
+        // TODO FIX the function of updateState
         // if it is the beginning of the game, set up the initial game state.
         if (beginning) {
 
@@ -49,12 +50,14 @@ public class Prepare {
      * setup the game state at the start of the game.
      */
     public void initialise () {
+        // TODO FIX the function of initialise
     }
 
     /**
      * fill the factory
      */
     public void factoryFill (Bag bag) {
+        // TODO FIX the function of factoryFill
 
     }
 
@@ -62,6 +65,7 @@ public class Prepare {
      * refill the bag from teh discard if the bag is empty
      */
     public void refillBag (Bag bag, Discard discard) {
+        // TODO FIX the function of resillBag
 
     }
 
