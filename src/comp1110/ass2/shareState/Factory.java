@@ -33,6 +33,14 @@ public class Factory {
     }
 
     /**
+     *Get field tiles of factory
+     *
+     */
+    public Tile[] getTiles() {
+        return tiles;
+    }
+
+    /**
      *Set tiles of factory
      *
      */
@@ -41,12 +49,12 @@ public class Factory {
     }
 
     /**
-     * Get tiles of the color in the current factory based on the color
+     * Select tiles of the color in the current factory based on the color
      *
      * @param color the color player choose from this factory
      */
-    public Tile[] getTiles(TileColor color) {
-        //TODO FIX the function of getTiles
+    public Tile[] selectTiles(TileColor color) {
+        //TODO FIX the function of selectTiles
         return null;
     }
 
