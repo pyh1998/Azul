@@ -69,6 +69,15 @@ public class Storage {
         return false;
     }
 
+
+    /**
+     * After placing the rightmost tile to the mosaic pile, empty the row;
+     * @param rowNumber the row number of the row to be empty
+     */
+    public void emptyRow(int rowNumber) {
+        // TODO FIX the function of emptyRow
+    }
+
     /**
      * get an array of the tile array of the five rows
      * @return an array of the tile array of the five rows
