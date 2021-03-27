@@ -1,9 +1,12 @@
 package comp1110.ass2.shareState;
 
-import comp1110.ass2.Tile;
-import comp1110.ass2.TileColor;
+import comp1110.ass2.Tile.Tile;
+import comp1110.ass2.Tile.TileColor;
 
 public class Factory {
+    /**
+     * The capacity of the each factory.
+     */
     public final int FACTORY_CAPACITY = 4;
 
     int number = 0;

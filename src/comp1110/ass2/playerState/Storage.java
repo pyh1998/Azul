@@ -1,6 +1,6 @@
 package comp1110.ass2.playerState;
 
-import comp1110.ass2.Tile;
+import comp1110.ass2.Tile.Tile;
 
 public class Storage {
     public final int NUMBER_ROWS = 5;

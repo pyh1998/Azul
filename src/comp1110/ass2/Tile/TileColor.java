@@ -1,4 +1,4 @@
-package comp1110.ass2;
+package comp1110.ass2.Tile;
 
 /**
  * The color of the tiles.

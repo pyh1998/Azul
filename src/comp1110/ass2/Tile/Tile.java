@@ -1,6 +1,4 @@
-package comp1110.ass2;
-
-import comp1110.ass2.shareState.Bag;
+package comp1110.ass2.Tile;
 
 public class Tile {
 
@@ -60,16 +58,4 @@ public class Tile {
         this.tileLocation = tileLocation;
     }
 }
-/**
- * The type of the tiles.
- */
-enum TileType {
-    A, B, C, D, E, First;
-}
-/**
- * The location of the tile.
- */
-enum TileLocation {
-    Factory, Centre, Bag, Discard, Mosaic, Storage, Floor;
 
-}
