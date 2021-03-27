@@ -7,9 +7,9 @@ public class Tile {
     private TileLocation tileLocation;
 
     /**
-     * Constructor that is mainly used for testing purposes.
+     * Constructor of Tile
      * The location of initializing tile is in bag
-     *Initialize the color of tile according to the tile's type
+     * Initialize the color of tile according to the tile's type
      *
      * @param type  the type of the tile
      */
