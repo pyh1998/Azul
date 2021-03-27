@@ -31,9 +31,10 @@ public class Tile {
 
     /**
      * Constructor of Tile that mainly used when teh tile is in the Mosaic pile
-     * @param type
-     * @param col
-     * @param row
+     *
+     * @param type the type of the tile
+     * @param col the col number in mosaic
+     * @param row the row number in mosaic
      */
     public Tile(TileType type, int col, int row) {
         this.tileLocation= TileLocation.Mosaic;
