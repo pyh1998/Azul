@@ -12,7 +12,7 @@ public class Discard {
     public Tile[] tiles;
 
     /**
-     * Constructor of Factory
+     * Constructor of Discard
      * Initialize the tiles number of Discard
      * Initialize the tiles in Discard
      *
