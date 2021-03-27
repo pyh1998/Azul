@@ -13,6 +13,10 @@ meeting time: 12:00 25 Mar
 
 Everyone: Discuss the skeleton design
 
+meeting time: 13:30 27 Mar
+
+Everyone: Finished skeleton including all the classes and methods
+
 ## Week 6
 
 ...
