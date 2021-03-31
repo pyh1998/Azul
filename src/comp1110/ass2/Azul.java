@@ -154,7 +154,7 @@ public class Azul {
                         || (s.charAt(2) < '0' || s.charAt(2) > '4')) return false;
             }
 
-            // part 3: storage: // S by 5 3-character substrings
+            // part 3: storage: // S by 5*3-character substrings
             String storageStr = playerState.substring(indexS, indexF);
             if (storageStr.length() > 16 || (storageStr.length() - 1) % 3 != 0) return false;
             for (int j = 1; j < storageStr.length(); j += 3) {
@@ -163,7 +163,7 @@ public class Azul {
                         || (s.charAt(2) < '0' || s.charAt(0) > '5')) return false;
             }
 
-            // part 4: floor: A20Ma02a13b00e42S2a13e44a1FaabbeB30Mc01b11d21S0e12b2F
+            // part 4: floor
             String floorStr;
             if (i + 1 < player_cnt) floorStr = playerState.substring(indexF, playerState.indexOf((char) (i + 'B')));
             else floorStr = playerState.substring(indexF);
