@@ -141,7 +141,7 @@ public class Azul {
             int indexF = playerState.indexOf("F");
             if (indexM == -1 || indexS == -1 || indexF == -1 || indexM > indexS || indexS > indexF) return false;
 
-            // part 1: score: :
+            // part 1: score:
             String scoreStr = playerState.substring(1, indexM);
             for (int j = 1; j < scoreStr.length(); j++) if (!Character.isDigit(scoreStr.charAt(i))) return false;
 
@@ -163,7 +163,7 @@ public class Azul {
                         || (s.charAt(2) < '0' || s.charAt(0) > '5')) return false;
             }
 
-            // part 4: floor
+            // part 4: floor:
             String floorStr;
             if (i + 1 < player_cnt) floorStr = playerState.substring(indexF, playerState.indexOf((char) (i + 'B')));
             else floorStr = playerState.substring(indexF);
