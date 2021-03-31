@@ -132,9 +132,50 @@ public class Azul {
      * false if the playerState is not well-formed
      * TASK 3
      */
-    public static boolean isPlayerStateWellFormed(String playerState) {
-        // FIXME Task 3
-        return false;
+    public static boolean isPlayerStateWellFormed(String playerState) { // FIXME Task 3
+        int player_cnt = 0;
+        for (int i = 'A'; i < 'E'; i++) if (playerState.indexOf((char) i) != -1) player_cnt++;
+        for (int i = 0; i < player_cnt; i++) {
+            int indexM = playerState.indexOf("M");
+            int indexS = playerState.indexOf("S");
+            int indexF = playerState.indexOf("F");
+            if (indexM == -1 || indexS == -1 || indexF == -1 || indexM > indexS || indexS > indexF) return false;
+
+            // part 1: score: :
+            String scoreStr = playerState.substring(1, indexM);
+            for (int j = 1; j < scoreStr.length(); j++) if (!Character.isDigit(scoreStr.charAt(i))) return false;
+
+            // part 2: mosaic:
+            String mosaicStr = playerState.substring(indexM, indexS);
+            if (mosaicStr.length() > 76 || (mosaicStr.length() - 1) % 3 != 0) return false;
+            for (int j = 1; j < mosaicStr.length(); j += 3) {
+                String s = mosaicStr.substring(j, j + 3);
+                if ((s.charAt(0) < 'a' || s.charAt(0) > 'e') || (s.charAt(1) < '0' || s.charAt(1) > '4')
+                        || (s.charAt(2) < '0' || s.charAt(2) > '4')) return false;
+            }
+
+            // part 3: storage: // S by 5 3-character substrings
+            String storageStr = playerState.substring(indexS, indexF);
+            if (storageStr.length() > 16 || (storageStr.length() - 1) % 3 != 0) return false;
+            for (int j = 1; j < storageStr.length(); j += 3) {
+                String s = storageStr.substring(j, j + 3);
+                if ((s.charAt(0) < '0' || s.charAt(0) > '4') || (s.charAt(1) < 'a' || s.charAt(0) > 'e')
+                        || (s.charAt(2) < '0' || s.charAt(0) > '5')) return false;
+            }
+
+            // part 4: floor: A20Ma02a13b00e42S2a13e44a1FaabbeB30Mc01b11d21S0e12b2F
+            String floorStr;
+            if (i + 1 < player_cnt) floorStr = playerState.substring(indexF, playerState.indexOf((char) (i + 'B')));
+            else floorStr = playerState.substring(indexF);
+            if (floorStr.length() > 8) return false;
+            for (int j = 1, k = 0; j < floorStr.length(); j++) { // flag
+                k += (floorStr.charAt(j) == 'f') ? 1 : 0;
+                if (j + 1 < floorStr.length() && floorStr.charAt(j) > floorStr.charAt(j + 1)) return false;
+                if (floorStr.charAt(j) < 'a' || floorStr.charAt(0) > 'f' || k > 1) return false;
+            }
+            if (i + 1 < player_cnt) playerState = playerState.substring(playerState.indexOf((char) (i + 'B')));
+        }
+        return true;
     }
 
     /**
