@@ -163,7 +163,7 @@ public class Azul {
                         || (s.charAt(2) < '0' || s.charAt(0) > '5')) return false;
             }
 
-            // part 4: floor:
+            // part 4: floor:A20Ma02a13b00e42S2a13e44a1FaabbeB30Mc01b11d21S0e12b2F
             String floorStr;
             if (i + 1 < player_cnt) floorStr = playerState.substring(indexF, playerState.indexOf((char) (i + 'B')));
             else floorStr = playerState.substring(indexF);
