@@ -176,6 +176,7 @@ public class Azul {
             if (i + 1 < player_cnt) playerState = playerState.substring(playerState.indexOf((char) (i + 'B')));
         }
         return true;
+
     }
 
     /**
