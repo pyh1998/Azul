@@ -197,6 +197,7 @@ public class Azul {
      */
     public static char drawTileFromBag(String[] gameState) {
         // FIXME Task 5
+        char[] tiles = {'a','b','c','d','e'};
         String sharedState = gameState[0];
         int indexB = sharedState.indexOf("B");
         int indexD = sharedState.indexOf("D");
@@ -209,17 +210,7 @@ public class Azul {
 
         Random rand = new Random();
         int choice = rand.nextInt(5);
-        if (choice == 0) {
-            return 'a';
-        } else if (choice == 1) {
-            return 'b';
-        } else if (choice == 2) {
-            return 'c';
-        } else if (choice == 3) {
-            return 'd';
-        } else {
-            return 'e';
-        }
+        return tiles[choice];
     }
 
     /**
