@@ -209,7 +209,7 @@ public class Azul {
         }
 
         Random rand = new Random();
-        int choice = rand.nextInt(5);
+        int choice = rand.nextInt(tiles.length);
         return tiles[choice];
     }
 
@@ -239,7 +239,7 @@ public class Azul {
             for (int i = 0; i < 4; i++) {
                 newFactoryStr.append(i);
                 for (int j = 0; j < 4; j++) {
-                    int choice = rand.nextInt(5);
+                    int choice = rand.nextInt(tiles.length);
                     newFactoryStr.append(tiles[choice]);
                 }
             }
