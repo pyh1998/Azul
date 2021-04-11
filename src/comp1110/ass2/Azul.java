@@ -1,5 +1,7 @@
 package comp1110.ass2;
 
+import java.util.Random;
+
 public class Azul {
     /**
      * Given a shared state string, determine if it is well-formed.
@@ -190,7 +192,29 @@ public class Azul {
      */
     public static char drawTileFromBag(String[] gameState) {
         // FIXME Task 5
-        return '0';
+        String sharedState = gameState[0];
+        int indexB = sharedState.indexOf("B");
+        int indexD = sharedState.indexOf("D");
+        String bagStr = sharedState.substring(indexB, indexD);
+        String discardStr = sharedState.substring(indexD);
+
+        if (bagStr.substring(1).equals("0000000000") && discardStr.substring(1).equals("0000000000")) {
+            return 'Z';
+        }
+
+        Random rand = new Random();
+        int choice = rand.nextInt(5);
+        if (choice == 0) {
+            return 'a';
+        } else if (choice == 1) {
+            return 'b';
+        } else if (choice == 2) {
+            return 'c';
+        } else if (choice == 3) {
+            return 'd';
+        } else {
+            return 'e';
+        }
     }
 
     /**
