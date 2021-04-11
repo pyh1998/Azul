@@ -233,7 +233,31 @@ public class Azul {
      */
     public static String[] refillFactories(String[] gameState) {
         // FIXME Task 6
-        return null;
+        char[] tiles = {'a','b','c','d','e'};
+        Random rand = new Random();
+
+        String sharedState = gameState[0];
+        int indexF = sharedState.indexOf("F");
+        int indexC = sharedState.indexOf("C");
+        String factoryStr = sharedState.substring(indexF, indexC);
+
+        if (factoryStr.equals("F")) {
+            String[] newGameState = new String[2];
+            newGameState[1] = gameState[1];
+            StringBuilder newFactoryStr = new StringBuilder("F");
+            for (int i = 0; i < 4; i++) {
+                newFactoryStr.append(i);
+                for (int j = 0; j < 4; j++) {
+                    int choice = rand.nextInt(5);
+                    newFactoryStr.append(tiles[choice]);
+                }
+            }
+            sharedState.replace("F",newFactoryStr);
+            newGameState[0] = sharedState;
+            return newGameState;
+        } else {
+            return gameState;
+        }
     }
 
     /**
