@@ -13,7 +13,7 @@ public class Bag {
      * Field totalNum: The total number of the tiles in bag
      */
     public static final int MAX_SIZE = 20;
-    public static final int TILE_TYPE_NUMBER = 6;
+    public static final int TILE_TYPE_NUMBER = 5;
     private final int[] tile_num;
     private int totalNum;
 

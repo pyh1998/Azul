@@ -55,6 +55,11 @@ public class Centre {
         return true;
     }
 
+    public boolean isEmpty(){
+        if(this.number == 1 && tiles[0] == Tile.FIRST_PLAYER) return true;
+        return this.number == 0;
+
+    }
     /**
      * Get the state string of the centre
      *

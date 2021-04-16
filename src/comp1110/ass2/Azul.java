@@ -187,7 +187,7 @@ public class Azul {
         else if(playerCIndex != -1 && playerDIndex ==-1) playerNum = 3;
         else playerNum = 4;
 
-        if(!sharedState.getFactory().isEmpty()){
+        if(!sharedState.getFactory().isEmpty() || !sharedState.getCentre().isEmpty()){
             return gameState;
         }
         else{
