@@ -1,21 +1,55 @@
 package comp1110.ass2.playerState;
 
 public class Player {
-    public enum Id {
-        Player1, PLayer2, Player3, Player4;
-    }
 
-    public int score = 0;
+    private int score = 0;
     public boolean onTurn;
-    Id id;
+    private final char id;
 
     /**
      * Constructor of the Player
      * @param id the id of the player
      */
-    public Player(Id id, boolean onTurn) {
+    public Player(char id, boolean onTurn) {
         this.id = id;
         this.onTurn = onTurn;
+    }
+    //A20
+    public Player(String stateStr){
+        this.id = stateStr.charAt(0);
+        int n = stateStr.length();
+        this.score = Integer.parseInt(stateStr.substring(1,n));
+    }
+
+    public static boolean isWellFormedPlayer(String playStr){
+        if((playStr.equals("A") || playStr.equals("B") || playStr.equals("C") || playStr.equals("D"))){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isWellFormedScore(String scoreStr){
+        for (int i = 1; i < scoreStr.length(); i++) {
+            if (!Character.isDigit(scoreStr.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String getStateStr(){
+        StringBuilder state = new StringBuilder();
+        state.append(this.id);
+        state.append(this.score);
+        return state.toString();
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public char getId() {
+        return id;
     }
 
     /**

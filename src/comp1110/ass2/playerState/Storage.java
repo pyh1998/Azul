@@ -3,36 +3,66 @@ package comp1110.ass2.playerState;
 import comp1110.ass2.Tile.Tile;
 
 public class Storage {
-    public final int NUMBER_ROWS = 5;
-    public Tile[][] tiles = new Tile[NUMBER_ROWS][];
-    public Tile[] row0;
-    public Tile[] row1;
-    public Tile[] row2;
-    public Tile[] row3;
-    public Tile[] row4;
-    public int rowNumber;
+    public static final int NUMBER_ROWS = 5;
+    public static final int TILE_TYPE_NUMBER = 5;
+    private Tile[] tileType;
+    private int[] tileNumber;
 
     /**
      * Create an array of tile array that stores all the tiles.
      * The index of tile array indicated the row number.
      */
     public Storage() {
-        for (int i = 1; i <= 5; i++) {
-            this.tiles[i-1] = new Tile[i];
+        tileType = new Tile[TILE_TYPE_NUMBER];
+        tileNumber = new int[NUMBER_ROWS];
+    }
+
+
+    //S2a13e44a1
+    public Storage(String stateStr){
+        tileType = new Tile[TILE_TYPE_NUMBER];
+        tileNumber = new int[NUMBER_ROWS];
+        for(int i = 1; i < stateStr.length(); i += 3){
+            int row = stateStr.charAt(i) - '0';
+            char ch = stateStr.charAt(i+1);
+            Tile tile = Tile.CharToTile(ch);
+            int num = stateStr.charAt(i + 2) - '0';
+            tileType[row] = tile;
+            tileNumber[row] = num;
         }
     }
 
-    /**
-     * Constructor of the Storage pile
-     * @param tiles an array of tile arrays of the five rows
-     */
-    public Storage(Tile[][] tiles) {
-        this.tiles = tiles;
-        this.row0 = tiles[0];
-        this.row1 = tiles[1];
-        this.row2 = tiles[2];
-        this.row3 = tiles[3];
-        this.row4 = tiles[4];
+
+    public static boolean isWellFormed(String storageStr){
+        if (storageStr.length() > 16 || (storageStr.length() - 1) % 3 != 0) return false;
+        for (int j = 1; j < storageStr.length(); j += 3) {
+            String s = storageStr.substring(j, j + 3);
+            if ((s.charAt(0) < '0' || s.charAt(0) > '4') || (s.charAt(1) < 'a' || s.charAt(0) > 'e')
+                    || (s.charAt(2) < '0' || s.charAt(0) > '5')) return false;
+        }
+        return true;
+    }
+
+    //S2a13e44a1
+    public String getStateStr(){
+        StringBuilder state = new StringBuilder();
+        state.append('S');
+        for(int i=0;i< tileType.length;i++){
+            if (tileType[i] != null){
+                state.append(i);
+                state.append(tileType[i].getTILE_TYPE());
+                state.append(tileNumber[i]);
+            }
+        }
+        return state.toString();
+    }
+
+    public Tile[] getTileType() {
+        return tileType;
+    }
+
+    public int[] getTileNumber() {
+        return tileNumber;
     }
 
     /**
@@ -41,7 +71,8 @@ public class Storage {
      * @return the right most tile of a complete row
      */
     public Tile pickTile (int rowNumber) {
-        return tiles[rowNumber][-1];
+        // TODO FIX the function of pickTile
+        return null;
     }
 
     /**
@@ -97,51 +128,4 @@ public class Storage {
         // TODO FIX the function of emptyRow
     }
 
-    /**
-     * get an array of the tile array of the five rows
-     * @return an array of the tile array of the five rows
-     */
-    public Tile[][] getTiles() {
-        return tiles;
-    }
-
-    /**
-     * get the array of tiles in row 0
-     * @return an array of tiles in row 0
-     */
-    public Tile[] getRow0() {
-        return row0;
-    }
-
-    /**
-     * get the array of tiles in row 1
-     * @return an array of tiles in row 1
-     */
-    public Tile[] getRow1() {
-        return row1;
-    }
-
-    /**
-     * get the array of tiles in row 2
-     * @return an array of tiles in row 2
-     */
-    public Tile[] getRow2() {
-        return row2;
-    }
-
-    /**
-     * get the array of tiles in row 3
-     * @return an array of tiles in row 3
-     */
-    public Tile[] getRow3() {
-        return row3;
-    }
-
-    /**
-     * get the array of tiles in row 4
-     * @return an array of tiles in row 4
-     */
-    public Tile[] getRow4() {
-        return row4;
-    }
 }
