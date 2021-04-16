@@ -2,11 +2,11 @@ package comp1110.ass2;
 
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.playerState.PlayerState;
-import comp1110.ass2.shareState.SharedState;
-import comp1110.ass2.shareState.Bag;
-import comp1110.ass2.shareState.Centre;
-import comp1110.ass2.shareState.Discard;
-import comp1110.ass2.shareState.Factory;
+import comp1110.ass2.sharedState.SharedState;
+import comp1110.ass2.sharedState.Bag;
+import comp1110.ass2.sharedState.Centre;
+import comp1110.ass2.sharedState.Discard;
+import comp1110.ass2.sharedState.Factory;
 
 public class Azul {
 

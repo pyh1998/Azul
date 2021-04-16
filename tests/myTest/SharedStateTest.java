@@ -1,10 +1,10 @@
 package myTest;
 
 import comp1110.ass2.Azul;
-import comp1110.ass2.shareState.Bag;
-import comp1110.ass2.shareState.Centre;
-import comp1110.ass2.shareState.Discard;
-import comp1110.ass2.shareState.Factory;
+import comp1110.ass2.sharedState.Bag;
+import comp1110.ass2.sharedState.Centre;
+import comp1110.ass2.sharedState.Discard;
+import comp1110.ass2.sharedState.Factory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

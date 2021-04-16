@@ -1,7 +1,7 @@
 package comp1110.ass2.playerState;
 
 import comp1110.ass2.Tile.Tile;
-import comp1110.ass2.shareState.Discard;
+import comp1110.ass2.sharedState.Discard;
 
 public class Floor {
     /**

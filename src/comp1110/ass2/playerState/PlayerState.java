@@ -1,13 +1,6 @@
 package comp1110.ass2.playerState;
 
 import comp1110.ass2.Tile.Tile;
-import comp1110.ass2.playerState.Floor;
-import comp1110.ass2.playerState.Mosaic;
-import comp1110.ass2.playerState.Player;
-import comp1110.ass2.playerState.Storage;
-import comp1110.ass2.shareState.Bag;
-import comp1110.ass2.shareState.Centre;
-import comp1110.ass2.shareState.Factory;
 
 public class PlayerState {
     private Player player;

@@ -1,9 +1,4 @@
-package comp1110.ass2.shareState;
-
-import comp1110.ass2.shareState.Bag;
-import comp1110.ass2.shareState.Centre;
-import comp1110.ass2.shareState.Discard;
-import comp1110.ass2.shareState.Factory;
+package comp1110.ass2.sharedState;
 
 public class SharedState {
     /**
