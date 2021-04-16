@@ -3,12 +3,30 @@ package comp1110.ass2.playerState;
 import comp1110.ass2.Tile.Tile;
 
 public class PlayerState {
+    /**
+     * Field player: The Player of the PlayerState
+     * Field mosaic: The Mosaic of the PlayerState
+     * Field floor: The Floor of the PlayerState
+     * Field storage: The Storage of the PlayerState
+     */
     private Player player;
     private Mosaic mosaic;
     private Floor floor;
     private Storage storage;
 
-    //A20Ma02a13b00e42S2a13e44a1Faabbe
+    /**
+     * The Constructor of the PlayerState according to the single playerState string,like "A20Ma02a13b00e42S2a13e44a1Faabbe“
+     *
+     * The substring before M indicates the Player with score
+     * The substring stating with M indicates the Mosaic state of the player
+     * The substring stating with S indicates the Storage state of the player
+     * The substring stating with F indicates the Floor state of the player
+     *
+     * Initialize fields player, mosaic, storage and floor
+     * using the corresponding substrings {Player with Score}{Mosaic}{Storage}{Floor}
+     *
+     * @param playerStateStr The single player state string
+     */
     public PlayerState(String playerStateStr) {
         int indexM = playerStateStr.indexOf("M");
         int indexS = playerStateStr.indexOf("S");
@@ -27,6 +45,12 @@ public class PlayerState {
         this.floor = new Floor(floor);
     }
 
+    /**
+     * Check if the PlayerState string of all player states is well-formed
+     *
+     * @param playerStateStr The string of all player states
+     * @return return ture if the string is well-formed and return false if it is not well-formed
+     */
     public static boolean isWellFormed(String playerStateStr){
         //AFCB1915161614D0000000000
         int player_cnt = 0;
@@ -65,6 +89,15 @@ public class PlayerState {
         return true;
     }
 
+    /**
+     * Get the bonus point of the PlayerState
+     *
+     * Gain 2 points for each complete row of your mosaic (5 consecutive horizontal tiles).
+     * Gain 7 points for each complete column of your mosaic (5 consecutive vertical tiles).
+     * Gain 10 points for each colour of tile for which you have placed all 5 tiles on your mosaic.
+     *
+     * @return The bonus point of the PlayerState
+     */
     public int getBonusPoint(){
         Tile[][] tiles = this.mosaic.getTiles();
         int bonusScore = 0;
@@ -89,24 +122,43 @@ public class PlayerState {
         return bonusScore;
     }
 
-
-
+    /**
+     * Get the string representing {Player with Score}{Mosaic}{Storage}{Floor}
+     *
+     * @return the string representing {Player with Score}{Mosaic}{Storage}{Floor}
+     */
     public String getStateStr(){
         return player.getStateStr()+mosaic.getStateStr()+storage.getStateStr()+floor.getStateStr();
     }
 
+    /**
+     * Get field the player of PlayerState
+     *
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Get field the mosaic of PlayerState
+     *
+     */
     public Mosaic getMosaic() {
         return mosaic;
     }
 
+    /**
+     * Get field the floor of PlayerState
+     *
+     */
     public Floor getFloor() {
         return floor;
     }
 
+    /**
+     * Get field the storage of PlayerState
+     *
+     */
     public Storage getStorage() {
         return storage;
     }

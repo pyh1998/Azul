@@ -15,15 +15,15 @@ public class SharedState {
     private char player;
 
     /**
-     * Constructor of SharedState according to the state string,like "AFCB1915161614D0000000000“
+     * Constructor of SharedState according to the sharedState string,like "AFCB1915161614D0000000000“
      *
      * The first character indicates the current player
-     * The substring stating with F indicates the state Factory pile
+     * The substring stating with F indicates the state of Factory pile
      * The substring stating with C indicates the tiles in Centre pile
      * The substring stating with B indicates the tiles in Bag pile
      * The substring stating with D indicates the tiles in Discard pile
      *
-     * Initialize player, factory, centre, bag and discard
+     * Initialize fields player, factory, centre, bag and discard
      * using the corresponding substrings {Player}{Factory}{Centre}{Bag}{Discard}
      *
      * @param shareStateStr The string representing the Factory state, the tiles in the Centre, Bag and Discard piles
