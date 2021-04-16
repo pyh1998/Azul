@@ -1,8 +1,23 @@
 package comp1110.ass2;
 
-import java.util.Random;
+import comp1110.ass2.Tile.Tile;
+import comp1110.ass2.play.PlayerState;
+import comp1110.ass2.play.SharedState;
+import comp1110.ass2.shareState.Bag;
+import comp1110.ass2.shareState.Centre;
+import comp1110.ass2.shareState.Discard;
+import comp1110.ass2.shareState.Factory;
 
 public class Azul {
+
+
+    public static Factory factory;
+    public static Centre centre;
+    public static Bag bag;
+    public static Discard discard;
+    public static SharedState sharedState;
+    public static PlayerState playerState;
+
     /**
      * Given a shared state string, determine if it is well-formed.
      * Note: you don't need to consider validity for this task.
@@ -61,33 +76,9 @@ public class Azul {
      * TASK 2
      */
     public static boolean isSharedStateWellFormed(String sharedState) { // FIXME Task 2
-        int indexF = sharedState.indexOf("F");
-        int indexC = sharedState.indexOf("C");
-        int indexB = sharedState.indexOf("B", 1);
-        int indexD = sharedState.indexOf("D");
-        if (indexF == -1 || indexC == -1 || indexB == -1 || indexD == -1) return false;
 
-        // part 1: F: For example: given the string "F1aabc2abbb4ddee": up to 5 5-charartor tiles..
-        String factoryStr = sharedState.substring(indexF, indexC);
-        if (factoryStr.length() > (1 + 5 * 5)) return false;
-        if ((factoryStr.length() - 1) % 5 != 0) return false;
-        for (int i = 1; i < factoryStr.length(); i += 5) if (!Character.isDigit(factoryStr.charAt(i))) return false;
+        return SharedState.isWellFormed(sharedState);
 
-        // part 2: C: // Caaabcdde C followed by *up to* 15 characters
-        String centreStr = sharedState.substring(indexC, indexB);
-        if (centreStr.length() > 16) return false;
-
-        // part 3: B: // B by 5 2-character substrings
-        String bagStr = sharedState.substring(indexB, indexD);
-        if (bagStr.length() > (1 + 5 * 2)) return false;
-        for (int i = 1; i < 11; i++) if (!Character.isDigit(bagStr.charAt(i))) return false;
-
-        // part 4: D:
-        String discardStr = sharedState.substring(indexD);
-        if (discardStr.length() > (1 + 5 * 2)) return false;
-        for (int i = 1; i < 11; i++) if (!Character.isDigit(discardStr.charAt(i))) return false;
-
-        return true;
     }
 
     /**
@@ -140,49 +131,8 @@ public class Azul {
      * TASK 3
      */
     public static boolean isPlayerStateWellFormed(String playerState) { // FIXME Task 3
-        int player_cnt = 0;
-        for (int i = 'A'; i < 'E'; i++) if (playerState.indexOf((char) i) != -1) player_cnt++;
-        for (int i = 0; i < player_cnt; i++) {
-            int indexM = playerState.indexOf("M");
-            int indexS = playerState.indexOf("S");
-            int indexF = playerState.indexOf("F");
-            if (indexM == -1 || indexS == -1 || indexF == -1 || indexM > indexS || indexS > indexF) return false;
 
-            // part 1: score:
-            String scoreStr = playerState.substring(1, indexM);
-            for (int j = 1; j < scoreStr.length(); j++) if (!Character.isDigit(scoreStr.charAt(i))) return false;
-
-            // part 2: mosaic:
-            String mosaicStr = playerState.substring(indexM, indexS);
-            if (mosaicStr.length() > 76 || (mosaicStr.length() - 1) % 3 != 0) return false;
-            for (int j = 1; j < mosaicStr.length(); j += 3) {
-                String s = mosaicStr.substring(j, j + 3);
-                if ((s.charAt(0) < 'a' || s.charAt(0) > 'e') || (s.charAt(1) < '0' || s.charAt(1) > '4')
-                        || (s.charAt(2) < '0' || s.charAt(2) > '4')) return false;
-            }
-
-            // part 3: storage: // S by 5*3-character substrings
-            String storageStr = playerState.substring(indexS, indexF);
-            if (storageStr.length() > 16 || (storageStr.length() - 1) % 3 != 0) return false;
-            for (int j = 1; j < storageStr.length(); j += 3) {
-                String s = storageStr.substring(j, j + 3);
-                if ((s.charAt(0) < '0' || s.charAt(0) > '4') || (s.charAt(1) < 'a' || s.charAt(0) > 'e')
-                        || (s.charAt(2) < '0' || s.charAt(0) > '5')) return false;
-            }
-
-            // part 4: floor:A20Ma02a13b00e42S2a13e44a1FaabbeB30Mc01b11d21S0e12b2F
-            String floorStr;
-            if (i + 1 < player_cnt) floorStr = playerState.substring(indexF, playerState.indexOf((char) (i + 'B')));
-            else floorStr = playerState.substring(indexF);
-            if (floorStr.length() > 8) return false;
-            for (int j = 1, k = 0; j < floorStr.length(); j++) { // flag
-                k += (floorStr.charAt(j) == 'f') ? 1 : 0;
-                if (j + 1 < floorStr.length() && floorStr.charAt(j) > floorStr.charAt(j + 1)) return false;
-                if (floorStr.charAt(j) < 'a' || floorStr.charAt(0) > 'f' || k > 1) return false;
-            }
-            if (i + 1 < player_cnt) playerState = playerState.substring(playerState.indexOf((char) (i + 'B')));
-        }
-        return true;
+        return PlayerState.isWellFormed(playerState);
 
     }
 
@@ -197,20 +147,22 @@ public class Azul {
      */
     public static char drawTileFromBag(String[] gameState) {
         // FIXME Task 5
-        char[] tiles = {'a','b','c','d','e'};
-        String sharedState = gameState[0];
-        int indexB = sharedState.indexOf("B");
-        int indexD = sharedState.indexOf("D");
-        String bagStr = sharedState.substring(indexB, indexD);
-        String discardStr = sharedState.substring(indexD);
+        //{"AFCB1915161614D0000000000", "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"}
+        String sharedStateStr = gameState[0];
+        sharedState = new SharedState(sharedStateStr);
 
-        if (bagStr.substring(1).equals("0000000000") && discardStr.substring(1).equals("0000000000")) {
+        if (sharedState.getBag().isEmpty() && sharedState.getDiscard().isEmpty()) {
             return 'Z';
         }
+        else if(!sharedState.getBag().isEmpty()){
+            return sharedState.getBag().addToFactory().getTILE_TYPE();
+        }
+        else{
+            sharedState.getBag().getTilesFromDiscard(sharedState.getDiscard().moveTileToBag());
+            return sharedState.getBag().addToFactory().getTILE_TYPE();
+        }
 
-        Random rand = new Random();
-        int choice = rand.nextInt(tiles.length);
-        return tiles[choice];
+
     }
 
     /**
@@ -224,29 +176,29 @@ public class Azul {
      */
     public static String[] refillFactories(String[] gameState) {
         // FIXME Task 6
-        char[] tiles = {'a','b','c','d','e'};
-        Random rand = new Random();
+        //{"AFCB1915161614D0000000000", "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"}
+        sharedState = new SharedState(gameState[0]);
 
-        String sharedState = gameState[0];
-        int indexF = sharedState.indexOf("F");
-        int indexC = sharedState.indexOf("C");
-        String factoryStr = sharedState.substring(indexF, indexC);
+        // get player number
+        int playerCIndex = gameState[1].indexOf("C");
+        int playerDIndex = gameState[1].indexOf("D");
+        int playerNum;
+        if(playerCIndex == -1 && playerDIndex ==-1) playerNum = 2;
+        else if(playerCIndex != -1 && playerDIndex ==-1) playerNum = 3;
+        else playerNum = 4;
 
-        if (factoryStr.equals("F")) {
-            String[] newGameState = new String[2];
-            newGameState[1] = gameState[1];
-            StringBuilder newFactoryStr = new StringBuilder("F");
-            for (int i = 0; i < 4; i++) {
-                newFactoryStr.append(i);
-                for (int j = 0; j < 4; j++) {
-                    int choice = rand.nextInt(tiles.length);
-                    newFactoryStr.append(tiles[choice]);
-                }
+        if(!sharedState.getFactory().isEmpty()){
+            return gameState;
+        }
+        else{
+            Tile[] tiles = new Tile[4 * (2 * playerNum + 1)];
+            for(int i = 0; i < tiles.length;i++ ){
+                char tileChar = drawTileFromBag(gameState);
+                tiles[i] = Tile.CharToTile(tileChar);
+                gameState[0]=sharedState.getStateStr();
             }
-            sharedState.replace("F",newFactoryStr);
-            newGameState[0] = sharedState;
-            return newGameState;
-        } else {
+            sharedState.getFactory().getFromBag(tiles);
+            gameState[0] = sharedState.getStateStr();
             return gameState;
         }
     }
@@ -263,7 +215,46 @@ public class Azul {
      */
     public static int getBonusPoints(String[] gameState, char player) {
         // FIXME Task 7
-        return -1;
+        //{"AFCB1915161614D0000000000", "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"},
+        int playerAIndex = gameState[1].indexOf("A");
+        int playerBIndex = gameState[1].indexOf("B");
+        int playerCIndex = gameState[1].indexOf("C");
+        int playerDIndex = gameState[1].indexOf("D");
+
+        // get player number
+        int playerNum;
+        if(playerCIndex == -1 && playerDIndex ==-1) playerNum = 2;
+        else if(playerCIndex != -1 && playerDIndex ==-1) playerNum = 3;
+        else playerNum = 4;
+
+        String playerState = "";
+        switch (playerNum){
+            case 2:
+                switch (player) {
+                    case 'A' -> playerState = gameState[1].substring(playerAIndex, playerBIndex);
+                    case 'B' -> playerState = gameState[1].substring(playerBIndex);
+                }
+                break;
+            case 3:
+                switch (player) {
+                    case 'A' -> playerState = gameState[1].substring(playerAIndex, playerBIndex);
+                    case 'B' -> playerState = gameState[1].substring(playerBIndex, playerCIndex);
+                    case 'C' -> playerState = gameState[1].substring(playerCIndex);
+                }
+                break;
+            case 4:
+                switch (player) {
+                    case 'A' -> playerState = gameState[1].substring(playerAIndex, playerBIndex);
+                    case 'B' -> playerState = gameState[1].substring(playerBIndex, playerCIndex);
+                    case 'C' -> playerState = gameState[1].substring(playerCIndex,playerDIndex);
+                    case 'D' -> playerState = gameState[1].substring(playerDIndex);
+                }
+                break;
+        }
+
+        PlayerState playState = new PlayerState(playerState);
+
+        return playState.getBonusPoint();
     }
 
     /**
