@@ -1,70 +1,102 @@
 package comp1110.ass2.Tile;
 
-public class Tile {
+import javafx.scene.paint.Color;
 
-    private final TileType TILE_TYPE;
-    private final TileColor TILE_COLOR;
+public enum Tile {
+
+    /**
+     * six different kinds of tiles
+     */
+    A(0, 'a'),
+    B(1, 'b'),
+    C(2, 'c'),
+    D(3, 'd'),
+    E(4, 'e'),
+    FIRST_PLAYER(5, 'f');
+
+    private final char TILE_TYPE;
+    private final int TILE_ID;
+
+    private final Color TILE_COLOR;
     private TileLocation tileLocation;
     public int col;
     public int row;
+
 
     /**
      * Constructor of Tile
      * The location of initializing tile is in bag
      * Initialize the color of tile according to the tile's type
      *
-     * @param type  the type of the tile
+     * @param TILE_ID the id of the tile
+     * @param TILE_TYPE the char of the tile
      */
-    public Tile(TileType type) {
-        this.tileLocation= TileLocation.Bag;
-        this.TILE_TYPE = type;
-        switch (type){
-            case A -> this.TILE_COLOR = TileColor.Blue;
-            case B -> this.TILE_COLOR = TileColor.Green;
-            case C -> this.TILE_COLOR = TileColor.Orange;
-            case D -> this.TILE_COLOR = TileColor.Purple;
-            case E -> this.TILE_COLOR = TileColor.Red;
-            case First -> this.TILE_COLOR = TileColor.Black;
+
+    Tile(int TILE_ID,char TILE_TYPE) {
+        this.TILE_TYPE = TILE_TYPE;
+        this.TILE_ID = TILE_ID;
+        switch (TILE_TYPE){
+            case 'a' -> this.TILE_COLOR = Color.BLUE;
+            case 'b' -> this.TILE_COLOR = Color.GREEN;
+            case 'c' -> this.TILE_COLOR = Color.ORANGE;
+            case 'd' -> this.TILE_COLOR = Color.PURPLE;
+            case 'e' -> this.TILE_COLOR = Color.RED;
+            case 'f' -> this.TILE_COLOR = Color.BLACK;
             default -> this.TILE_COLOR = null;
         }
     }
 
     /**
-     * Constructor of Tile that mainly used when teh tile is in the Mosaic pile
+     * Get the tile from a char, like get Tile A from char 'a'
      *
-     * @param type the type of the tile
-     * @param col the col number in mosaic
-     * @param row the row number in mosaic
+     * @param ch the char of the tile
+     * @return the tile represented by char
      */
-    public Tile(TileType type, int col, int row) {
-        this.tileLocation= TileLocation.Mosaic;
-        this.TILE_TYPE = type;
-        this.col = col;
-        this.row = row;
-        switch (type){
-            case A -> this.TILE_COLOR = TileColor.Blue;
-            case B -> this.TILE_COLOR = TileColor.Green;
-            case C -> this.TILE_COLOR = TileColor.Orange;
-            case D -> this.TILE_COLOR = TileColor.Purple;
-            case E -> this.TILE_COLOR = TileColor.Red;
-            case First -> this.TILE_COLOR = TileColor.Black;
-            default -> this.TILE_COLOR = null;
+    public static Tile CharToTile(char ch) {
+        for (Tile tile : Tile.values()) {
+            if (tile.TILE_TYPE == ch) {
+                return tile;
+            }
         }
+        return null;
+    }
+
+    /**
+     * Get the tile from a int id, like get Tile A from int 0
+     *
+     * @param id the id of the tile
+     * @return the tile represented by int id
+     */
+    public static Tile idToTile(int id) {
+        for (Tile tile : Tile.values()) {
+            if (tile.TILE_ID == id) {
+                return tile;
+            }
+        }
+        return null;
     }
 
     /**
      *Get private field TILE_TYPE of tile
      *
      */
-    public TileType getTILE_TYPE() {
+    public char getTILE_TYPE() {
         return TILE_TYPE;
+    }
+
+    /**
+     *Get private field TILE_ID of tile
+     *
+     */
+    public int getTILE_ID() {
+        return TILE_ID;
     }
 
     /**
      *Get private field TILE_COLOR of tile
      *
      */
-    public TileColor getTILE_COLOR() {
+    public Color getTILE_COLOR() {
         return TILE_COLOR;
     }
 

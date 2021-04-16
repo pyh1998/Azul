@@ -13,7 +13,7 @@ Carefully review the [statement of originality](originality.md), which you must 
 In this assignment, you will work as a group to master a number of major themes of this course,
 including software design and implementation,
 using development tools such as Git and IntelliJ, and using JavaFX to build a user interface.
-As an extension task, you may also explore strategies for writing agents that play games.
+As an extension task, you may also explore strategies for writing agents that playerState games.
 Above all, this assignment will emphasize group work;
 while you will receive an individual mark for your work based on your contributions to the assignment,
 you can only succeed if all members contribute to your group's success.
@@ -60,7 +60,7 @@ There is also one special "first player" tile.
 
 ## Game setup
 
-Each player has their own board on which they will play. Each board contains:
+Each player has their own board on which they will playerState. Each board contains:
 - five storage *rows*;
 - a *Floor* area; and
 - a *Mosaic* area.
@@ -453,7 +453,7 @@ The only **firm** requirements are that:
 
 * you use Java and JavaFX,
 * the game respects the specification of the game given here,
-* the game be easy to play,
+* the game be easy to playerState,
 * it runs in a 1280x768 window, and
 * that it is executable on the VDI from a JAR file called `game.jar`,
 
