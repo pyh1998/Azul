@@ -7,19 +7,22 @@ import java.util.Collections;
 import java.util.List;
 
 public class Mosaic {
+    /**
+     * Field HEIGHT: The height of the Mosaic
+     * Field WIDTH: The width of the Mosaic
+     * Field tiles: The tiles inside the Mosaic
+     */
     public static final int HEIGHT = 5;
     public static final int WIDTH = 5;
-
     public Tile[][] tiles;
 
-    int col;
-    int row;
-
     /**
-     * Constructor of the mosaic pile
-     * @param stateStr
+     * Constructor of the mosaic pile according to the state string, like "Ma02a13b00e42"
+     *
+     * Initialize the tiles in Mosaic
+     *
+     * @param stateStr the state string of the mosaic
      */
-    //Ma02a13b00e42
     public Mosaic(String stateStr) {
         tiles = new Tile[HEIGHT][WIDTH];
         for(int i = 1;i<stateStr.length();i+=3){
@@ -30,7 +33,12 @@ public class Mosaic {
         }
     }
 
-
+    /**
+     * Check if the state string is well formed
+     *
+     * @param mosaicStr the state string of the Mosaic
+     * @return return ture if the string is well-formed and return false if it is not well-formed
+     */
     public static boolean isWellFormed(String mosaicStr){
         if (mosaicStr.length() > 76 || (mosaicStr.length() - 1) % 3 != 0) return false;
         for (int j = 1; j < mosaicStr.length(); j += 3) {
@@ -41,7 +49,11 @@ public class Mosaic {
         return true;
     }
 
-
+    /**
+     * Get the state string of the Mosaic
+     *
+     * @return the state string of the Mosaic
+     */
     public String getStateStr(){
         StringBuilder state = new StringBuilder();
         state.append('M');
@@ -84,8 +96,9 @@ public class Mosaic {
      * @param col the col number
      * @param row teh row number
      */
-    public void isValidPlacement(Tile tile, int col, int row) {
-
+    public Boolean isValidPlacement(Tile tile, int col, int row) {
+        // TODO FIX the function of isValidPlacement
+        return true;
     }
 
     /**

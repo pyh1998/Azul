@@ -5,10 +5,11 @@ import comp1110.ass2.sharedState.Discard;
 
 public class Floor {
     /**
-     * The maximum number of tiles that the floor can hold.
+     * Field MAX_LENGTH: The maximum number of tiles that the Floor can hold
+     * Field number: The total number of tiles in the Floor
+     * Field tiles: The tiles in the Floor
      */
     public final static int MAX_LENGTH = 7;
-
     public int number;
     private Tile[] tiles;
 
@@ -22,6 +23,14 @@ public class Floor {
         this.tiles = tiles;
     }
 
+    /**
+     * Constructor of the Floor according to the state string,like "Faabbe“
+     *
+     * Initialize the total tile number in Floor
+     * Initialize the tiles in Floor
+     *
+     * @param stateStr the state string of the Floor
+     */
     public Floor(String stateStr){
         this.number = stateStr.length() - 1;
         this.tiles = new Tile[MAX_LENGTH];
@@ -31,7 +40,12 @@ public class Floor {
         }
     }
 
-
+    /**
+     * Check if the state string is well-formed
+     *
+     * @param floorStr the state string of the Floor
+     * @return return ture if the string is well-formed and return false if it is not well-formed
+     */
     public static boolean isWellFormed(String floorStr){
         if (floorStr.length() > 8) return false;
         for (int j = 1, k = 0; j < floorStr.length(); j++) { // flag
@@ -42,6 +56,11 @@ public class Floor {
         return true;
     }
 
+    /**
+     * Get the state string of the floor
+     *
+     * @return the state string of the floor
+     */
     public String getStateStr(){
         StringBuilder state = new StringBuilder();
         state.append('F');

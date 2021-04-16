@@ -3,6 +3,12 @@ package comp1110.ass2.playerState;
 import comp1110.ass2.Tile.Tile;
 
 public class Storage {
+    /**
+     * Field NUMBER_ROWS: The number of rows of the Storage
+     * Field TILE_TYPE_NUMBER: The maximum types of the tiles
+     * Field tileType: The tile types of the Storage
+     * Field tileNumber: The number of tiles of each tile type
+     */
     public static final int NUMBER_ROWS = 5;
     public static final int TILE_TYPE_NUMBER = 5;
     private Tile[] tileType;
@@ -17,8 +23,14 @@ public class Storage {
         tileNumber = new int[NUMBER_ROWS];
     }
 
-
-    //S2a13e44a1
+    /**
+     * Constructor of the Storage according to the state string, like S2a13e44a1
+     *
+     * Initialize the tile type types of the Storage
+     * Initialize the number of tiles of each tile type
+     *
+     * @param stateStr The state string of the Storage
+     */
     public Storage(String stateStr){
         tileType = new Tile[TILE_TYPE_NUMBER];
         tileNumber = new int[NUMBER_ROWS];
@@ -32,7 +44,12 @@ public class Storage {
         }
     }
 
-
+    /**
+     * Check if the state string is well formed
+     *
+     * @param storageStr the state string of the Storage
+     * @return return ture if the string is well-formed and return false if it is not well-formed
+     */
     public static boolean isWellFormed(String storageStr){
         if (storageStr.length() > 16 || (storageStr.length() - 1) % 3 != 0) return false;
         for (int j = 1; j < storageStr.length(); j += 3) {
@@ -43,7 +60,10 @@ public class Storage {
         return true;
     }
 
-    //S2a13e44a1
+    /**
+     * Get the state string of the Storage
+     * @return the state string of the Storage
+     */
     public String getStateStr(){
         StringBuilder state = new StringBuilder();
         state.append('S');
@@ -57,10 +77,18 @@ public class Storage {
         return state.toString();
     }
 
+    /**
+     * Get the tile types of the Storage
+     * @return the tile types of the Storage
+     */
     public Tile[] getTileType() {
         return tileType;
     }
 
+    /**
+     * Get the number of tiles of each tile type
+     * @return the number of tiles of each tile type
+     */
     public int[] getTileNumber() {
         return tileNumber;
     }
