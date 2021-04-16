@@ -8,6 +8,8 @@ import comp1110.ass2.sharedState.Centre;
 import comp1110.ass2.sharedState.Discard;
 import comp1110.ass2.sharedState.Factory;
 
+import java.util.Arrays;
+
 public class Azul {
 
 
@@ -250,7 +252,7 @@ public class Azul {
         }
 
         PlayerState playState = new PlayerState(playerState);
-
+        
         return playState.getBonusPoint();
     }
 

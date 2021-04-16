@@ -24,7 +24,7 @@ public class Floor {
 
     public Floor(String stateStr){
         this.number = stateStr.length() - 1;
-        this.tiles = new Tile[MAX_LENGTH];
+        this.tiles = new Tile[number];
         for(int i = 1;i<stateStr.length();i++){
             char tile = stateStr.charAt(i);
             tiles[i-1] = Tile.CharToTile(tile);

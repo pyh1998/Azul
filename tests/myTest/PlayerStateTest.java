@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PlayerStateTest {
     @Test
     public void playerStateTest() {
-        String str = "A20Ma02a13b00e42S2a13e44a1Faabbe";
+        String str = "B12Ma00d01b02e04b10a11c12e13d14d23b24c43S3e14e4Faaacddd";
         PlayerState playerState = new PlayerState(str);
         assertEquals(str, playerState.getStateStr());
     }
@@ -45,6 +45,10 @@ public class PlayerStateTest {
         String str = "A20Ma00b01c02e10a11b12c13d14d20e21a22c24c30d31b40c41a44S2a13e44a1Faabbe";
         PlayerState playerState = new PlayerState(str);
         assertEquals(26, playerState.getBonusPoint());
+        String str2 = "A29Me00a01c02b04d10c11e13a14b20d22a23c24a40S3e24b2Faf";
+        playerState = new PlayerState(str2);
+        assertEquals(26, playerState.getBonusPoint());
+
     }
 
     //[storage]
