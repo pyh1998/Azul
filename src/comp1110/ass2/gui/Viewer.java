@@ -1,8 +1,7 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Tile.Tile;
-import comp1110.ass2.play.PlayerState;
-import comp1110.ass2.play.SharedState;
+import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.playerState.Floor;
 import comp1110.ass2.playerState.Mosaic;
 import comp1110.ass2.playerState.Player;
@@ -17,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 

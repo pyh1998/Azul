@@ -1,4 +1,4 @@
-package comp1110.ass2.play;
+package comp1110.ass2.playerState;
 
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.playerState.Floor;

@@ -1,4 +1,4 @@
-package comp1110.ass2.play;
+package comp1110.ass2.shareState;
 
 import comp1110.ass2.shareState.Bag;
 import comp1110.ass2.shareState.Centre;
@@ -6,13 +6,33 @@ import comp1110.ass2.shareState.Discard;
 import comp1110.ass2.shareState.Factory;
 
 public class SharedState {
+    /**
+     * Field bag: The Bag in the SharedState
+     * Field centre: The Centre in the SharedState
+     * Field discard: The Discard in the SharedState
+     * Field factory: The Factory in the SharedState
+     * Field player: The current Player
+     */
     private Bag bag;
     private Centre centre;
     private Discard discard;
     private Factory factory;
     private char player;
 
-
+    /**
+     * Constructor of SharedState according to the state string,like "AFCB1915161614D0000000000“
+     *
+     * The first character indicates the current player
+     * The substring stating with F indicates the state Factory pile
+     * The substring stating with C indicates the tiles in Centre pile
+     * The substring stating with B indicates the tiles in Bag pile
+     * The substring stating with D indicates the tiles in Discard pile
+     *
+     * Initialize player, factory, centre, bag and discard
+     * using the corresponding substrings {Player}{Factory}{Centre}{Bag}{Discard}
+     *
+     * @param shareStateStr The string representing the Factory state, the tiles in the Centre, Bag and Discard piles
+     */
     public SharedState(String shareStateStr){
         int indexF = shareStateStr.indexOf("F",1);
         int indexC = shareStateStr.indexOf("C",1);
@@ -30,6 +50,12 @@ public class SharedState {
         discard = new Discard(discardStr);
     }
 
+    /**
+     * Check if the SharedState string is well-formed
+     *
+     * @param shareStateStr The string representing the Factory state, the tiles in the Centre, Bag and Discard piles
+     * @return return ture if the string is well-formed and return false if it is not well-formed
+     */
     public static boolean isWellFormed(String shareStateStr){
         //AFCB1915161614D0000000000
         int indexF = shareStateStr.indexOf("F",1);
@@ -37,7 +63,6 @@ public class SharedState {
         int indexB = shareStateStr.indexOf("B",1);
         int indexD = shareStateStr.indexOf("D",1);
         if (indexF == -1 || indexC == -1 || indexB == -1 || indexD == -1) return false;
-
 
         // part 1: check the form of the Factory state
         String factoryStr = shareStateStr.substring(indexF, indexC);
@@ -58,26 +83,51 @@ public class SharedState {
         return true;
     }
 
+    /**
+     * Get the string representing {Player}{Factory}{Centre}{Bag}{Discard}
+     *
+     * @return the string representing {Player}{Factory}{Centre}{Bag}{Discard}
+     */
     public String getStateStr(){
         return player + factory.getStateStr() + centre.getStateStr() + bag.getStateStr() + discard.getStateStr();
     }
 
+    /**
+     * Get field the bag of SharedState
+     *
+     */
     public Bag getBag() {
         return bag;
     }
 
+    /**
+     * Get field the centre of SharedState
+     *
+     */
     public Centre getCentre() {
         return centre;
     }
 
+    /**
+     * Get field the discard of SharedState
+     *
+     */
     public Discard getDiscard() {
         return discard;
     }
 
+    /**
+     * Get field the factory of SharedState
+     *
+     */
     public Factory getFactory() {
         return factory;
     }
 
+    /**
+     * Get field the player of SharedState
+     *
+     */
     public char getPlayer() {
         return player;
     }

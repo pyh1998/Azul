@@ -1,8 +1,8 @@
 package comp1110.ass2;
 
 import comp1110.ass2.Tile.Tile;
-import comp1110.ass2.play.PlayerState;
-import comp1110.ass2.play.SharedState;
+import comp1110.ass2.playerState.PlayerState;
+import comp1110.ass2.shareState.SharedState;
 import comp1110.ass2.shareState.Bag;
 import comp1110.ass2.shareState.Centre;
 import comp1110.ass2.shareState.Discard;

@@ -1,6 +1,6 @@
 package myTest;
 
-import comp1110.ass2.play.PlayerState;
+import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.playerState.Floor;
 import comp1110.ass2.playerState.Mosaic;
 import comp1110.ass2.playerState.Player;
