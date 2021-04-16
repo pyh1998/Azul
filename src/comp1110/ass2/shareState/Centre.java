@@ -49,6 +49,9 @@ public class Centre {
     //Caaabcdde
     public static boolean isWellFormed(String centreStr){
         if (centreStr.length() > 16) return false;
+        for(int i=2;i<centreStr.length();i++){
+            if(centreStr.charAt(i) < centreStr.charAt(i - 1)) return false;
+        }
         return true;
     }
 
