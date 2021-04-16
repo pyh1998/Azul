@@ -61,17 +61,11 @@ public class Mosaic {
         for(int i = 0; i < tiles.length; i++){
             for(int j=0; j<tiles[i].length; j++){
                 if(tiles[i][j] != null) {
-                    StringBuilder str = new StringBuilder();
-                    str.append(tiles[i][j].getTILE_TYPE());
-                    str.append(i);
-                    str.append(j);
-                    list.add(str.toString());
+                    state.append(tiles[i][j].getTILE_TYPE());
+                    state.append(i);
+                    state.append(j);
                 }
             }
-        }
-        Collections.sort(list);
-        for (String s : list) {
-            state.append(s);
         }
         return state.toString();
     }
