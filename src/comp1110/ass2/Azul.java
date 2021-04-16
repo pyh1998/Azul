@@ -187,20 +187,17 @@ public class Azul {
         else if(playerCIndex != -1 && playerDIndex ==-1) playerNum = 3;
         else playerNum = 4;
 
-        if(!sharedState.getFactory().isEmpty() || !sharedState.getCentre().isEmpty()){
-            return gameState;
-        }
-        else{
+        if (sharedState.getFactory().isEmpty() && sharedState.getCentre().isEmpty()) {
             Tile[] tiles = new Tile[4 * (2 * playerNum + 1)];
-            for(int i = 0; i < tiles.length;i++ ){
+            for (int i = 0; i < tiles.length; i++) {
                 char tileChar = drawTileFromBag(gameState);
                 tiles[i] = Tile.CharToTile(tileChar);
-                gameState[0]=sharedState.getStateStr();
+                gameState[0] = sharedState.getStateStr();
             }
             sharedState.getFactory().getFromBag(tiles);
             gameState[0] = sharedState.getStateStr();
-            return gameState;
         }
+        return gameState;
     }
 
     /**
