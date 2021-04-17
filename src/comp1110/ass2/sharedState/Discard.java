@@ -137,6 +137,18 @@ public class Discard {
         return tileNum;
     }
 
-
+    /**
+     * Get tiles from the floor when the round is over
+     *
+     * @param tiles the tiles in the floor need to move to discard
+     */
+    public void getTileFromFloor(Tile[] tiles){
+        this.totalNum += tiles.length;
+        for (Tile tile : tiles) {
+            if (!tile.isFirstPlayerTile()) {
+                this.tile_num[tile.getTILE_ID()]++;
+            }
+        }
+    }
 
 }

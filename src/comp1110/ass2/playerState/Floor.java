@@ -10,7 +10,7 @@ public class Floor {
      * Field tiles: The tiles in the Floor
      */
     public final static int MAX_LENGTH = 7;
-    public int number;
+    private int number;
     private Tile[] tiles;
 
     /**
@@ -79,6 +79,8 @@ public class Floor {
         // TODO: FIX the function of floorAddTiles
     }
 
+
+
     /**
      * Get the lost points according to the number of tiles place in Floor
      * Number of Tiles	Total Points Lost
@@ -108,13 +110,13 @@ public class Floor {
     }
     /**
      * After scoring, moves the all tiles in the floor to the discard pile
-     * @param floor the current floor
-     * @param discard the current discard
+     *
      */
-    public void moveTilesToDiscard(Floor floor, Discard discard) {
-        tiles = floor.getTiles();
-        discard.addTiles(tiles);
-        emptyFloor();
+    public Tile[] moveTilesToDiscard() {
+        Tile[] tilesToDiscard = this.tiles;
+        this.number = 0;
+        this.tiles = new Tile[number];
+        return tilesToDiscard;
     }
     /**
      * empty the floor

@@ -18,9 +18,6 @@ public enum Tile {
     private final int TILE_ID;
 
     private final Color TILE_COLOR;
-    private TileLocation tileLocation;
-    public int col;
-    public int row;
 
 
     /**
@@ -77,6 +74,15 @@ public enum Tile {
     }
 
     /**
+     * Check if the tile is the first player tile
+     *
+     * @return return true if the tile is the first player tile
+     */
+    public boolean isFirstPlayerTile(){
+        return this.TILE_ID == 5;
+    }
+
+    /**
      *Get private field TILE_TYPE of tile
      *
      */
@@ -100,19 +106,7 @@ public enum Tile {
         return TILE_COLOR;
     }
 
-    /**
-     *Get private field TileLocation of tile
-     *
-     */
-    public TileLocation getTileLocation() {
-        return tileLocation;
-    }
-    /**
-     *Set private field TileLocation of tile
-     *
-     */
-    public void setTileLocation(TileLocation tileLocation) {
-        this.tileLocation = tileLocation;
-    }
+
+
 }
 

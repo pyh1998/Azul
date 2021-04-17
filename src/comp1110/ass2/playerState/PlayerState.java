@@ -172,12 +172,67 @@ public class PlayerState {
     }
 
     /**
+     *Get the lose points by the number of tiles in Floor
+     * @return the lose points (negative)
+     */
+    public int getLosePoint(){
+        int number = this.floor.getNumber();
+
+        return switch (number) {
+            case 0 -> 0;
+            case 1 -> -1;
+            case 2 -> -2;
+            case 3 -> -4;
+            case 4 -> -6;
+            case 5 -> -8;
+            case 6 -> -11;
+            //>=7
+            default -> -14;
+        };
+    }
+
+    public boolean isEndOfGame(){
+        Tile[][] tiles= this.mosaic.getTiles();
+        for (Tile[] tile : tiles) {
+            int count = 0;
+            for (Tile value : tile) {
+                if (value != null)
+                    count++;
+            }
+            if (count == 5) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if the player has first-player token
+     * @return return ture if the player has first-player token
+     */
+    public boolean hasFirstToken(){
+        Tile[] tiles = this.floor.getTiles();
+        for(Tile tile : tiles){
+            if(tile == Tile.FIRST_PLAYER)
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * Get the string representing {Player with Score}{Mosaic}{Storage}{Floor}
      *
      * @return the string representing {Player with Score}{Mosaic}{Storage}{Floor}
      */
     public String getStateStr(){
         return player.getStateStr()+mosaic.getStateStr()+storage.getStateStr()+floor.getStateStr();
+    }
+
+    /**
+     * Check if the player has the first player token by checking the floor tiles
+     *
+     * @return return true if the player has the first player token
+     */
+    public boolean isFirstPlayer(){
+        return this.floor.getTiles()[this.floor.getNumber() - 1] == Tile.FIRST_PLAYER;
     }
 
     /**

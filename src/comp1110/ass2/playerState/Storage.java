@@ -60,6 +60,13 @@ public class Storage {
         return true;
     }
 
+    public boolean hasFullRow(){
+        for(int i = 0;i<tileNumber.length;i++){
+            if(tileNumber[i] == i+1) return true;
+        }
+        return false;
+    }
+
     /**
      * Get the state string of the Storage
      * @return the state string of the Storage
