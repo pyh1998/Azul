@@ -332,7 +332,6 @@ public class Azul {
             gameState[0] = sharedState.getStateStr();
             gameState[1] = newStr.toString();
         }
-
         return gameState;
     }
     
