@@ -1,6 +1,7 @@
 package comp1110.ass2.sharedState;
 
 import comp1110.ass2.Tile.Tile;
+import javafx.scene.paint.Color;
 
 public class Discard {
 
@@ -114,8 +115,16 @@ public class Discard {
      * @param tiles the array of tiles from other places
      */
     public void addTiles(Tile[] tiles){
-
-        //TODO FIX the function of addTiles
+        for (Tile tile: tiles) {
+            switch (tile.getTILE_TYPE()) {
+                case 'a' -> tile_num[0] ++;
+                case 'b' -> tile_num[1] ++;
+                case 'c' -> tile_num[2] ++;
+                case 'd' -> tile_num[3] ++;
+                case 'e' -> tile_num[4] ++;
+            }
+            totalNum ++;
+        }
     }
     /**
      * Move all tiles to Bag when Bag has no tile

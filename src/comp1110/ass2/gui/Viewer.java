@@ -30,8 +30,7 @@ public class Viewer extends Application {
     private TextField playerTextField;
     private TextField boardTextField;
 
-    public Group drawStorage(String storageStr){
-        Storage storage = new Storage(storageStr);
+    public Group drawStorage(Storage storage){
         Tile[] tileType = storage.getTileType();
         int[] tileNum = storage.getTileNumber();
         int side = 40;
@@ -87,8 +86,7 @@ public class Viewer extends Application {
         return mosaicGroup;
     }
 
-    public Group drawPlayer(String playerStr){
-        Player player = new Player(playerStr);
+    public Group drawPlayer(Player player){
         Group playerGroup = new Group();
         char playerId = player.getId();
         int score = player.getScore();
@@ -99,8 +97,7 @@ public class Viewer extends Application {
         return playerGroup;
     }
 
-    public Group drawFloor(String floorStr){
-        Floor floor = new Floor(floorStr);
+    public Group drawFloor( Floor floor){
         Tile[] tiles =floor.getTiles();
         Group floorGroup = new Group();
         int side = 40;
@@ -131,10 +128,15 @@ public class Viewer extends Application {
 
 
     void displayState(String[] state) {
+
+        //state[0] = "A31Mb01d03e04e10c13d14d20a22b23c24e32a33b34e43S4d2FB10Ma00b01e10b12d14d20e21c30c41a44S2c23d3F";
+        //state[1] = "BF0bcdd1bbbc2aaad3acde4abceCfB0000000000D1110100612";
         String playerStateStr = state[0];
         //A31Mb01d03e04e10c13d14d20a22b23c24e32a33b34e43S4d2FB10Ma00b01e10b12d14d20e21c30c41a44S2c23d3F
+        //BF0bcdd1bbbc2aaad3acde4abceCfB0000000000D1110100612
         int playerNum = Azul.getPlayNumber(state[0]);
 
+        //Draw playerState
         for (int i = 0; i < playerNum; i++) {
             if (i < playerNum - 1){
                 playerStateStr = state[0].substring(playerStateStr.indexOf((char) (i + 'A')),playerStateStr.indexOf((char) (i + 'B')));
@@ -145,10 +147,10 @@ public class Viewer extends Application {
             }
 
             PlayerState playerState = new PlayerState(playerStateStr);
-            Group player = drawPlayer(playerState.getPlayer().getStateStr());
-            Group storage = drawStorage(playerState.getStorage().getStateStr());
+            Group player = drawPlayer(playerState.getPlayer());
+            Group storage = drawStorage(playerState.getStorage());
             Group mosaic = drawMosaic(playerState.getMosaic());
-            Group floor = drawFloor(playerState.getFloor().getStateStr());
+            Group floor = drawFloor(playerState.getFloor());
 
             storage.setLayoutX(i * 600);
             storage.setLayoutY(200);
@@ -161,6 +163,9 @@ public class Viewer extends Application {
 
             controls.getChildren().addAll(player,storage,mosaic,floor);
         }
+
+        //Draw shareState
+
 
 
 

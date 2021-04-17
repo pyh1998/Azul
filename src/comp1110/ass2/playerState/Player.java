@@ -80,6 +80,14 @@ public class Player {
     }
 
     /**
+     * Set the score
+     * @param score the score to be set
+     */
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    /**
      * Get the score of the Player
      * @return the score of the Player
      */
