@@ -18,7 +18,6 @@ public enum Tile {
     public final int TILE_ID;
 
     private final Color TILE_COLOR;
-    private TileLocation tileLocation;
     public int col;
     public int row;
 
@@ -109,19 +108,7 @@ public enum Tile {
         return TILE_COLOR;
     }
 
-    /**
-     *Get private field TileLocation of tile
-     *
-     */
-    public TileLocation getTileLocation() {
-        return tileLocation;
-    }
-    /**
-     *Set private field TileLocation of tile
-     *
-     */
-    public void setTileLocation(TileLocation tileLocation) {
-        this.tileLocation = tileLocation;
-    }
+
+
 }
 

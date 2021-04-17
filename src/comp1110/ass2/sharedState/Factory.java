@@ -1,7 +1,6 @@
 package comp1110.ass2.sharedState;
 
 import comp1110.ass2.Tile.Tile;
-import comp1110.ass2.Tile.TileColor;
 
 import java.util.Arrays;
 
@@ -110,9 +109,9 @@ public class Factory {
     /**
      * Select tiles of the color in the current factory based on the color
      *
-     * @param color the color player choose from this factory
+     * @param id the Tile id player choose from this factory
      */
-    public Tile[] selectTiles(TileColor color) {
+    public Tile[] selectTiles(int id) {
         //TODO FIX the function of selectTiles
         return null;
     }

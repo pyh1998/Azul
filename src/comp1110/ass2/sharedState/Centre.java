@@ -1,9 +1,6 @@
 package comp1110.ass2.sharedState;
 
 import comp1110.ass2.Tile.Tile;
-import comp1110.ass2.Tile.TileColor;
-
-import java.util.List;
 
 public class Centre {
 
@@ -114,9 +111,9 @@ public class Centre {
     /**
      * Select tiles of the color in the Centre based on the color
      *
-     * @param color the color player choose from Centre
+     * @param id the Tile id player choose from Centre
      */
-    public void selectTiles(TileColor color){
+    public void selectTiles(int id){
 
         //TODO FIX the function of selectTiles
     }
