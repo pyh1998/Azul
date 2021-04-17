@@ -105,8 +105,5 @@ public enum Tile {
     public Color getTILE_COLOR() {
         return TILE_COLOR;
     }
-
-
-
 }
 
