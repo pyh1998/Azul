@@ -78,6 +78,10 @@ public class SharedState {
         return true;
     }
 
+    public void setPlayer(char player){
+        this.player = player;
+    }
+
     /**
      * Get the string representing {Player}{Factory}{Centre}{Bag}{Discard}
      *

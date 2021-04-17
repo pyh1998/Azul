@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Azul;
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.playerState.Floor;
@@ -59,8 +60,7 @@ public class Viewer extends Application {
         return storageGroup;
     }
 
-    public Group drawMosaic(String mosaicStr){
-        Mosaic mosaic = new Mosaic(mosaicStr);
+    public Group drawMosaic(Mosaic mosaic){
         Tile[][] tiles = mosaic.getTiles();
 
         int side = 40;
@@ -110,7 +110,7 @@ public class Viewer extends Application {
             r.setX(i * (side + space));
             r.setWidth(side);
             r.setHeight(side);
-            if(tiles[i] == null){
+            if(i >= floor.getNumber() || tiles[i] == null){
                 r.setFill(Color.GRAY);
             }
             else{
@@ -133,16 +133,12 @@ public class Viewer extends Application {
     void displayState(String[] state) {
         String playerStateStr = state[0];
         //A31Mb01d03e04e10c13d14d20a22b23c24e32a33b34e43S4d2FB10Ma00b01e10b12d14d20e21c30c41a44S2c23d3F
-        int player_cnt = 0;
-        for (int i = 'A'; i < 'E'; i++) {
-            if (playerStateStr.indexOf((char) i) != -1)
-                player_cnt++;
-            }
+        int playerNum = Azul.getPlayNumber(state[0]);
 
-        int currentPlayerId = 0;
-        for (int i = 0; i < player_cnt; i++) {
-            if (i + 1 < player_cnt){
+        for (int i = 0; i < playerNum; i++) {
+            if (i < playerNum - 1){
                 playerStateStr = state[0].substring(playerStateStr.indexOf((char) (i + 'A')),playerStateStr.indexOf((char) (i + 'B')));
+                System.out.println(playerStateStr);
             }
             else{
                 playerStateStr = state[0].substring(state[0].indexOf((char) (i + 'A')));
@@ -151,20 +147,19 @@ public class Viewer extends Application {
             PlayerState playerState = new PlayerState(playerStateStr);
             Group player = drawPlayer(playerState.getPlayer().getStateStr());
             Group storage = drawStorage(playerState.getStorage().getStateStr());
-            Group mosaic = drawMosaic(playerState.getMosaic().getStateStr());
+            Group mosaic = drawMosaic(playerState.getMosaic());
             Group floor = drawFloor(playerState.getFloor().getStateStr());
 
-            storage.setLayoutX(currentPlayerId * 600);
+            storage.setLayoutX(i * 600);
             storage.setLayoutY(200);
-            mosaic.setLayoutX(300 + currentPlayerId * 600);
+            mosaic.setLayoutX(300 + i * 600);
             mosaic.setLayoutY(200);
-            player.setLayoutX(45 + currentPlayerId * 600);
+            player.setLayoutX(45 + i * 600);
             player.setLayoutY(150);
-            floor.setLayoutX(45 + currentPlayerId * 600);
+            floor.setLayoutX(45 + i * 600);
             floor.setLayoutY(500);
 
             controls.getChildren().addAll(player,storage,mosaic,floor);
-            currentPlayerId ++;
         }
 
 

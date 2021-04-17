@@ -77,6 +77,15 @@ public enum Tile {
     }
 
     /**
+     * Check if the tile is the first player tile
+     *
+     * @return return true if the tile is the first player tile
+     */
+    public boolean isFirstPlayerTile(){
+        return this.TILE_ID == 5;
+    }
+
+    /**
      *Get private field TILE_TYPE of tile
      *
      */

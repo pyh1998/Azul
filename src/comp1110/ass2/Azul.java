@@ -3,22 +3,30 @@ package comp1110.ass2;
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.sharedState.SharedState;
-import comp1110.ass2.sharedState.Bag;
-import comp1110.ass2.sharedState.Centre;
-import comp1110.ass2.sharedState.Discard;
-import comp1110.ass2.sharedState.Factory;
 
 import java.util.Arrays;
 
 public class Azul {
 
 
-    public static Factory factory;
-    public static Centre centre;
-    public static Bag bag;
-    public static Discard discard;
     public static SharedState sharedState;
-    public static PlayerState playerState;
+    public static PlayerState[] playerState = new PlayerState[4];
+
+    /**
+     * Get the player number
+     * @param allPlayerStateStr the String of playerState, like "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"
+     * @return the player number (2 or 3 or 4)
+     */
+    public static int getPlayNumber(String allPlayerStateStr){
+        int playerNum = 0;
+        for (int i = 'A'; i < 'E'; i++) if (allPlayerStateStr.indexOf((char) i) != -1) playerNum++;
+
+        return playerNum;
+    }
+
+//    public static String getPlayState(String){
+//
+//    }
 
     /**
      * Given a shared state string, determine if it is well-formed.
@@ -182,12 +190,7 @@ public class Azul {
         sharedState = new SharedState(gameState[0]);
 
         // get player number
-        int playerCIndex = gameState[1].indexOf("C");
-        int playerDIndex = gameState[1].indexOf("D");
-        int playerNum;
-        if(playerCIndex == -1 && playerDIndex ==-1) playerNum = 2;
-        else if(playerCIndex != -1 && playerDIndex ==-1) playerNum = 3;
-        else playerNum = 4;
+        int playerNum = getPlayNumber(gameState[1]);
 
         if (sharedState.getFactory().isEmpty() && sharedState.getCentre().isEmpty()) {
             Tile[] tiles = new Tile[4 * (2 * playerNum + 1)];
@@ -221,39 +224,35 @@ public class Azul {
         int playerDIndex = gameState[1].indexOf("D");
 
         // get player number
-        int playerNum;
-        if(playerCIndex == -1 && playerDIndex ==-1) playerNum = 2;
-        else if(playerCIndex != -1 && playerDIndex ==-1) playerNum = 3;
-        else playerNum = 4;
-
-        String playerState = "";
+        int playerNum = getPlayNumber(gameState[1]);
+        String playerStateStr = "";
         switch (playerNum){
             case 2:
                 switch (player) {
-                    case 'A' -> playerState = gameState[1].substring(playerAIndex, playerBIndex);
-                    case 'B' -> playerState = gameState[1].substring(playerBIndex);
+                    case 'A' -> playerStateStr = gameState[1].substring(playerAIndex, playerBIndex);
+                    case 'B' -> playerStateStr = gameState[1].substring(playerBIndex);
                 }
                 break;
             case 3:
                 switch (player) {
-                    case 'A' -> playerState = gameState[1].substring(playerAIndex, playerBIndex);
-                    case 'B' -> playerState = gameState[1].substring(playerBIndex, playerCIndex);
-                    case 'C' -> playerState = gameState[1].substring(playerCIndex);
+                    case 'A' -> playerStateStr = gameState[1].substring(playerAIndex, playerBIndex);
+                    case 'B' -> playerStateStr = gameState[1].substring(playerBIndex, playerCIndex);
+                    case 'C' -> playerStateStr = gameState[1].substring(playerCIndex);
                 }
                 break;
             case 4:
                 switch (player) {
-                    case 'A' -> playerState = gameState[1].substring(playerAIndex, playerBIndex);
-                    case 'B' -> playerState = gameState[1].substring(playerBIndex, playerCIndex);
-                    case 'C' -> playerState = gameState[1].substring(playerCIndex,playerDIndex);
-                    case 'D' -> playerState = gameState[1].substring(playerDIndex);
+                    case 'A' -> playerStateStr = gameState[1].substring(playerAIndex, playerBIndex);
+                    case 'B' -> playerStateStr = gameState[1].substring(playerBIndex, playerCIndex);
+                    case 'C' -> playerStateStr = gameState[1].substring(playerCIndex,playerDIndex);
+                    case 'D' -> playerStateStr = gameState[1].substring(playerDIndex);
                 }
                 break;
         }
 
-        PlayerState playState = new PlayerState(playerState);
+        playerState[player - 'A'] = new PlayerState(playerStateStr);
         
-        return playState.getBonusPoint();
+        return playerState[player - 'A'].getBonusPoint();
     }
 
     /**
@@ -273,9 +272,70 @@ public class Azul {
      */
     public static String[] nextRound(String[] gameState) {
         // FIXME TASK 8
-        return null;
-    }
+        //Initialization the shareState and playerState
+        sharedState = new SharedState(gameState[0]);
+        String playerStateStr;
+        char nextPlayer = 'A';
+        int playerNum = getPlayNumber(gameState[1]);
+        for (int i = 0; i < playerNum; i++) {
+            if (i < playerNum - 1) {
+                playerStateStr = gameState[1].substring(gameState[1].indexOf(i + 'A'), gameState[1].indexOf(i + 'B'));
+            } else {
+                playerStateStr = gameState[1].substring(gameState[1].indexOf(i + 'A'));
+            }
+            playerState[i] = new PlayerState(playerStateStr);
+            if(playerState[i].hasFirstToken()) nextPlayer = playerState[i].getPlayer().getId();
+        }
 
+        //Check if is the next round status
+        boolean isNext = true;
+        for (int i = 0; i < playerNum; i++) {
+            if(playerState[i].getStorage().hasFullRow()){
+                isNext = false;
+            }
+        }
+
+        if (sharedState.getFactory().isEmpty() && sharedState.getCentre().isEmpty() && isNext) {
+            StringBuilder newStr = new StringBuilder();
+            for (int i = 0; i < playerNum; i++) {
+                //Lose points by floor
+                playerState[i].getPlayer().updateScore(playerState[i].getLosePoint());
+                if (playerState[i].isFirstPlayer()) {
+                    sharedState.getCentre().getFirstPlayerTileFromFloor();
+                }
+                sharedState.getDiscard().getTileFromFloor(playerState[i].getFloor().moveTilesToDiscard());
+            }
+
+            gameState[0] = sharedState.getStateStr();
+
+            //if the end of game get the bonus points and do not need to refill factories
+            boolean isEnd = false;
+            for (int i = 0; i < playerNum; i++) {
+                if (playerState[i].isEndOfGame()) {
+                    isEnd = true;
+                    break;
+                }
+            }
+            if (isEnd) {
+                for (int i = 0; i < playerNum; i++) {
+                    playerState[i].getPlayer().updateScore(playerState[i].getBonusPoint());
+                }
+            } else {
+                refillFactories(gameState);
+                sharedState.setPlayer(nextPlayer);
+            }
+
+            //Update the gameState
+            for (int i = 0; i < playerNum; i++) {
+                newStr.append(playerState[i].getStateStr());
+            }
+            gameState[0] = sharedState.getStateStr();
+            gameState[1] = newStr.toString();
+        }
+
+        return gameState;
+    }
+    
     /**
      * Given an entire game State, determine whether the state is valid.
      * A game state is valid if it satisfies the following conditions.

@@ -3,6 +3,8 @@ package comp1110.ass2.sharedState;
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.Tile.TileColor;
 
+import java.util.List;
+
 public class Centre {
 
     /**
@@ -10,7 +12,7 @@ public class Centre {
      *Field tiles: the array of tiles in Centre
      */
     private int number;
-    private final Tile[] tiles;
+    private Tile[] tiles;
 
     /**
      * Constructor of Centre by the state string of Centre pat
@@ -68,12 +70,21 @@ public class Centre {
     public String getStateStr() {
         StringBuilder state = new StringBuilder();
         state.append('C');
-        for (Tile tile : tiles) {
-            state.append(tile.getTILE_TYPE());
+        char[] tileChar = new char[tiles.length];
+        for (int i=0;i<tiles.length;i++) {
+            tileChar[i] = tiles[i].getTILE_TYPE();
+        }
+        for(char ch : tileChar){
+            state.append(ch);
         }
         return state.toString();
     }
 
+    public void getFirstPlayerTileFromFloor(){
+        this.number ++;
+        this.tiles = new Tile[number];
+        this.tiles[number - 1] = Tile.FIRST_PLAYER;
+    }
     /**
      *Get private field number of Centre
      *

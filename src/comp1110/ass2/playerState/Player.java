@@ -59,6 +59,15 @@ public class Player {
     }
 
     /**
+     * Update the score of the player (add or minus)
+     * @param score the score need to be add (negative means minus)
+     */
+   public void updateScore(int score){
+        this.score += score;
+        if(this.score < 0) this.score = 0;
+   }
+
+    /**
      * Get the state string of the Player with score
      *
      * @return the state string of the Player with score
