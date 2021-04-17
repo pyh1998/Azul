@@ -109,15 +109,14 @@ public class PlayerState {
         PlayerState[] all = new PlayerState[playerNum];
         for (int i = 0; i < playerNum; i++) {
             String stateStr;
+            int lowerBound = playerStateStr.indexOf(maxPlayers[i]);
             if (i == playerNum - 1) {
-                stateStr = playerStateStr.substring(i);
-                all[i] = new PlayerState(stateStr);
+                stateStr = playerStateStr.substring(lowerBound);
             } else {
-                int lowerBound = playerStateStr.indexOf(maxPlayers[i]);
                 int upperBound = playerStateStr.indexOf(maxPlayers[i+1]);
                 stateStr = playerStateStr.substring(lowerBound,upperBound);
-                all[i] = new PlayerState(stateStr);
             }
+            all[i] = new PlayerState(stateStr);
         }
         return all;
     }
