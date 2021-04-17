@@ -10,9 +10,9 @@ public class SharedState {
      */
     private Bag bag;
     private Centre centre;
-    private Discard discard;
-    private Factory factory;
-    private char player;
+    public Discard discard;
+    public Factory factory;
+    public char player;
 
     /**
      * Constructor of SharedState according to the sharedState string,like "AFCB1915161614D0000000000“

@@ -9,7 +9,7 @@ public class PlayerState {
      * Field floor: The Floor of the PlayerState
      * Field storage: The Storage of the PlayerState
      */
-    private Player player;
+    public Player player;
     private Mosaic mosaic;
     public Floor floor;
     private Storage storage;
@@ -127,7 +127,7 @@ public class PlayerState {
      * @param allPlayerStates  an array of all player states
      * @return the string of all player states
      */
-    public String getAllStateStr(PlayerState[] allPlayerStates) {
+    public static String getAllStateStr(PlayerState[] allPlayerStates) {
         StringBuilder all = new StringBuilder();
         for (int i = 0; i < allPlayerStates.length; i++) {
             String player = allPlayerStates[i].player.getStateStr();

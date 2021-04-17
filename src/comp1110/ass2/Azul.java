@@ -1,6 +1,8 @@
 package comp1110.ass2;
 
 import comp1110.ass2.Tile.Tile;
+import comp1110.ass2.playerState.Floor;
+import comp1110.ass2.playerState.Player;
 import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.sharedState.SharedState;
 import comp1110.ass2.sharedState.Bag;
@@ -273,7 +275,56 @@ public class Azul {
      */
     public static String[] nextRound(String[] gameState) {
         // FIXME TASK 8
-        return null;
+        sharedState = new SharedState(gameState[0]);
+        if (sharedState.factory.isEmpty()) {
+            String playerStateStr = gameState[1];
+            PlayerState[] allStates = PlayerState.getAllPlayerStates(playerStateStr);
+            Discard discard = sharedState.getDiscard();
+            char nextTurn = sharedState.player;
+
+            // Part 1: empty the floor of all player and change add tiles to discard
+            for (int i = 0; i < allStates.length; i++) {
+                Floor floor = allStates[i].getFloor();
+                Player player = allStates[i].getPlayer();
+                int loss = Floor.getLostScore(floor);
+                Tile[] tiles = floor.getTiles();
+                discard.addTiles(tiles);
+
+                // nextTurn
+                for (int j = 0 ; j < tiles.length; j++) {
+                    if (tiles[j].getTILE_TYPE() == 'f') {
+                        nextTurn = player.getId();
+                    }
+                }
+                sharedState.player = nextTurn;
+
+                // Change score
+                int scoreBefore = player.getScore();
+                int bonus = getBonusPoints(gameState, player.getId());
+                int scoreAfter = scoreBefore + bonus + loss;
+                if (scoreAfter < 0) scoreAfter = 0;
+                System.out.println(i);
+                System.out.println(player.getId());
+                System.out.println("bonus:" + bonus);
+                System.out.println("loss:" + loss);
+                player.setScore(scoreAfter);
+                allStates[i].player = new Player(player.getStateStr());
+
+                // update floor
+                floor.emptyFloor();
+                allStates[i].floor = new Floor(floor.getStateStr());
+            }
+
+            playerStateStr = PlayerState.getAllStateStr(allStates);
+            sharedState.discard = new Discard(discard.getStateStr());
+            gameState[0] = sharedState.getStateStr();
+            gameState[1] = playerStateStr;
+
+            // Part 2: Refill the factories from the bag.
+            refillFactories(gameState);
+            return gameState;
+        }
+        return gameState;
     }
 
     /**
