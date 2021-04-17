@@ -15,7 +15,7 @@ public enum Tile {
     FIRST_PLAYER(5, 'f');
 
     private final char TILE_TYPE;
-    private final int TILE_ID;
+    public final int TILE_ID;
 
     private final Color TILE_COLOR;
     private TileLocation tileLocation;

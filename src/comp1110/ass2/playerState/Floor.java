@@ -85,8 +85,10 @@ public class Floor {
      * @param discard the current discard
      */
     public void moveTilesToDiscard(Floor floor, Discard discard) {
-        // TODO: FIX the function of moveTilesToDiscard
-
+        tiles = floor.getTiles();
+        for (Tile tile: tiles) {
+            discard.tile_num[tile.TILE_ID] ++;
+        }
     }
     /**
      * empty the floor

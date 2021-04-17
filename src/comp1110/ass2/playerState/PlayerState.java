@@ -90,6 +90,33 @@ public class PlayerState {
     }
 
     /**
+     * Get all player states from a string of all player states
+     *
+     * @param playerStateStr The string of all player states
+     * @return all player states from a string of all player states
+     */
+    public PlayerState[] getAllPlayerStates(String playerStateStr){
+        char[] maxPlayers = new char[]{'A','B','C','D'};
+
+        // get player number
+        int playerNum = 0;
+        for (int i = 0; i < maxPlayers.length; i++) {
+            if (playerStateStr.indexOf(maxPlayers[i]) != -1) {
+                playerNum ++;
+            }
+        }
+
+        PlayerState[] all = new PlayerState[playerNum];
+        for (int i = 0; i < playerNum - 1; i++) {
+            int lowerBound = playerStateStr.indexOf(maxPlayers[i]);
+            int upperBound = playerStateStr.indexOf(maxPlayers[i+1]);
+            String stateStr = playerStateStr.substring(lowerBound,upperBound);
+            all[i] = new PlayerState(stateStr);
+        }
+        return all;
+    }
+
+    /**
      * Get the bonus point of the PlayerState
      *
      * Gain 2 points for each complete row of your mosaic (5 consecutive horizontal tiles).
