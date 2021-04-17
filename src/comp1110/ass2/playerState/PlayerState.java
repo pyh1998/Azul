@@ -11,7 +11,7 @@ public class PlayerState {
      */
     private Player player;
     private Mosaic mosaic;
-    private Floor floor;
+    public Floor floor;
     private Storage storage;
 
     /**
@@ -95,27 +95,50 @@ public class PlayerState {
      * @param playerStateStr The string of all player states
      * @return all player states from a string of all player states
      */
-    public PlayerState[] getAllPlayerStates(String playerStateStr){
+    public static PlayerState[] getAllPlayerStates(String playerStateStr){
         char[] maxPlayers = new char[]{'A','B','C','D'};
 
         // get player number
         int playerNum = 0;
         for (int i = 0; i < maxPlayers.length; i++) {
-            if (playerStateStr.indexOf(maxPlayers[i]) != -1) {
+            if (playerStateStr.indexOf(maxPlayers[i]) >= 0) {
                 playerNum ++;
             }
         }
 
         PlayerState[] all = new PlayerState[playerNum];
-        for (int i = 0; i < playerNum - 1; i++) {
-            int lowerBound = playerStateStr.indexOf(maxPlayers[i]);
-            int upperBound = playerStateStr.indexOf(maxPlayers[i+1]);
-            String stateStr = playerStateStr.substring(lowerBound,upperBound);
-            all[i] = new PlayerState(stateStr);
+        for (int i = 0; i < playerNum; i++) {
+            String stateStr;
+            if (i == playerNum - 1) {
+                stateStr = playerStateStr.substring(i);
+                all[i] = new PlayerState(stateStr);
+            } else {
+                int lowerBound = playerStateStr.indexOf(maxPlayers[i]);
+                int upperBound = playerStateStr.indexOf(maxPlayers[i+1]);
+                stateStr = playerStateStr.substring(lowerBound,upperBound);
+                all[i] = new PlayerState(stateStr);
+            }
         }
         return all;
     }
 
+    /**
+     * Get the string of all player states
+     *
+     * @param allPlayerStates  an array of all player states
+     * @return the string of all player states
+     */
+    public String getAllStateStr(PlayerState[] allPlayerStates) {
+        StringBuilder all = new StringBuilder();
+        for (int i = 0; i < allPlayerStates.length; i++) {
+            String player = allPlayerStates[i].player.getStateStr();
+            String mosaic = allPlayerStates[i].mosaic.getStateStr();
+            String storage = allPlayerStates[i].storage.getStateStr();
+            String floor = allPlayerStates[i].floor.getStateStr();
+            all.append(player+mosaic+storage+floor);
+        }
+        return all.toString();
+    }
     /**
      * Get the bonus point of the PlayerState
      *
