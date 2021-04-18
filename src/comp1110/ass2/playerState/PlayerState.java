@@ -81,7 +81,6 @@ public class PlayerState {
 
             if (i + 1 < player_cnt) floorStr = playerStateStr.substring(indexF, playerStateStr.indexOf((char) (i + 'B')));
             else floorStr = playerStateStr.substring(indexF);
-            System.out.println(floorStr);
             if(!Floor.isWellFormed(floorStr)) return false;
 
             if (i + 1 < player_cnt) playerStateStr = playerStateStr.substring(playerStateStr.indexOf((char) (i + 'B')));

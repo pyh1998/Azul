@@ -250,14 +250,17 @@ public class Viewer extends Application {
 
 
     void displayState(String[] state) {
-        for(int i = 1;i<controls.getChildren().size();i++){
+        Group allState = new Group();
+        //Clear the group
+        for(int i = 1;i < controls.getChildren().size();i++){
             controls.getChildren().remove(i);
         }
+        allState.getChildren().clear();
+
         //state[0] = "A31Mb01d03e04e10c13d14d20a22b23c24e32a33b34e43S4d2FB10Ma00b01e10b12d14d20e21c30c41a44S2c23d3F";
         //state[1] = "BF0bcdd1bbbc2aaad3acde4abceCfB0000000000D1110100612";
         String playerStateStr = state[0];
         String sharedStateStr = state[1];
-
         //Check if  the input is valid
         if(!SharedState.isWellFormed(sharedStateStr) || !PlayerState.isWellFormed(playerStateStr)){
             new Alert(Alert.AlertType.NONE, "Invalid input!   Please re-enter!", new ButtonType[]{ButtonType.CLOSE}).show();
@@ -290,7 +293,7 @@ public class Viewer extends Application {
             floor.setLayoutX(45 + i * 600);
             floor.setLayoutY(550);
 
-            controls.getChildren().addAll(player,storage,mosaic,floor);
+            allState.getChildren().addAll(player,storage,mosaic,floor);
         }
 
         //Draw shareState
@@ -312,7 +315,8 @@ public class Viewer extends Application {
         playTurn.setLayoutX(350);
         playTurn.setLayoutY(220);
 
-        controls.getChildren().addAll(factory,bag,discard,centre,playTurn);
+        allState.getChildren().addAll(factory,bag,discard,centre,playTurn);
+        controls.getChildren().add(allState);
 
         // FIXME Task 4: implement the simple state viewer
     }
