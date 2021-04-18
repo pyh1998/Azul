@@ -19,11 +19,23 @@ Everyone: Finished skeleton including all the classes and methods
 
 ## Week 6
 
-...
+meeting time: 15:00 30 Mar
+
+Everyone: Decide responsibilities of each member for Part one
 
 ## Mid-Semester Break
+meeting time: 14:00 16 Apr
+
+Everyone: Working on Part One of the assignment
+
+Yuhui Pang: Mainly focus on Task 4, 7 and 8
+
+Qinling Zhong: Mainly focus on Task 2 and 3
+
+Jiawen Wang: Mainly focus on Task 5 and 6
 
 ## Week 7
+D2C: Assignment 2, Stage C due Monday 7:00
 
 ## Week 8
 
