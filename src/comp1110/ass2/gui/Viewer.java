@@ -262,7 +262,7 @@ public class Viewer extends Application {
         String playerStateStr = state[0];
         String sharedStateStr = state[1];
         //Check if  the input is valid
-        if(!SharedState.isWellFormed(sharedStateStr) || !PlayerState.isWellFormed(playerStateStr)){
+        if(!Azul.isSharedStateWellFormed(sharedStateStr) || !Azul.isPlayerStateWellFormed(playerStateStr)){
             new Alert(Alert.AlertType.NONE, "Invalid input!   Please re-enter!", new ButtonType[]{ButtonType.CLOSE}).show();
             return;
         }
@@ -326,10 +326,10 @@ public class Viewer extends Application {
      */
     private void makeControls() {
         Label playerLabel = new Label("Player State:");
-        playerTextField = new TextField();
+        playerTextField = new TextField("A0MSFB0MSF");
         playerTextField.setPrefWidth(100);
         Label boardLabel = new Label("Board State:");
-        boardTextField = new TextField();
+        boardTextField = new TextField("AF0cdde1bbbe2abde3cdee4bcceCfB1915161614D0000000000");
         boardTextField.setPrefWidth(100);
         Button button = new Button("Refresh");
         button.setOnAction(new EventHandler<ActionEvent>() {
