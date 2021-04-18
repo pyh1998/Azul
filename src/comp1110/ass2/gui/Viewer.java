@@ -7,17 +7,17 @@ import comp1110.ass2.playerState.Floor;
 import comp1110.ass2.playerState.Mosaic;
 import comp1110.ass2.playerState.Player;
 import comp1110.ass2.playerState.Storage;
+import comp1110.ass2.sharedState.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Viewer extends Application {
@@ -92,6 +92,8 @@ public class Viewer extends Application {
         int score = player.getScore();
         Label labelI = new Label(String.valueOf("Player: " + playerId));
         Label labelS = new Label(String.valueOf("Score: " + score));
+        labelI.setFont(new Font("Arial", 15));
+        labelS.setFont(new Font("Arial", 15));
         labelS.setLayoutX(100);
         playerGroup.getChildren().addAll(labelI,labelS);
         return playerGroup;
@@ -118,6 +120,126 @@ public class Viewer extends Application {
         return floorGroup;
     }
 
+    public Group drawFactory(Factory factory,int playerNum){
+        int factoryNum = 2 * playerNum + 1;
+        Tile[][] tiles= factory.getTiles();
+        Group factoryGroup = new Group();
+        Label label = new Label("Factory:");
+        label.setFont(new Font("Arial", 20));
+        factoryGroup.getChildren().add(label);
+        int side = 40;
+        int space = 5;
+        int distance = 20;
+        for(int i=0;i<factoryNum;i++){
+            for (int j=0;j<factory.FACTORY_CAPACITY;j++){
+                Rectangle r = new Rectangle();
+                if(j % 2 == 0){
+                    r.setX(i * (side * 2 + space + distance));
+                }
+                else{
+                    r.setX(i * (side * 2 + space + distance) + side + space);
+                }
+                r.setY((j / 2) * (side + space) + 30);
+                r.setWidth(side);
+                r.setHeight(side);
+                if(tiles[i][j] == null){
+                    r.setFill(Color.GRAY);
+                }
+                else{
+                    r.setFill(tiles[i][j].getTILE_COLOR());
+                }
+                factoryGroup.getChildren().add(r);
+            }
+        }
+        return factoryGroup;
+    }
+
+    public Group drawBag(Bag bag){
+        int[] tileNum = bag.getTile_num();
+        Group bagGroup = new Group();
+        Label label = new Label("Bag:");
+        label.setFont(new Font("Arial", 20));
+        bagGroup.getChildren().add(label);
+        int side = 40;
+        int space = 5;
+        for(int i=0;i<tileNum.length;i++){
+            Rectangle r = new Rectangle();
+            r.setX(i * (side + space));
+            r.setY(30);
+            r.setWidth(side);
+            r.setHeight(side);
+            r.setFill(Tile.idToTile(i).getTILE_COLOR());
+            Label numLabel = new Label(String.valueOf(tileNum[i]));
+            numLabel.setLayoutX(15 + i * (side + space));
+            numLabel.setLayoutY(30 + side + space);
+            bagGroup.getChildren().addAll(r,numLabel);
+        }
+        return bagGroup;
+    }
+
+    public Group drawCentre(Centre centre){
+        Tile[] tiles = centre.getTiles();
+        int num = centre.getNumber();
+        int col = 5;
+        int row = num / 5 + 1;
+        int index = 0;
+        Group centreGroup = new Group();
+        Label label = new Label("Centre:");
+        label.setFont(new Font("Arial", 20));
+        centreGroup.getChildren().add(label);
+        int side = 40;
+        int space = 5;
+        for(int i = 0;i < row;i++){
+            for(int j = 0;j < col;j++){
+                if(index < num){
+                    Rectangle r = new Rectangle();
+                    r.setX(j * (side + space));
+                    r.setY(30 + i * (side + space));
+                    r.setWidth(side);
+                    r.setHeight(side);
+                    r.setFill(tiles[index].getTILE_COLOR());
+                    index ++;
+                    centreGroup.getChildren().add(r);
+                }
+            }
+        }
+        return centreGroup;
+    }
+
+    public Group drawDiscard(Discard discard){
+        int[] tileNum = discard.getTile_num();
+        Group discardGroup = new Group();
+        Label label = new Label("Discard:");
+        label.setFont(new Font("Arial", 20));
+        discardGroup.getChildren().add(label);
+        int side = 40;
+        int space = 5;
+        for(int i=0;i<tileNum.length;i++){
+            Rectangle r = new Rectangle();
+            r.setX(i * (side + space));
+            r.setY(30);
+            r.setWidth(side);
+            r.setHeight(side);
+            r.setFill(Tile.idToTile(i).getTILE_COLOR());
+            Label numLabel = new Label(String.valueOf(tileNum[i]));
+            numLabel.setLayoutX(15 + i * (side + space));
+            numLabel.setLayoutY(30 + side + space);
+            discardGroup.getChildren().addAll(r,numLabel);
+        }
+        return discardGroup;
+    }
+
+    public Group drawPlayerTurn(char playerTurn){
+        Group playerTurnGroup = new Group();
+        Label label =new Label(String.valueOf(playerTurn) + "'s Turn");
+        label.setFont(new Font("Arial", 30));
+        if(playerTurn == 'B'){
+            label.setLayoutX(600);
+        }
+        playerTurnGroup.getChildren().add(label);
+        return playerTurnGroup;
+    }
+
     /**
      * Draw a placement in the window, removing any previously drawn placements
      *
@@ -128,20 +250,26 @@ public class Viewer extends Application {
 
 
     void displayState(String[] state) {
-        //controls.getChildren().removeAll();
-
+        for(int i = 1;i<controls.getChildren().size();i++){
+            controls.getChildren().remove(i);
+        }
         //state[0] = "A31Mb01d03e04e10c13d14d20a22b23c24e32a33b34e43S4d2FB10Ma00b01e10b12d14d20e21c30c41a44S2c23d3F";
         //state[1] = "BF0bcdd1bbbc2aaad3acde4abceCfB0000000000D1110100612";
         String playerStateStr = state[0];
-        //A31Mb01d03e04e10c13d14d20a22b23c24e32a33b34e43S4d2FB10Ma00b01e10b12d14d20e21c30c41a44S2c23d3F
-        //BF0bcdd1bbbc2aaad3acde4abceCfB0000000000D1110100612
+        String sharedStateStr = state[1];
+
+        //Check if  the input is valid
+        if(!SharedState.isWellFormed(sharedStateStr) || !PlayerState.isWellFormed(playerStateStr)){
+            new Alert(Alert.AlertType.NONE, "Invalid input!   Please re-enter!", new ButtonType[]{ButtonType.CLOSE}).show();
+            return;
+        }
+
         int playerNum = Azul.getPlayNumber(state[0]);
 
         //Draw playerState
         for (int i = 0; i < playerNum; i++) {
             if (i < playerNum - 1){
                 playerStateStr = state[0].substring(playerStateStr.indexOf((char) (i + 'A')),playerStateStr.indexOf((char) (i + 'B')));
-                System.out.println(playerStateStr);
             }
             else{
                 playerStateStr = state[0].substring(state[0].indexOf((char) (i + 'A')));
@@ -154,21 +282,37 @@ public class Viewer extends Application {
             Group floor = drawFloor(playerState.getFloor());
 
             storage.setLayoutX(i * 600);
-            storage.setLayoutY(200);
+            storage.setLayoutY(280);
             mosaic.setLayoutX(300 + i * 600);
-            mosaic.setLayoutY(200);
+            mosaic.setLayoutY(280);
             player.setLayoutX(45 + i * 600);
-            player.setLayoutY(150);
+            player.setLayoutY(230);
             floor.setLayoutX(45 + i * 600);
-            floor.setLayoutY(500);
+            floor.setLayoutY(550);
 
             controls.getChildren().addAll(player,storage,mosaic,floor);
         }
 
         //Draw shareState
+        SharedState sharedState = new SharedState(sharedStateStr);
+        Group factory = drawFactory(sharedState.getFactory(),playerNum);
+        Group bag = drawBag(sharedState.getBag());
+        Group discard = drawDiscard(sharedState.getDiscard());
+        Group centre = drawCentre(sharedState.getCentre());
+        Group playTurn = drawPlayerTurn(sharedState.getPlayer());
 
+        factory.setLayoutX(50);
+        factory.setLayoutY(0);
+        bag.setLayoutX(600);
+        bag.setLayoutY(0);
+        discard.setLayoutX(600);
+        discard.setLayoutY(100);
+        centre.setLayoutX(900);
+        centre.setLayoutY(0);
+        playTurn.setLayoutX(350);
+        playTurn.setLayoutY(220);
 
-
+        controls.getChildren().addAll(factory,bag,discard,centre,playTurn);
 
         // FIXME Task 4: implement the simple state viewer
     }

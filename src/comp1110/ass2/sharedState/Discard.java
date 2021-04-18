@@ -13,8 +13,8 @@ public class Discard {
      */
     public static final int MAX_SIZE = 20;
     public static final int TILE_TYPE_NUMBER = 5;
-    public int[] tile_num;
-    public int totalNum;
+    private int[] tile_num;
+    private int totalNum;
 
 
     /**
