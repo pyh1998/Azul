@@ -128,6 +128,7 @@ public class Viewer extends Application {
 
 
     void displayState(String[] state) {
+        //controls.getChildren().removeAll();
 
         //state[0] = "A31Mb01d03e04e10c13d14d20a22b23c24e32a33b34e43S4d2FB10Ma00b01e10b12d14d20e21c30c41a44S2c23d3F";
         //state[1] = "BF0bcdd1bbbc2aaad3acde4abceCfB0000000000D1110100612";
