@@ -267,7 +267,7 @@ public class Viewer extends Application {
             return;
         }
 
-        int playerNum = Azul.getPlayNumber(state[0]);
+        int playerNum = PlayerState.getPlayNumber(state[0]);
 
         //Draw playerState
         for (int i = 0; i < playerNum; i++) {

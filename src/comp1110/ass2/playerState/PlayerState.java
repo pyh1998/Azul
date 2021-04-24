@@ -1,5 +1,6 @@
 package comp1110.ass2.playerState;
 
+import comp1110.ass2.Azul;
 import comp1110.ass2.Tile.Tile;
 
 public class PlayerState {
@@ -89,33 +90,34 @@ public class PlayerState {
     }
 
     /**
+     * Get the player number
+     * @param allPlayerStateStr the String of playerState, like "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"
+     * @return the player number (2 or 3 or 4)
+     */
+    public static int getPlayNumber(String allPlayerStateStr){
+        int playerNum = 0;
+        for (int i = 'A'; i < 'E'; i++) if (allPlayerStateStr.indexOf((char) i) != -1) playerNum++;
+
+        return playerNum;
+    }
+
+    /**
      * Get all player states from a string of all player states
      *
-     * @param playerStateStr The string of all player states
+     * @param players The string of all player states
      * @return all player states from a string of all player states
      */
-    public static PlayerState[] getAllPlayerStates(String playerStateStr){
-        char[] maxPlayers = new char[]{'A','B','C','D'};
-
-        // get player number
-        int playerNum = 0;
-        for (int i = 0; i < maxPlayers.length; i++) {
-            if (playerStateStr.indexOf(maxPlayers[i]) >= 0) {
-                playerNum ++;
-            }
-        }
-
+    public static PlayerState[] getAllPlayerStates(String players){
+        int playerNum = PlayerState.getPlayNumber(players);
+        String playerStateStr;
         PlayerState[] all = new PlayerState[playerNum];
         for (int i = 0; i < playerNum; i++) {
-            String stateStr;
-            int lowerBound = playerStateStr.indexOf(maxPlayers[i]);
-            if (i == playerNum - 1) {
-                stateStr = playerStateStr.substring(lowerBound);
+            if (i < playerNum - 1) {
+                playerStateStr = players.substring(players.indexOf(i + 'A'), players.indexOf(i + 'B'));
             } else {
-                int upperBound = playerStateStr.indexOf(maxPlayers[i+1]);
-                stateStr = playerStateStr.substring(lowerBound,upperBound);
+                playerStateStr = players.substring(players.indexOf(i + 'A'));
             }
-            all[i] = new PlayerState(stateStr);
+            all[i] = new PlayerState(playerStateStr);
         }
         return all;
     }
@@ -129,11 +131,7 @@ public class PlayerState {
     public static String getAllStateStr(PlayerState[] allPlayerStates) {
         StringBuilder all = new StringBuilder();
         for (int i = 0; i < allPlayerStates.length; i++) {
-            String player = allPlayerStates[i].player.getStateStr();
-            String mosaic = allPlayerStates[i].mosaic.getStateStr();
-            String storage = allPlayerStates[i].storage.getStateStr();
-            String floor = allPlayerStates[i].floor.getStateStr();
-            all.append(player+mosaic+storage+floor);
+            all.append(allPlayerStates[i].getStateStr());
         }
         return all.toString();
     }
@@ -188,6 +186,21 @@ public class PlayerState {
             //>=7
             default -> -14;
         };
+    }
+
+    /**
+     * get the next player char
+     * @param players the array of PlayerState
+     * @return a char represent the next player
+     */
+    public static char getNextPlayer(PlayerState[] players){
+        char next = 'A';
+        for(int i=0;i<players.length;i++){
+            if(players[i].hasFirstToken()){
+                next = players[i].getPlayer().getId();
+            }
+        }
+        return next;
     }
 
     public boolean isEndOfGame(){
