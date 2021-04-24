@@ -91,6 +91,8 @@ public class Mosaic {
      * @param row teh row number
      */
     public Boolean isValidPlacement(Tile tile, int col, int row) {
+        if (this.tiles[row][col] != null) return false; // check for the position
+
         for (int r = 0; r < HEIGHT; r++) { // check for column
             if ((this.tiles[r][col] != null) && (this.tiles[r][col].getTILE_COLOR() == tile.getTILE_COLOR())) {
                 return false;
