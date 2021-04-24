@@ -1,5 +1,6 @@
 package myTest;
 
+import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.playerState.Floor;
 import comp1110.ass2.playerState.Mosaic;
@@ -67,5 +68,27 @@ public class PlayerStateTest {
         assertTrue(Floor.isWellFormed(str));
         Floor floor = new Floor(str);
         assertEquals(str, floor.getStateStr());
+    }
+
+    @Test
+    public void getAllPlayerStatesTest() {
+        String twoStateStr = "A7Me01a11d20b30b41S0a11b22c13c44d1FeeB8Md03b13e23c32b41S0b11c12a33d24e4Fab";
+        String[] subStr2 = new String[] {"A7Me01a11d20b30b41S0a11b22c13c44d1Fee",
+                                         "B8Md03b13e23c32b41S0b11c12a33d24e4Fab"};
+        assertEquals(2, PlayerState.getAllPlayerStates(twoStateStr).length);
+        for (int i = 0; i < subStr2.length; i++) {
+            PlayerState playerState = new PlayerState(subStr2[i]);
+            assertEquals(subStr2[i],playerState.getStateStr());
+        }
+        String fourStateStr = "A2Me04b11S2c13a34a1FbeeeeB1Mc02S1b12e13d4FfC0MS2c13a34a1FD0MS0c11b12e1Ff";
+        String[] subStr4 = new String[] {"A2Me04b11S2c13a34a1Fbeeee",
+                                         "B1Mc02S1b12e13d4Ff",
+                                         "C0MS2c13a34a1F",
+                                         "D0MS0c11b12e1Ff"};
+        assertEquals(4, PlayerState.getAllPlayerStates(fourStateStr).length);
+        for (int i = 0; i < subStr4.length; i++) {
+            PlayerState playerState = new PlayerState(subStr4[i]);
+            assertEquals(subStr4[i], playerState.getStateStr());
+        }
     }
 }
