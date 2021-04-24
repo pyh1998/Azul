@@ -73,14 +73,14 @@ public class Mosaic {
      * Perform a valid tiling move
      * @param tile the tile to be placed
      * @param col the col number
-     * @param row teh row number
+     * @param row the row number
      */
     public void addTileToMosaic(Tile tile, int col, int row) {
-        // TODO FIX the function of addTileToMosaic
+        this.tiles[col][row] = tile;
     }
 
     /**
-     * Check whether placement of tile to the storage is valid
+     * Check whether placement of tile to the mosaic is valid
      *      * Each row and column of the mosaic may not contain more than one tile of the same colour
      *      * (much like a sudoku).
      *      *
@@ -91,7 +91,16 @@ public class Mosaic {
      * @param row teh row number
      */
     public Boolean isValidPlacement(Tile tile, int col, int row) {
-        // TODO FIX the function of isValidPlacement
+        for (int r = 0; r < HEIGHT; r++) { // check for column
+            if ((this.tiles[r][col] != null) && (this.tiles[r][col].getTILE_COLOR() == tile.getTILE_COLOR())) {
+                return false;
+            }
+        }
+        for (int c = 0; c < WIDTH; c++) { // check for row
+            if ((this.tiles[row][c] != null) && (this.tiles[row][c].getTILE_COLOR() == tile.getTILE_COLOR())) {
+                return false;
+            }
+        }
         return true;
     }
 
