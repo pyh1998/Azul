@@ -21,20 +21,15 @@ public class PlayerStateTest {
 
     @Test
     public void playerTest() {
-        String str = "A";
-        assertTrue(Player.isWellFormedPlayer(str));
+        String str = "A20";
+        assertTrue(Player.isWellFormed(str));
     }
 
-    @Test
-    public void playerScoreTest() {
-        String str = "20";
-        assertTrue(Player.isWellFormedScore(str));
-    }
 
     //[mosaic]
     @Test
     public void mosaicTest() {
-        String str = "Ma02a13b00e42";
+        String str = "Mb00a02a13e42";
         assertTrue(Mosaic.isWellFormed(str));
         Mosaic mosaic = new Mosaic(str);
         assertEquals(str, mosaic.getStateStr());
@@ -48,7 +43,7 @@ public class PlayerStateTest {
         assertEquals(26, playerState.getBonusPoint());
         String str2 = "A29Me00a01c02b04d10c11e13a14b20d22a23c24a40S3e24b2Faf";
         playerState = new PlayerState(str2);
-        assertEquals(26, playerState.getBonusPoint());
+        assertEquals(0, playerState.getBonusPoint());
 
     }
 

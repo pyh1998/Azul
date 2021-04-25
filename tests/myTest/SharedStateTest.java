@@ -45,7 +45,7 @@ public class SharedStateTest {
 
     @Test
     public void ShareStateTest() {
-        String stateStr = "AFBcdde1bbbe2abde3cdee4bcceCfB1915161614DBBBBBBBBBB";
+        String stateStr = "AF1bbce3aabeCaaeeeB0807111004D0002050609";
         assertTrue(Azul.isSharedStateWellFormed(stateStr));
     }
 }

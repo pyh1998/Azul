@@ -4,11 +4,7 @@ import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.playerState.Mosaic;
 import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.playerState.Storage;
-import comp1110.ass2.sharedState.Centre;
-import comp1110.ass2.sharedState.Factory;
 import comp1110.ass2.sharedState.SharedState;
-
-import java.util.Arrays;
 
 public class Azul {
 
@@ -239,7 +235,6 @@ public class Azul {
         char nextPlayer = PlayerState.getNextPlayer(playerState);
         int playerNum = PlayerState.getPlayNumber(gameState[1]);
 
-
         //Check if is the next round status
         for (int i = 0; i < playerNum; i++) {
             if(playerState[i].getStorage().hasFullRow()) return gameState;
@@ -249,7 +244,7 @@ public class Azul {
         //update the shareState
         for (int i = 0; i < playerNum; i++) {
             //Lose points by floor
-            playerState[i].getPlayer().updateScore(playerState[i].getLosePoint());
+            playerState[i].getPlayer().updateScore(playerState[i].getFloor().getLostPoint());
             if (playerState[i].isFirstPlayer()) {
                 sharedState.getCentre().getFirstPlayerTileFromFloor();
             }
@@ -276,6 +271,7 @@ public class Azul {
         } else {
             refillFactories(gameState);
         }
+        gameState[0] = sharedState.getStateStr();
         gameState[1] = PlayerState.getAllStateStr(playerState);
 
         return gameState;
