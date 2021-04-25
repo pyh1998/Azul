@@ -83,6 +83,7 @@ public class Mosaic {
      * Check whether placement of tile to the mosaic is valid
      * Each row and column of the mosaic may not contain more than one tile of the same colour
      * (much like a sudoku).
+     * The position of the placement should have no tiles already in it.
      *
      * @param tileType the type of tile to be placed to the mosaic pile
      * @param col the col number

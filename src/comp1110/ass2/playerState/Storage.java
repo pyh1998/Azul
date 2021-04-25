@@ -140,11 +140,11 @@ public class Storage {
     /**
      * Decide whether a placement of tiles in the storage is valid.
      *
-     * If a row already contains tiles, you may only add tiles of the same colour to it.
+     * A row can only contain the same type of tiles.
      *
      * @param tileType a char of the type of tile
      * @param rowNumber the row number to add the tiles
-     * @return whether the placement is valid
+     * @return whether the placement to a row in the storage is valid
      */
     public boolean isValidPlacement (char tileType, int rowNumber) {
         if (this.tileType[rowNumber] == null) {
