@@ -77,11 +77,16 @@ public class Centre {
         return state.toString();
     }
 
+    /**
+     * get the first-player-token from floor
+     * if this floor has first-player-token before next round
+     */
     public void getFirstPlayerTileFromFloor(){
         this.number ++;
         this.tiles = new Tile[number];
         this.tiles[number - 1] = Tile.FIRST_PLAYER;
     }
+
     /**
      *Get private field number of Centre
      *
