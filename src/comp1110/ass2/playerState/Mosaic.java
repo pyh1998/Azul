@@ -110,7 +110,7 @@ public class Mosaic {
      * @param row the row number
      * @return whether a mosaic row contains a specific tile
      */
-    public Boolean isContained(char tileType, int row) {
+    public Boolean rowIsContained(char tileType, int row) {
         Tile[] tiles = this.tiles[row];
         for (int c = 0 ; c < WIDTH; c++) {
             if (tiles[c] != null && tiles[c].getTILE_TYPE() == tileType) {

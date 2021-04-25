@@ -368,7 +368,7 @@ public class Azul {
             // 3. The corresponding mosaic row does not already contain a tile of that colour.
             if (placedTo != 'F') {
                 int rowPlaced = placedTo - '0';
-                placingValid = storage.isValidPlacement(tileType, rowPlaced) && !mosaic.isContained(tileType, rowPlaced);
+                placingValid = storage.isValidPlacement(tileType, rowPlaced) && !mosaic.rowIsContained(tileType, rowPlaced);
             }
             return pickingValid && placingValid;
         } else {

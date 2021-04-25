@@ -1,6 +1,5 @@
 package myTest;
 
-import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.playerState.Floor;
 import comp1110.ass2.playerState.Mosaic;
@@ -9,9 +8,6 @@ import comp1110.ass2.playerState.Storage;
 import comp1110.ass2.sharedState.Centre;
 import comp1110.ass2.sharedState.Factory;
 import org.junit.jupiter.api.Test;
-
-import java.awt.event.MouseAdapter;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,6 +72,7 @@ public class PlayerStateTest {
                                          "B8Md03b13e23c32b41S0b11c12a33d24e4Fab"};
         assertEquals(2, PlayerState.getAllPlayerStates(twoStateStr).length);
         for (int i = 0; i < subStr2.length; i++) {
+            assertTrue(PlayerState.isWellFormed(subStr2[i]));
             PlayerState playerState = new PlayerState(subStr2[i]);
             assertEquals(subStr2[i],playerState.getStateStr());
         }
@@ -86,6 +83,7 @@ public class PlayerStateTest {
                                          "D0MS0c11b12e1Ff"};
         assertEquals(4, PlayerState.getAllPlayerStates(fourStateStr).length);
         for (int i = 0; i < subStr4.length; i++) {
+            assertTrue(PlayerState.isWellFormed(subStr4[i]));
             PlayerState playerState = new PlayerState(subStr4[i]);
             assertEquals(subStr4[i], playerState.getStateStr());
         }
@@ -118,7 +116,7 @@ public class PlayerStateTest {
     }
 
     @Test
-    public void mosaicIsContainedTest() {
+    public void mosaicRowIsContainedTest() {
         String mosaicStr = "Mc02d33a14e21";
         assertTrue(Mosaic.isWellFormed(mosaicStr));
         Mosaic mosaic = new Mosaic(mosaicStr);
@@ -132,10 +130,10 @@ public class PlayerStateTest {
         for (int i = 0; i < 4; i++) {
             char tileType = mosaicStr.charAt(1+3*i);
             int rowNum = mosaicStr.charAt(2+3*i) - '0';
-            assertTrue(mosaic.isContained(tileType,rowNum));
+            assertTrue(mosaic.rowIsContained(tileType,rowNum));
         }
         for (int r = 0; r < 5; r++) {
-            assertFalse(mosaic.isContained('b',r));
+            assertFalse(mosaic.rowIsContained('b',r));
         }
     }
 
@@ -197,6 +195,7 @@ public class PlayerStateTest {
     @Test
     public void factoryAtLeastOneTileTest() {
         String factoryStr = "F0cdee1bdde2abbe3bcde4aaae";
+        assertTrue(Factory.isWellFormed(factoryStr));
         char[][] contains = new char[][] {new char[] {'c','d','e'},new char[] {'b','d','e'}
                                          ,new char[] {'a','b','e'},new char[] {'b','c','d','e'}
                                          ,new char[] {'a','e'}};
@@ -215,6 +214,7 @@ public class PlayerStateTest {
         }
 
         String emptyFactory = "F";
+        assertTrue(Factory.isWellFormed(emptyFactory));
         Factory empty = new Factory(emptyFactory);
         for (int i = 0; i < factory.FACTORY_NUMBER; i++) {
             for (int j = 0; j < 5; j++) {
