@@ -100,7 +100,7 @@ public class Floor {
     }
 
     /**
-     * After scoring, moves the all tiles in the floor to the discard pile
+     * After scoring, moves the all tiles except first-player-token in the floor to the discard pile
      *
      */
     public Tile[] moveTilesToDiscard() {
