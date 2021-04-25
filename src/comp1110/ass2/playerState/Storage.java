@@ -106,17 +106,16 @@ public class Storage {
      * @return the right most tile of a complete row
      */
     public Tile pickTile (int rowNumber) {
-        // TODO FIX the function of pickTile
-        return null;
+        return this.tileType[rowNumber];
     }
 
     /**
      * Determine whether a row is complete. ie, whether the row is full
      * @param rowNumber the row number
-     * @return the right most tile of a complete row
+     * @return whether a row is complete
      */
     public boolean rowIsComplete (int rowNumber) {
-        // TODO FIX the function of rowIsComplete
+        if ((this.tileType[rowNumber] != null) && (this.tileNumber[rowNumber] == rowNumber + 1)) return true;
         return false;
     }
 
@@ -128,39 +127,40 @@ public class Storage {
      */
     public void addTiles (Tile[] tiles, int rowNumber) {
         // TODO FIX the function of addTiles
+        if (this.tileType[rowNumber] == null) {
+            this.tileType[rowNumber] = tiles[0];
+            this.tileNumber[rowNumber] = Math.min(tiles.length, rowNumber + 1);
+        } else {
+            int numToPlace = rowNumber + 1 - this.tileNumber[rowNumber];
+            int extra = tiles.length - numToPlace;
+            this.tileNumber[rowNumber] = Math.min(tiles.length + tileNumber[rowNumber], rowNumber + 1);
+        }
     }
 
     /**
      * Decide whether a placement of tiles in the storage is valid.
-     *      *
-     *      * You must place the tiles from right to left in your chosen row.
-     *      *
-     *      * If a row already contains tiles, you may only add tiles of the same colour to it.
-     *      *
-     *      * If you have more tiles than can fit in your chosen row,
-     *      * then you must place the excess tiles on the floor.
-     *      *
-     *      * You are not allowed to place tiles of a certain colour in a row
-     *      * if the corresponding mosaic row already contains a tile of that colour.
-     *      *
-     *      * If you cannot or do not want to place tiles on a row, you may place them directly onto the floor.
      *
-     * @param tiles an array of tiles to be added to the storage
+     * If a row already contains tiles, you may only add tiles of the same colour to it.
+     *
+     * @param tileType a char of the type of tile
      * @param rowNumber the row number to add the tiles
      * @return whether the placement is valid
      */
-    public boolean isValidPlacement (Tile[] tiles, int rowNumber) {
-        // TODO FIX the function of isValidPlacement
+    public boolean isValidPlacement (char tileType, int rowNumber) {
+        if (this.tileType[rowNumber] == null) {
+            return true;
+        } else if (this.tileType[rowNumber].getTILE_TYPE() == tileType) {
+            return true;
+        }
         return false;
     }
-
-
     /**
      * After placing the rightmost tile to the mosaic pile, empty the row;
      * @param rowNumber the row number of the row to be empty
      */
     public void emptyRow(int rowNumber) {
-        // TODO FIX the function of emptyRow
+        this.tileType[rowNumber] = null;
+        this.tileNumber[rowNumber] = Integer.parseInt(null);
     }
 
 }

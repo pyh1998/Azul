@@ -111,7 +111,7 @@ public class Factory {
      *
      * @param id the Tile id player choose from this factory
      */
-    public Tile[] selectTiles(int id) {
+    public Tile[] selectTiles(Tile tile, int id) {
         //TODO FIX the function of selectTiles
         return null;
     }
@@ -140,6 +140,20 @@ public class Factory {
      */
     public void movetoCentre(){
         //TODO FIX the function of movetoCentre
+    }
+
+    /**
+     * Check whether there is at least one tile of the specific type in the factory
+     * @param tileType the specific type of tile
+     * @param facNum the factory number
+     * @return whether there is at least one tile of the specific type
+     */
+    public boolean atLeastOneTile(char tileType, int facNum) {
+        Tile[] inFactory = this.tiles[facNum];
+        for (int i = 0; i < FACTORY_CAPACITY; i++) {
+            if (inFactory[i] != null && inFactory[i].getTILE_TYPE() == tileType) return true;
+        }
+        return false;
     }
 
 

@@ -1,7 +1,11 @@
 package comp1110.ass2;
 
 import comp1110.ass2.Tile.Tile;
+import comp1110.ass2.playerState.Mosaic;
 import comp1110.ass2.playerState.PlayerState;
+import comp1110.ass2.playerState.Storage;
+import comp1110.ass2.sharedState.Centre;
+import comp1110.ass2.sharedState.Factory;
 import comp1110.ass2.sharedState.SharedState;
 
 import java.util.Arrays;
@@ -343,7 +347,55 @@ public class Azul {
      */
     public static boolean isMoveValid(String[] gameState, String move) {
         // FIXME Task 10
-        return false;
+        sharedState = new SharedState(gameState[0]);
+        playerState = PlayerState.getAllPlayerStates(gameState[1]);
+        if (sharedState.getPlayer() != move.charAt(0)) return false;
+
+        PlayerState playerState1 = playerState[move.charAt(0) - 'A'];
+        Storage storage = playerState1.getStorage();
+        Mosaic mosaic = playerState1.getMosaic();
+
+        if (move.length() == 4) {
+            char pickingFrom = move.charAt(1);
+            char tileType = move.charAt(2);
+            char placedTo = move.charAt(3);
+
+            boolean pickingValid = true;
+            boolean placingValid = true;
+
+            // The specified factory/centre contains at least one tile of the specified colour.
+            if (pickingFrom == 'C') {
+                if (!sharedState.getCentre().atLeastOneTile(tileType)) pickingValid =  false;
+            } else if (!sharedState.getFactory().atLeastOneTile(tileType,pickingFrom-'0')) pickingValid = false;
+
+            // 2. The storage row the tile is being placed in does not already contain a different colour.
+            // 3. The corresponding mosaic row does not already contain a tile of that colour.
+            if (placedTo != 'F') {
+                int rowPlaced = placedTo - '0';
+                placingValid = storage.isValidPlacement(tileType, rowPlaced) && !mosaic.isContained(tileType, rowPlaced);
+            }
+            return pickingValid && placingValid;
+        } else {
+            int rowPick = move.charAt(1) - '0';
+            char colPut = move.charAt(2);
+
+            // 1. The specified row in the Storage area is full.
+            if (!storage.rowIsComplete(rowPick)) return false;
+
+            // 2. The specified column does not already contain a tile of the same colour.
+            // 3. The specified location in the mosaic is empty.
+            if (colPut != 'F') {
+                char tileType = storage.getTileType()[rowPick].getTILE_TYPE();
+                return mosaic.isValidPlacement(tileType, rowPick, colPut - '0');
+            } else {
+                // if there is a valid move to the mosaic area, then the placement cannot be F
+                char tileType = storage.getTileType()[rowPick].getTILE_TYPE();
+                for (int c = 0; c < Mosaic.WIDTH; c++) {
+                    if (mosaic.isValidPlacement(tileType, rowPick, c)) return false;
+                }
+                return true;
+            }
+        }
     }
 
     /**

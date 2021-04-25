@@ -79,35 +79,6 @@ public class Floor {
         // TODO: FIX the function of floorAddTiles
     }
 
-
-
-    /**
-     * Get the lost points according to the number of tiles place in Floor
-     * Number of Tiles	Total Points Lost
-     * 1	            -1
-     * 2	            -2
-     * 3	            -4
-     * 4	            -6
-     * 5	            -8
-     * 6	            -11
-     * 7+	            -14
-     * @param floor the floor
-     * @return lost points
-     */
-    public static int getLostScore(Floor floor) {
-        int loss;
-        switch (floor.number) {
-            case 1 -> loss = -1;
-            case 2 -> loss = -2;
-            case 3 -> loss = -4;
-            case 4 -> loss = -6;
-            case 5 -> loss = -8;
-            case 6 -> loss = -11;
-            case 7 -> loss = -14;
-            default -> loss = 0;
-        }
-        return loss;
-    }
     /**
      * After scoring, moves the all tiles in the floor to the discard pile
      *

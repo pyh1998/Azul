@@ -81,29 +81,42 @@ public class Mosaic {
 
     /**
      * Check whether placement of tile to the mosaic is valid
-     *      * Each row and column of the mosaic may not contain more than one tile of the same colour
-     *      * (much like a sudoku).
-     *      *
-     *      * If you are unable to move a tile of a certain colour across because there is no valid space
-     *      * left for it, you must place all tiles from that row onto your floor instead.
-     * @param tile the tile to be placed to the mosaic pile
+     * Each row and column of the mosaic may not contain more than one tile of the same colour
+     * (much like a sudoku).
+     *
+     * @param tileType the type of tile to be placed to the mosaic pile
      * @param col the col number
-     * @param row teh row number
+     * @param row the row number
      */
-    public Boolean isValidPlacement(Tile tile, int col, int row) {
-        if (this.tiles[row][col] != null) return false; // check for the position
+    public Boolean isValidPlacement(char tileType, int row, int col) {
+        boolean isEmpty = this.tiles[row][col] == null;
+        boolean checkCol = true;
+        boolean checkRow = true;
 
         for (int r = 0; r < HEIGHT; r++) { // check for column
-            if ((this.tiles[r][col] != null) && (this.tiles[r][col].getTILE_COLOR() == tile.getTILE_COLOR())) {
-                return false;
-            }
+            if (this.tiles[r][col] != null && this.tiles[r][col].getTILE_TYPE() == tileType) checkCol = false;
         }
         for (int c = 0; c < WIDTH; c++) { // check for row
-            if ((this.tiles[row][c] != null) && (this.tiles[row][c].getTILE_COLOR() == tile.getTILE_COLOR())) {
-                return false;
+            if (this.tiles[row][c] != null && this.tiles[row][c].getTILE_TYPE() == tileType) checkRow = false;
+        }
+        return isEmpty && checkCol && checkRow;
+    }
+
+    /**
+     * Check whether a mosaic row contains a specific tile
+     *
+     * @param tileType the specific tile type
+     * @param row the row number
+     * @return whether a mosaic row contains a specific tile
+     */
+    public Boolean isContained(char tileType, int row) {
+        Tile[] tiles = this.tiles[row];
+        for (int c = 0 ; c < WIDTH; c++) {
+            if (tiles[c] != null && tiles[c].getTILE_TYPE() == tileType) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -113,4 +126,5 @@ public class Mosaic {
     public Tile[][] getTiles() {
         return tiles;
     }
+
 }

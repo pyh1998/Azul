@@ -109,15 +109,26 @@ public class Centre {
     }
 
     /**
-     * Select tiles of the color in the Centre based on the color
+     * Select tiles of the color in the Centre based on the color and also update the centre.
      *
      * @param id the Tile id player choose from Centre
+     * @param tile The kind of tile to choose
+     * @return selected tiles from the centre
      */
-    public void selectTiles(int id){
-
+    public Tile[] selectTiles(Tile tile, int id){
         //TODO FIX the function of selectTiles
+        return null;
     }
 
-
-
+    /**
+     * Check whether there is at least one tile of the specific type in centre
+     * @param tileType the specific type of tile
+     * @return whether there is at least one tile of the specific type
+     */
+    public boolean atLeastOneTile(char tileType) {
+        for (int i = 0; i < number; i++) {
+            if (this.tiles[i].getTILE_TYPE() == tileType) return true;
+        }
+        return false;
+    }
 }

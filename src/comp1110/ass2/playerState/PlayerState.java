@@ -203,6 +203,10 @@ public class PlayerState {
         return next;
     }
 
+    /**
+     * Check whether the end is end or not
+     * @return whether the end is end or not
+     */
     public boolean isEndOfGame(){
         Tile[][] tiles= this.mosaic.getTiles();
         for (Tile[] tile : tiles) {
