@@ -57,6 +57,24 @@ public class Floor {
     }
 
     /**
+     *Get the lose points by the number of tiles in Floor
+     * @return the lose points (negative)
+     */
+    public int getLostPoint(){
+        return switch (this.number) {
+            case 0 -> 0;
+            case 1 -> -1;
+            case 2 -> -2;
+            case 3 -> -4;
+            case 4 -> -6;
+            case 5 -> -8;
+            case 6 -> -11;
+            //>=7
+            default -> -14;
+        };
+    }
+
+    /**
      * Get the state string of the floor
      *
      * @return the state string of the floor

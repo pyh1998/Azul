@@ -63,11 +63,10 @@ public class PlayerState {
             if (indexM == -1 || indexS == -1 || indexF == -1 || indexM > indexS || indexS > indexF) return false;
 
             // A20Ma02a13b00e42S2a13e44a1FaabbeB30Mc01b11d21S0e12b2F
-            String playerStr = playerStateStr.substring(0, 1);
-            if(!Player.isWellFormedPlayer(playerStr)) return false;
-            // part 1: score:
-            String scoreStr = playerStateStr.substring(1, indexM);
-            if(!Player.isWellFormedScore(scoreStr)) return false;
+
+            // part 1: player:
+            String playerStr = playerStateStr.substring(0, indexM);
+            if(!Player.isWellFormed(playerStr)) return false;
 
             // part 2: mosaic:
             String mosaicStr = playerStateStr.substring(indexM, indexS);
@@ -168,25 +167,7 @@ public class PlayerState {
         return bonusScore;
     }
 
-    /**
-     *Get the lose points by the number of tiles in Floor
-     * @return the lose points (negative)
-     */
-    public int getLosePoint(){
-        int number = this.floor.getNumber();
 
-        return switch (number) {
-            case 0 -> 0;
-            case 1 -> -1;
-            case 2 -> -2;
-            case 3 -> -4;
-            case 4 -> -6;
-            case 5 -> -8;
-            case 6 -> -11;
-            //>=7
-            default -> -14;
-        };
-    }
 
     /**
      * get the next player char
