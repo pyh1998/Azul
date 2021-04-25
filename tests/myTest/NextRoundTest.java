@@ -38,7 +38,7 @@ public class NextRoundTest {
 
     @Test
     public void FloorToDiscardTest() {
-        String strF = "Faabbc";
+        String strF = "Faabbcf";
         String strD = "D0000000000";
         //Check if the string of floor and discard is valid
         assertTrue(Floor.isWellFormed(strF));

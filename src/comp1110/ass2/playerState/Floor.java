@@ -3,6 +3,8 @@ package comp1110.ass2.playerState;
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.sharedState.Discard;
 
+import java.util.Arrays;
+
 public class Floor {
     /**
      * Field MAX_LENGTH: The maximum number of tiles that the Floor can hold
@@ -102,7 +104,9 @@ public class Floor {
      *
      */
     public Tile[] moveTilesToDiscard() {
-        Tile[] tilesToDiscard = this.tiles;
+        Tile[] tilesToDiscard;
+        if(tiles[number - 1] == Tile.FIRST_PLAYER) tilesToDiscard = Arrays.copyOf(tiles,number - 1);
+        else tilesToDiscard = this.tiles;
         this.number = 0;
         this.tiles = new Tile[number];
         return tilesToDiscard;
