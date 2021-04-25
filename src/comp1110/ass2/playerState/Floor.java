@@ -3,6 +3,8 @@ package comp1110.ass2.playerState;
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.sharedState.Discard;
 
+import java.util.Arrays;
+
 public class Floor {
     /**
      * Field MAX_LENGTH: The maximum number of tiles that the Floor can hold
@@ -57,6 +59,24 @@ public class Floor {
     }
 
     /**
+     *Get the lose points by the number of tiles in Floor
+     * @return the lose points (negative)
+     */
+    public int getLostPoint(){
+        return switch (this.number) {
+            case 0 -> 0;
+            case 1 -> -1;
+            case 2 -> -2;
+            case 3 -> -4;
+            case 4 -> -6;
+            case 5 -> -8;
+            case 6 -> -11;
+            //>=7
+            default -> -14;
+        };
+    }
+
+    /**
      * Get the state string of the floor
      *
      * @return the state string of the floor
@@ -80,11 +100,13 @@ public class Floor {
     }
 
     /**
-     * After scoring, moves the all tiles in the floor to the discard pile
+     * After scoring, moves the all tiles except first-player-token in the floor to the discard pile
      *
      */
     public Tile[] moveTilesToDiscard() {
-        Tile[] tilesToDiscard = this.tiles;
+        Tile[] tilesToDiscard;
+        if(tiles[number - 1] == Tile.FIRST_PLAYER) tilesToDiscard = Arrays.copyOf(tiles,number - 1);
+        else tilesToDiscard = this.tiles;
         this.number = 0;
         this.tiles = new Tile[number];
         return tilesToDiscard;

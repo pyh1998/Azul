@@ -33,25 +33,17 @@ public class Player {
     /**
      * Check if the state string of player is well formed
      *
-     * @param playStr the state string of the Player
+     * @param playerStr the state string of the Player
      * @return return ture if the string is well-formed and return false if it is not well-formed
      */
-    public static boolean isWellFormedPlayer(String playStr){
-        if((playStr.equals("A") || playStr.equals("B") || playStr.equals("C") || playStr.equals("D"))){
-            return true;
+    public static boolean isWellFormed(String playerStr){
+        String p = playerStr.substring(0,1);
+        String s = playerStr.substring(1);
+        if(!(p.equals("A") || p.equals("B") || p.equals("C") || p.equals("D"))){
+            return false;
         }
-        return false;
-    }
-
-    /**
-     * Check if the state string of score is well formed
-     *
-     * @param scoreStr the state string of the score
-     * @return return ture if the string is well-formed and return false if it is not well-formed
-     */
-    public static boolean isWellFormedScore(String scoreStr){
-        for (int i = 1; i < scoreStr.length(); i++) {
-            if (!Character.isDigit(scoreStr.charAt(i))) {
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) {
                 return false;
             }
         }

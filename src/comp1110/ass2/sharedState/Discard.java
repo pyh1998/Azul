@@ -145,9 +145,7 @@ public class Discard {
     public void getTileFromFloor(Tile[] tiles){
         this.totalNum += tiles.length;
         for (Tile tile : tiles) {
-            if (!tile.isFirstPlayerTile()) {
-                this.tile_num[tile.getTILE_ID()]++;
-            }
+            this.tile_num[tile.getTILE_ID()]++;
         }
     }
 
