@@ -1,5 +1,6 @@
 package comp1110.ass2;
 
+import com.sun.media.jfxmedia.events.PlayerStateEvent;
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.playerState.Mosaic;
 import comp1110.ass2.playerState.PlayerState;
@@ -9,8 +10,10 @@ import comp1110.ass2.sharedState.SharedState;
 public class Azul {
 
 
-    public static SharedState sharedState;
-    public static PlayerState[] playerState;
+    public static SharedState sharedState = new SharedState("AFCfB2020202020D0000000000");
+    public static PlayerState[] playerState = PlayerState.getAllPlayerStates("A0MSFB0MSF");
+    public static String lastShareState = "";
+    public static String lastPlayerState = "";
 
 
 
@@ -414,6 +417,62 @@ public class Azul {
      * TASK 11
      */
     public static String[] applyMove(String[] gameState, String move) {
+        //Drafting move:B1a1 BCa1 BCaF...
+        //Tiling move:A30
+
+        //Initialization the shareState and playerState
+        if(lastShareState.equals(sharedState.getStateStr())){
+            sharedState = new SharedState(gameState[0]);
+            lastShareState = sharedState.getStateStr();
+        }
+        if(lastPlayerState.equals(PlayerState.getAllStateStr(playerState))){
+            playerState = PlayerState.getAllPlayerStates(gameState[0]);
+            lastPlayerState = PlayerState.getAllStateStr(playerState);
+        }
+
+        //Drafting move: A1a1 BCa1 BCaF
+//     * If the move is a Drafting move, you must also move any remaining tiles
+//     * from the specified factory into the centre.
+//     * If the move is a Drafting move and you must put tiles onto the floor,
+//     * any tiles that cannot fit on the floor are placed in the discard with
+//     * the following exception:
+//     * If the first player tile would be placed into the discard, it is instead
+//     * swapped with the last tile in the floor, when the floor is sorted
+//     * alphabetically.
+        if (move.length() == 4) {
+            char player = move.charAt(0);
+            char pickingFrom = move.charAt(1);
+            char tileType = move.charAt(2);
+            char placedTo = move.charAt(3);
+
+            //select tiles from centre
+            if(pickingFrom == 'C'){
+                if(placedTo == 'F'){
+                    //select tiles to Floor ACaF
+                }
+                else{
+                    //select tiles to Storage ACa1
+                }
+            }
+            //select tiles from factory
+            else{
+                if(placedTo == 'F'){
+                    //select tiles to Floor A1aF
+                }
+                else{
+                    //select tiles to Storage A1a1
+                }
+            }
+
+
+
+
+        }
+        // Tiling move: A30
+        else{
+
+        }
+
         // FIXME Task 11
         return null;
     }

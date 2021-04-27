@@ -133,4 +133,16 @@ public class Floor {
     public Tile[] getTiles() {
         return tiles;
     }
+
+    /**
+     * check if the floor is full
+     * @return return true if the floor is true
+     */
+    public boolean isFull(){
+        return this.number == 7;
+    }
+
+    public void getTiles(int num,char type){
+
+    }
 }

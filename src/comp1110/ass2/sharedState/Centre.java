@@ -116,13 +116,27 @@ public class Centre {
     /**
      * Select tiles of the color in the Centre based on the color and also update the centre.
      *
-     * @param id the Tile id player choose from Centre
-     * @param tile The kind of tile to choose
-     * @return selected tiles from the centre
+     * @param ch the Tile char player choose from Centre
+     * @return the number of selected tiles from the centre
      */
-    public Tile[] selectTiles(Tile tile, int id){
-        //TODO FIX the function of selectTiles
-        return null;
+    public int selectTilesFromCentre(char ch){
+        int count = 0;
+        for(int i=0;i<tiles.length;i++){
+            if(tiles[i].getTILE_TYPE() == ch){
+                count++;
+                tiles[i] = null;
+                number--;
+            }
+        }
+        Tile[] newTiles =new Tile[number];
+        int index = 0;
+        for(Tile tile : tiles){
+            if(tile != null){
+                newTiles[index++]=tile;
+            }
+        }
+        this.tiles = newTiles;
+        return count;
     }
 
     /**

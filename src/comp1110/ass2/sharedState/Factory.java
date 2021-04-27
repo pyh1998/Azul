@@ -2,7 +2,9 @@ package comp1110.ass2.sharedState;
 
 import comp1110.ass2.Tile.Tile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Factory {
     /**
@@ -77,7 +79,7 @@ public class Factory {
         StringBuilder state = new StringBuilder();
         state.append('F');
         for (int i = 0; i < tiles.length; i++) {
-            if(tiles[i][0] != null){
+            if(tiles[i][0] != null || tiles[i][1] != null ||tiles[i][2] != null  || tiles[i][3] != null){
                 state.append(i);
             }
             for (Tile tile : tiles[i]) {
@@ -99,24 +101,6 @@ public class Factory {
     }
 
     /**
-     *Set tiles of factory
-     *
-     */
-    public void setTiles(Tile[][] tiles) {
-        this.tiles = tiles;
-    }
-
-    /**
-     * Select tiles of the color in the current factory based on the color
-     *
-     * @param id the Tile id player choose from this factory
-     */
-    public Tile[] selectTiles(Tile tile, int id) {
-        //TODO FIX the function of selectTiles
-        return null;
-    }
-
-    /**
      * Get tiles to Factory from Bag
      *
      * @return Array of the tiles from Bag
@@ -133,6 +117,44 @@ public class Factory {
         }
 
     }
+
+    /**
+     * Select tiles of the color in the current factory based on the color
+     * @param id the id of factory that be selected
+     * @param ch the Tile char player choose from this factory
+     * @return the number of tiles of same type
+     */
+    public int selectTilesToStorageOrFloor(int id,char ch) {
+        int count = 0;
+        for(int i=0;i<tiles[id].length;i++){
+            if(tiles[id][i].getTILE_TYPE() == ch) {
+                count++;
+                tiles[id][i] = null;
+                totalNum--;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * get the remaining tiles need to move to centre from factory
+     * @param id the id of factory that be selected
+     * @param ch the Tile char player choose from this factory
+     * @return the array of tiles that need to move to centre
+     */
+    public Tile[] remainTilesToCentre(int id,char ch){
+        Tile[] remainTiles = new Tile[FACTORY_CAPACITY - selectTilesToStorageOrFloor(id,ch)];
+        int index=0;
+        for(int i=0;i<tiles[id].length;i++){
+            if(tiles[id][i] != null) {
+                remainTiles[index++] = tiles[id][i];
+                tiles[id][i] = null;
+                totalNum--;
+            }
+        }
+        return remainTiles;
+    }
+
 
     /**
      * Move the unselected tiles to Centre
