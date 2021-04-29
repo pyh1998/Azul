@@ -53,8 +53,11 @@ public class Factory {
         if ((factoryStr.length() - 1) % 5 != 0) {
             return false;
         }
-        for (int i = 1; i < factoryStr.length(); i += 5) {
-            if (!Character.isDigit(factoryStr.charAt(i))) {
+        for (int i = 1; i < factoryStr.length(); i ++) {
+            if (i % 5 == 1 && !Character.isDigit(factoryStr.charAt(i))) {
+                return false;
+            }
+            else if (i % 5 != 1 && factoryStr.charAt(i) != 'a' && factoryStr.charAt(i) != 'b' && factoryStr.charAt(i) != 'c' && factoryStr.charAt(i) != 'd' && factoryStr.charAt(i) != 'e'){
                 return false;
             }
         }
@@ -119,6 +122,8 @@ public class Factory {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Select tiles of the color in the current factory based on the color
      * @param id the id of factory that be selected
      * @param ch the Tile char player choose from this factory
