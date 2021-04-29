@@ -167,6 +167,8 @@ public class Floor {
         Arrays.sort(this.tiles);
     }
 
+
+
     public Tile[] getRemainTiles(int num,char type){
         Tile[] remain = new Tile[0];
         if(type == 'f' && this.number == MAX_LENGTH) remain = new Tile[]{tiles[number - 1]};

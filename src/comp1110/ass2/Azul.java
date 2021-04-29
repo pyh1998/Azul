@@ -448,7 +448,7 @@ public class Azul {
 
             //select tiles from centre
             if(pickingFrom == 'C'){
-                if(sharedState.getCentre().hasFirst()) playerState[player-'A'].getFloor().addTilesToFloor(1,'f');
+                if(sharedState.getCentre().hasFirst()) playerState[player-'A'].getFloor().addTilesToFloor(sharedState.getCentre().selectTilesFromCentre('f'),'f');
                 if(placedTo == 'F'){
                     //select tiles to Floor ACaF
                     int selectTilesNum = sharedState.getCentre().selectTilesFromCentre(tileType);
@@ -493,7 +493,9 @@ public class Azul {
                     }
                 }
             }
-            sharedState.nextPlayer();
+            if(!sharedState.getFactory().isEmpty() || !sharedState.getCentre().isEmpty()){
+                sharedState.nextPlayer();
+            }
         }
         // Tiling move: A30
         else{
@@ -507,8 +509,8 @@ public class Azul {
     }
 
     public static void main(String[] args) {
-        String[] gameState = {"AF0cdee1bdde2abbe3bcde4aaaeCfB1616181614D0000000000", "A0MSFB0MSF"};
-        String move = "A2a4";
+        String[] gameState = {"AFCeeeeeB1616181614D0000000000", "A0MS1b22c13a34a1FbB0MS0c11b12e13d4Ff"};
+        String move = "ACe0";
         String[] gameState2 = applyMove(gameState,move);
     }
 
