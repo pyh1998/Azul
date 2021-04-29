@@ -38,9 +38,18 @@ Jiawen Wang: Mainly focus on Task 5 and 6
 D2C: Assignment 2, Stage C due Monday 7:00
 
 ## Week 8
+D2D: Assignment 2, Stage D due Monday 7:00
 
+Meeting time: 9:00 29 Apr
+
+Everyone: package the program as a JAR file called game.jar and discuss the reviewers for each member's code.
 ## Week 9
+D2E: Assignment 2, Stage E due Monday 7:00
 
 ## Week 10
 
 ## Week 11
+D2F: Assignment 2, Stage F due Friday 9:45
+
+## Week 12
+D2G: Assignment 2, Stage G due Monday 7:00
