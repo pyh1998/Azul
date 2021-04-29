@@ -509,8 +509,8 @@ public class Azul {
     }
 
     public static void main(String[] args) {
-        String[] gameState = {"AFCeeeeeB1616181614D0000000000", "A0MS1b22c13a34a1FbB0MS0c11b12e13d4Ff"};
-        String move = "ACe0";
+        String[] gameState = {"BF0cdee1bdde3bcde4aaaeCbbefB1616181614D0000000000", "A0MS4a1FB0MSF"};
+        String move = "BCe2";
         String[] gameState2 = applyMove(gameState,move);
     }
 

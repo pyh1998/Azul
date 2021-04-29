@@ -128,17 +128,14 @@ public class Centre {
      * @return the number of selected tiles from the centre
      */
     public int selectTilesFromCentre(char ch){
-        if(hasFirst()) {
-            this.number--;
-        }
         int count = 0;
         for(int i=0;i<this.number;i++){
             if(tiles[i].getTILE_TYPE() == ch){
                 count++;
                 tiles[i] = null;
-                number--;
             }
         }
+        this.number -= count;
         Tile[] newTiles =new Tile[number];
         int index = 0;
         for(Tile tile : tiles){
