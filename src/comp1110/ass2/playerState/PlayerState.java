@@ -167,8 +167,6 @@ public class PlayerState {
         return bonusScore;
     }
 
-
-
     /**
      * get the next player char
      * @param players the array of PlayerState

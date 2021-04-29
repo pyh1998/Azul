@@ -3,7 +3,10 @@ package comp1110.ass2.gui;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class Game extends Application {
     /* board layout */
@@ -17,7 +20,6 @@ public class Game extends Application {
         stage.setTitle("Azul");
         Group root = new Group();
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
-
         stage.setScene(scene);
         stage.show();
     }
