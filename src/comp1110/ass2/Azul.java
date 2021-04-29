@@ -431,17 +431,8 @@ public class Azul {
         sharedState = new SharedState(gameState[0]);
         playerState = PlayerState.getAllPlayerStates(gameState[1]);
 
-        //Drafting move: A1a1 BCa1 BCaF
-//     * If the move is a Drafting move, you must also move any remaining tiles
-//     * from the specified factory into the centre.
-//     * If the move is a Drafting move and you must put tiles onto the floor,
-//     * any tiles that cannot fit on the floor are placed in the discard with
-//     * the following exception:
-//     * If the first player tile would be placed into the discard, it is instead
-//     * swapped with the last tile in the floor, when the floor is sorted
-//     * alphabetically.
+        char player = move.charAt(0);
         if (move.length() == 4) {
-            char player = move.charAt(0);
             char pickingFrom = move.charAt(1);
             char tileType = move.charAt(2);
             char placedTo = move.charAt(3);
@@ -449,68 +440,75 @@ public class Azul {
             //select tiles from centre
             if(pickingFrom == 'C'){
                 if(sharedState.getCentre().hasFirst()) playerState[player-'A'].getFloor().addTilesToFloor(sharedState.getCentre().selectTilesFromCentre('f'),'f');
-                if(placedTo == 'F'){
-                    //select tiles to Floor ACaF
-                    int selectTilesNum = sharedState.getCentre().selectTilesFromCentre(tileType);
-                    Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(selectTilesNum,tileType);
-                    playerState[player-'A'].getFloor().addTilesToFloor(selectTilesNum,tileType);
-                    if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
-                }
-                else{
-                    //select tiles to Storage ACa1
-                    int selectTilesNum = sharedState.getCentre().selectTilesFromCentre(tileType);
-                    int remainTilesNum = playerState[player-'A'].getStorage().getRemainTiles(placedTo - '0',selectTilesNum,tileType);
-                    playerState[player-'A'].getStorage().addTilesToStorage(placedTo - '0',selectTilesNum,tileType);
-                    if(remainTilesNum > 0){
-                        Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(remainTilesNum,tileType);
-                        playerState[player-'A'].getFloor().addTilesToFloor(remainTilesNum,tileType);
-                        if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
-                    }
-                }
+                int selectTilesNum = sharedState.getCentre().selectTilesFromCentre(tileType);
+                moveTileToFloorOrStorage(player, tileType, placedTo, selectTilesNum);
             }
             //select tiles from factory
             else{
-                if(placedTo == 'F'){
-                    //select tiles to Floor A1aF
-                    Tile[] factoryRemain = sharedState.getFactory().remainTilesToCentre(pickingFrom-'0',tileType);
-                    sharedState.getCentre().addTiles(factoryRemain);
-                    int selectTilesNum =sharedState.getFactory().selectTilesFromFactory(pickingFrom-'0',tileType);
-                    Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(selectTilesNum,tileType);
-                    playerState[player-'A'].getFloor().addTilesToFloor(selectTilesNum,tileType);
-                    if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
-                }
-                else{
-                    //select tiles to Storage A1a1
-                    Tile[] factoryRemain = sharedState.getFactory().remainTilesToCentre(pickingFrom-'0',tileType);
-                    sharedState.getCentre().addTiles(factoryRemain);
-                    int selectTilesNum =sharedState.getFactory().selectTilesFromFactory(pickingFrom-'0',tileType);
-                    int remainTilesNum = playerState[player-'A'].getStorage().getRemainTiles(placedTo - '0',selectTilesNum,tileType);
-                    playerState[player-'A'].getStorage().addTilesToStorage(placedTo - '0',selectTilesNum,tileType);
-                    if(remainTilesNum > 0){
-                        Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(remainTilesNum,tileType);
-                        playerState[player-'A'].getFloor().addTilesToFloor(remainTilesNum,tileType);
-                        if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
-                    }
-                }
+                Tile[] factoryRemain = sharedState.getFactory().remainTilesToCentre(pickingFrom-'0',tileType);
+                sharedState.getCentre().addTiles(factoryRemain);
+                int selectTilesNum =sharedState.getFactory().selectTilesFromFactory(pickingFrom-'0',tileType);
+                moveTileToFloorOrStorage(player, tileType, placedTo, selectTilesNum);
             }
             if(!sharedState.getFactory().isEmpty() || !sharedState.getCentre().isEmpty()){
                 sharedState.nextPlayer();
             }
         }
-        // Tiling move: A30
+        // Tiling move: A30,A3F
         else{
+            int pickingFrom = move.charAt(1) - '0';
+            char placedTo = move.charAt(2);
 
+            char tileType = playerState[player-'A'].getStorage().getTileTypeByRow(pickingFrom);
+            if(placedTo == 'F'){
+                //Storage to Floor
+                moveTileToFloorOrStorage(player, tileType, placedTo, pickingFrom);
+            }
+            else{
+                //Storage to Mosaic
+                playerState[player-'A'].getMosaic().tillingTileToMosaic(tileType,pickingFrom,placedTo-'0');
+                sharedState.getDiscard().getTileFromStorage(tileType,pickingFrom);
+                playerState[player-'A'].getPlayer().updateScore(playerState[player-'A'].getMosaic().getTillingScore(pickingFrom,placedTo-'0'));
+                if(!playerState[player-'A'].getStorage().hasFullRow()) sharedState.nextPlayer();
+            }
         }
-
-        gameState[0] = sharedState.getStateStr();
-        gameState[1] = PlayerState.getAllStateStr(playerState);
+        String[] newState = new String[2];
+        newState[0] = sharedState.getStateStr();
+        newState[1] = PlayerState.getAllStateStr(playerState);
         // FIXME Task 11
-        return gameState;
+        return newState;
+    }
+
+    /**
+     * Move tile to Floor or storage
+     *
+     * @param player the char represented current player
+     * @param tileType the moving tile type
+     * @param placedTo the moving place to
+     * @param selectTilesNum the number of selected tiles
+     */
+    private static void moveTileToFloorOrStorage(char player, char tileType, char placedTo, int selectTilesNum) {
+        if(placedTo == 'F'){
+            //select tiles to Floor ACaF
+            Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(selectTilesNum,tileType);
+            playerState[player-'A'].getFloor().addTilesToFloor(selectTilesNum,tileType);
+            if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
+        }
+        else{
+            //select tiles to Storage ACa1
+            int remainTilesNum = playerState[player-'A'].getStorage().getRemainTiles(placedTo - '0',selectTilesNum,tileType);
+            playerState[player-'A'].getStorage().addTilesToStorage(placedTo - '0',selectTilesNum,tileType);
+            if(remainTilesNum > 0){
+                Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(remainTilesNum,tileType);
+                playerState[player-'A'].getFloor().addTilesToFloor(remainTilesNum,tileType);
+                if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
+            }
+        }
     }
 
     public static void main(String[] args) {
-        String[] gameState = {"BF0cdee1bdde3bcde4aaaeCbbefB1616181614D0000000000", "A0MS4a1FB0MSF"};
-        String move = "BCe2";
+        String[] gameState = {"BFCB0807111004D0002050609", "A0Me04b11c21S0b11d22a23a44a4FaeeeefB3Mc02e03d04e24d33S1b22c23b44a1Fbbb"};
+        String move = "B14";
         String[] gameState2 = applyMove(gameState,move);
     }
 

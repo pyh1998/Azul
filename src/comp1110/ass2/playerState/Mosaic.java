@@ -69,15 +69,7 @@ public class Mosaic {
         }
         return state.toString();
     }
-    /**
-     * Perform a valid tiling move
-     * @param tile the tile to be placed
-     * @param col the col number
-     * @param row the row number
-     */
-    public void addTileToMosaic(Tile tile, int col, int row) {
-        this.tiles[col][row] = tile;
-    }
+
 
     /**
      * Check whether placement of tile to the mosaic is valid
@@ -126,6 +118,54 @@ public class Mosaic {
      */
     public Tile[][] getTiles() {
         return tiles;
+    }
+
+    /**
+     * Perform a valid tiling move
+     * @param type the tile type to be placed
+     * @param col the col number
+     * @param row the row number
+     */
+    public void tillingTileToMosaic(char type,int row,int col){
+        this.tiles[row][col] = Tile.CharToTile(type);
+    }
+
+    /**
+     * get the score need be added after tilling
+
+     * @param col the col number
+     * @param row the row number
+     */
+    public int getTillingScore(int row,int col){
+        int count = 1;
+        boolean rowFlag = false;
+        boolean colFlag = false;
+        int right = col + 1;
+        int left = col - 1;
+        int down = row + 1;
+        int up = row - 1;
+        while(right < WIDTH && tiles[row][right] != null){
+            count++;
+            right++;
+            rowFlag = true;
+        }
+        while(left >= 0 && tiles[row][left] != null){
+            count++;
+            left--;
+            rowFlag = true;
+        }
+        while(down < HEIGHT && tiles[down][col] != null){
+            count++;
+            down++;
+            colFlag = true;
+        }
+        while(up >= 0 && tiles[up][col] != null){
+            count++;
+            up--;
+            colFlag = true;
+        }
+        if(rowFlag && colFlag) count++;
+        return count;
     }
 
 }

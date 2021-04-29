@@ -146,6 +146,13 @@ public class Storage {
         return remainNum;
     }
 
+    public char getTileTypeByRow(int row){
+        char type = tileType[row].getTILE_TYPE();
+        tileNumber[row] = 0;
+        tileType[row] = null;
+        return type;
+    }
+
     /**
      * Decide whether a placement of tiles in the storage is valid.
      *

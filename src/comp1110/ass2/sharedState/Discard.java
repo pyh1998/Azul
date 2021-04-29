@@ -149,4 +149,9 @@ public class Discard {
         }
     }
 
+    public void getTileFromStorage(char type,int num){
+        this.totalNum += num;
+        this.tile_num[Tile.CharToTile(type).getTILE_ID()] += num;
+    }
+
 }
