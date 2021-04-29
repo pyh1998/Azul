@@ -82,6 +82,12 @@ public class SharedState {
         this.player = player;
     }
 
+    public void nextPlayer(){
+        if(player == 'A') player = 'B';
+        else if(player == 'B') player = 'A';
+        //TODO Fix the function with 4 players
+    }
+
     /**
      * Get the string representing {Player}{Factory}{Centre}{Bag}{Discard}
      *

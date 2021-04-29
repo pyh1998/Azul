@@ -1,6 +1,5 @@
 package comp1110.ass2;
 
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.playerState.Mosaic;
 import comp1110.ass2.playerState.PlayerState;
@@ -12,8 +11,8 @@ public class Azul {
 
     public static SharedState sharedState = new SharedState("AFCfB2020202020D0000000000");
     public static PlayerState[] playerState = PlayerState.getAllPlayerStates("A0MSFB0MSF");
-    public static String lastShareState = "";
-    public static String lastPlayerState = "";
+    public static String lastShareState;
+    public static String lastPlayerState;
 
 
 
@@ -420,15 +419,17 @@ public class Azul {
         //Drafting move:B1a1 BCa1 BCaF...
         //Tiling move:A30
 
-        //Initialization the shareState and playerState
-        if(lastShareState.equals(sharedState.getStateStr())){
-            sharedState = new SharedState(gameState[0]);
-            lastShareState = sharedState.getStateStr();
-        }
-        if(lastPlayerState.equals(PlayerState.getAllStateStr(playerState))){
-            playerState = PlayerState.getAllPlayerStates(gameState[0]);
-            lastPlayerState = PlayerState.getAllStateStr(playerState);
-        }
+//        //Initialization the shareState and playerState
+//        if(lastShareState == null || lastShareState.equals(sharedState.getStateStr())){
+//            sharedState = new SharedState(gameState[0]);
+//            lastShareState = sharedState.getStateStr();
+//        }
+//        if(lastPlayerState == null || lastPlayerState.equals(PlayerState.getAllStateStr(playerState))){
+//            playerState = PlayerState.getAllPlayerStates(gameState[0]);
+//            lastPlayerState = PlayerState.getAllStateStr(playerState);
+//        }
+        sharedState = new SharedState(gameState[0]);
+        playerState = PlayerState.getAllPlayerStates(gameState[1]);
 
         //Drafting move: A1a1 BCa1 BCaF
 //     * If the move is a Drafting move, you must also move any remaining tiles
@@ -447,34 +448,68 @@ public class Azul {
 
             //select tiles from centre
             if(pickingFrom == 'C'){
+                if(sharedState.getCentre().hasFirst()) playerState[player-'A'].getFloor().addTilesToFloor(1,'f');
                 if(placedTo == 'F'){
                     //select tiles to Floor ACaF
+                    int selectTilesNum = sharedState.getCentre().selectTilesFromCentre(tileType);
+                    Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(selectTilesNum,tileType);
+                    playerState[player-'A'].getFloor().addTilesToFloor(selectTilesNum,tileType);
+                    if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
                 }
                 else{
                     //select tiles to Storage ACa1
+                    int selectTilesNum = sharedState.getCentre().selectTilesFromCentre(tileType);
+                    int remainTilesNum = playerState[player-'A'].getStorage().getRemainTiles(placedTo - '0',selectTilesNum,tileType);
+                    playerState[player-'A'].getStorage().addTilesToStorage(placedTo - '0',selectTilesNum,tileType);
+                    if(remainTilesNum > 0){
+                        Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(remainTilesNum,tileType);
+                        playerState[player-'A'].getFloor().addTilesToFloor(remainTilesNum,tileType);
+                        if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
+                    }
                 }
             }
             //select tiles from factory
             else{
                 if(placedTo == 'F'){
                     //select tiles to Floor A1aF
+                    Tile[] factoryRemain = sharedState.getFactory().remainTilesToCentre(pickingFrom-'0',tileType);
+                    sharedState.getCentre().addTiles(factoryRemain);
+                    int selectTilesNum =sharedState.getFactory().selectTilesFromFactory(pickingFrom-'0',tileType);
+                    Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(selectTilesNum,tileType);
+                    playerState[player-'A'].getFloor().addTilesToFloor(selectTilesNum,tileType);
+                    if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
                 }
                 else{
                     //select tiles to Storage A1a1
+                    Tile[] factoryRemain = sharedState.getFactory().remainTilesToCentre(pickingFrom-'0',tileType);
+                    sharedState.getCentre().addTiles(factoryRemain);
+                    int selectTilesNum =sharedState.getFactory().selectTilesFromFactory(pickingFrom-'0',tileType);
+                    int remainTilesNum = playerState[player-'A'].getStorage().getRemainTiles(placedTo - '0',selectTilesNum,tileType);
+                    playerState[player-'A'].getStorage().addTilesToStorage(placedTo - '0',selectTilesNum,tileType);
+                    if(remainTilesNum > 0){
+                        Tile[] remainTiles = playerState[player-'A'].getFloor().getRemainTiles(remainTilesNum,tileType);
+                        playerState[player-'A'].getFloor().addTilesToFloor(remainTilesNum,tileType);
+                        if(remainTiles.length !=0) sharedState.getDiscard().getTileFromFloor(remainTiles);
+                    }
                 }
             }
-
-
-
-
+            sharedState.nextPlayer();
         }
         // Tiling move: A30
         else{
 
         }
 
+        gameState[0] = sharedState.getStateStr();
+        gameState[1] = PlayerState.getAllStateStr(playerState);
         // FIXME Task 11
-        return null;
+        return gameState;
+    }
+
+    public static void main(String[] args) {
+        String[] gameState = {"AF0cdee1bdde2abbe3bcde4aaaeCfB1616181614D0000000000", "A0MSFB0MSF"};
+        String move = "A2a4";
+        String[] gameState2 = applyMove(gameState,move);
     }
 
     /**

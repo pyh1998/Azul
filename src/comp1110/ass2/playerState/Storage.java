@@ -122,19 +122,28 @@ public class Storage {
     /**
      * After picking up tiles, add them to one of the five storage rows
      *
-     * @param tiles an array of tiles to be added to the storage
-     * @param rowNumber the row number to add the tiles
+     * @param rowNum the row number to add the tiles
+     * @param tileNum the number of tiles that need to be added to storage
+     * @param type the type of tiles that need to be added to storage
+     *
+     * @return the remain number of tiles need to add to floor
      */
-    public void addTiles (Tile[] tiles, int rowNumber) {
-        // TODO FIX the function of addTiles
-        if (this.tileType[rowNumber] == null) {
-            this.tileType[rowNumber] = tiles[0];
-            this.tileNumber[rowNumber] = Math.min(tiles.length, rowNumber + 1);
-        } else {
-            int numToPlace = rowNumber + 1 - this.tileNumber[rowNumber];
-            int extra = tiles.length - numToPlace;
-            this.tileNumber[rowNumber] = Math.min(tiles.length + tileNumber[rowNumber], rowNumber + 1);
+    public void addTilesToStorage (int rowNum,int tileNum,char type) {
+        if (this.tileType[rowNum] == null) {
+            this.tileType[rowNum] = Tile.CharToTile(type);
+            this.tileNumber[rowNum] = Math.min(tileNum, rowNum + 1);
         }
+        else {
+            this.tileNumber[rowNum] = Math.min(tileNum + tileNumber[rowNum], rowNum + 1);
+        }
+    }
+
+    public int getRemainTiles(int rowNum,int tileNum,char type){
+        int remainNum = 0;
+        if(tileNumber[rowNum] + tileNum > rowNum + 1){
+            remainNum = tileNumber[rowNum] + tileNum - (rowNum + 1);
+        }
+        return remainNum;
     }
 
     /**
@@ -162,5 +171,6 @@ public class Storage {
         this.tileType[rowNumber] = null;
         this.tileNumber[rowNumber] = Integer.parseInt(null);
     }
+
 
 }

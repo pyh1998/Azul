@@ -2,6 +2,11 @@ package comp1110.ass2.sharedState;
 
 import comp1110.ass2.Tile.Tile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Centre {
 
     /**
@@ -67,12 +72,8 @@ public class Centre {
     public String getStateStr() {
         StringBuilder state = new StringBuilder();
         state.append('C');
-        char[] tileChar = new char[tiles.length];
-        for (int i=0;i<tiles.length;i++) {
-            tileChar[i] = tiles[i].getTILE_TYPE();
-        }
-        for(char ch : tileChar){
-            state.append(ch);
+        for (Tile tile : tiles) {
+            state.append(tile.getTILE_TYPE());
         }
         return state.toString();
     }
@@ -102,15 +103,22 @@ public class Centre {
         return tiles;
     }
 
+    public boolean hasFirst() {
+        return tiles[number-1] == Tile.FIRST_PLAYER;
+    }
+
     /**
      * Add tiles to Centre from Factory
      * Update the array of tiles
      *
-     * @param tiles the array of tiles from Factory
+     * @param addTiles the array of tiles from Factory
      */
-    public void addTiles(Tile[] tiles){
-        this.number += tiles.length;
-        //TODO FIX the function of addTiles
+    public void addTiles(Tile[] addTiles){
+        List<Tile> list = new ArrayList<>(Arrays.asList(tiles));
+        this.number += addTiles.length;
+        Collections.addAll(list, addTiles);
+        tiles = list.toArray(new Tile[number]);
+        Arrays.sort(tiles);
     }
 
     /**
@@ -120,8 +128,11 @@ public class Centre {
      * @return the number of selected tiles from the centre
      */
     public int selectTilesFromCentre(char ch){
+        if(hasFirst()) {
+            this.number--;
+        }
         int count = 0;
-        for(int i=0;i<tiles.length;i++){
+        for(int i=0;i<this.number;i++){
             if(tiles[i].getTILE_TYPE() == ch){
                 count++;
                 tiles[i] = null;
@@ -131,7 +142,7 @@ public class Centre {
         Tile[] newTiles =new Tile[number];
         int index = 0;
         for(Tile tile : tiles){
-            if(tile != null){
+            if(tile != null && tile!= Tile.FIRST_PLAYER){
                 newTiles[index++]=tile;
             }
         }

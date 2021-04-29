@@ -124,10 +124,10 @@ public class Factory {
      * @param ch the Tile char player choose from this factory
      * @return the number of tiles of same type
      */
-    public int selectTilesToStorageOrFloor(int id,char ch) {
+    public int selectTilesFromFactory(int id, char ch) {
         int count = 0;
         for(int i=0;i<tiles[id].length;i++){
-            if(tiles[id][i].getTILE_TYPE() == ch) {
+            if(tiles[id][i] != null && tiles[id][i].getTILE_TYPE() == ch) {
                 count++;
                 tiles[id][i] = null;
                 totalNum--;
@@ -143,16 +143,17 @@ public class Factory {
      * @return the array of tiles that need to move to centre
      */
     public Tile[] remainTilesToCentre(int id,char ch){
-        Tile[] remainTiles = new Tile[FACTORY_CAPACITY - selectTilesToStorageOrFloor(id,ch)];
-        int index=0;
+        List<Tile> remainTiles = new ArrayList<>();
+        int count = 0;
         for(int i=0;i<tiles[id].length;i++){
-            if(tiles[id][i] != null) {
-                remainTiles[index++] = tiles[id][i];
+            if(tiles[id][i] != null && tiles[id][i].getTILE_TYPE() != ch) {
+                remainTiles.add(tiles[id][i]);
+                count++;
                 tiles[id][i] = null;
                 totalNum--;
             }
         }
-        return remainTiles;
+        return remainTiles.toArray(new Tile[count]);
     }
 
 

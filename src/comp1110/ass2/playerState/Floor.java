@@ -3,7 +3,7 @@ package comp1110.ass2.playerState;
 import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.sharedState.Discard;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Floor {
     /**
@@ -142,7 +142,40 @@ public class Floor {
         return this.number == 7;
     }
 
-    public void getTiles(int num,char type){
+    /**
+     * add the tiles to floor
+     * @param num the number of tiles that need to be added to floor
+     * @param type the type of tiles that need to be added to floor
+     *
+     * @return the number of remaining tiles need to added to discard
+     */
+    public void addTilesToFloor(int num,char type){
+        if(type == 'f'){
+            if(this.number == MAX_LENGTH){
+                this.tiles[number - 1] = Tile.FIRST_PLAYER;
+            }
+        }
 
+        int addNum = Math.min(MAX_LENGTH - number,num);
+        this.number += addNum;
+
+        List<Tile> list = new ArrayList<>(Arrays.asList(tiles));
+        for(int i=addNum;i>0;i--){
+            list.add(Tile.CharToTile(type));
+        }
+        this.tiles = list.toArray(new Tile[number]);
+        Arrays.sort(this.tiles);
+    }
+
+    public Tile[] getRemainTiles(int num,char type){
+        Tile[] remain = new Tile[0];
+        if(type == 'f' && this.number == MAX_LENGTH) remain = new Tile[]{tiles[number - 1]};
+        else if (this.number + num > MAX_LENGTH){
+            remain = new Tile[this.number + num - MAX_LENGTH];
+            for(int i=0;i<remain.length;i++){
+                remain[i] = Tile.CharToTile(type);
+            }
+        }
+        return remain;
     }
 }
