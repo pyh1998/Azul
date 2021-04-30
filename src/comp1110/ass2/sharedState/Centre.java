@@ -148,6 +148,8 @@ public class Centre {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Check whether there is at least one tile of the specific type in centre
      * @param tileType the specific type of tile
      * @return whether there is at least one tile of the specific type

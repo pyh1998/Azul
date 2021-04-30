@@ -171,6 +171,8 @@ public class Factory {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Check whether there is at least one tile of the specific type in the factory
      * @param tileType the specific type of tile
      * @param facNum the factory number

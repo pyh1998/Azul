@@ -110,6 +110,8 @@ public class Storage {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Determine whether a row is complete. ie, whether the row is full
      * @param rowNumber the row number
      * @return whether a row is complete
@@ -154,6 +156,8 @@ public class Storage {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Decide whether a placement of tiles in the storage is valid.
      *
      * A row can only contain the same type of tiles.

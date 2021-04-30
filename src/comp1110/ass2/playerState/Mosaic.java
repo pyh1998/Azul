@@ -72,6 +72,8 @@ public class Mosaic {
 
 
     /**
+     * @author Jiawen Wang
+     *
      * Check whether placement of tile to the mosaic is valid
      * Each row and column of the mosaic may not contain more than one tile of the same colour
      * (much like a sudoku).
@@ -96,6 +98,8 @@ public class Mosaic {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Check whether a mosaic row contains a specific tile
      *
      * @param tileType the specific tile type

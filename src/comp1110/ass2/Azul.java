@@ -6,6 +6,9 @@ import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.playerState.Storage;
 import comp1110.ass2.sharedState.SharedState;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Azul {
 
 
@@ -17,6 +20,8 @@ public class Azul {
 
 
     /**
+     * @author Qinling Zhong and Yuhui Pang
+     *
      * Given a shared state string, determine if it is well-formed.
      * Note: you don't need to consider validity for this task.
      * A sharedState is well-formed if it satisfies the following conditions.
@@ -80,6 +85,8 @@ public class Azul {
     }
 
     /**
+     * @author Qinling Zhong and Yuhui Pang
+     *
      * Given a playerState, determine if it is well-formed.
      * Note: you don't have to consider validity for this task.
      * A playerState is composed of individual playerStrings.
@@ -135,6 +142,8 @@ public class Azul {
     }
 
     /**
+     * @author Yuhui Pang and Jiawen Wang
+     *
      * Given the gameState, draw a *random* tile from the bag.
      * If the bag is empty, refill the the bag with the discard pile and then draw a tile.
      * If the discard pile is also empty, return 'Z'.
@@ -164,6 +173,8 @@ public class Azul {
     }
 
     /**
+     * @author Yuhui Pang and Jiawen Wang
+     *
      * Given a state, refill the factories with tiles.
      * If the factories are not all empty, return the given state.
      *
@@ -194,6 +205,8 @@ public class Azul {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Given a gameState for a completed game,
      * return bonus points for rows, columns, and sets.
      *
@@ -213,6 +226,8 @@ public class Azul {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Given a valid gameState prepare for the next round.
      * 1. Empty the floor area for each player and adjust their score accordingly (see the README).
      * 2. Refill the factories from the bag.
@@ -319,6 +334,8 @@ public class Azul {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Given a valid gameState and a move, determine whether the move is valid.
      * A Drafting move is a 4-character String.
      * A Drafting move is valid if it satisfies the following conditions:
@@ -397,6 +414,8 @@ public class Azul {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Given a gameState and a move, apply the move to the gameState.
      * If the move is a Tiling move, you must also update the player's score.
      * If the move is a Tiling move, you must also empty the remaining tiles
@@ -480,6 +499,8 @@ public class Azul {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Move tile to Floor or storage
      *
      * @param player the char represented current player
@@ -513,6 +534,8 @@ public class Azul {
     }
 
     /**
+     * @author started by Jiawen Wang
+     *
      * Given a valid game state, return a valid move.
      *
      * @param gameState the game state
@@ -521,6 +544,34 @@ public class Azul {
      */
     public static String generateAction(String[] gameState) {
         // FIXME Task 13
+        sharedState = new SharedState(gameState[0]);
+        playerState = PlayerState.getAllPlayerStates(gameState[1]);
+        char player = sharedState.getPlayer();
+        ArrayList<String> allMoves = new ArrayList<>();
+        Random rand = new Random();
+
+        // tilling move
+        if (sharedState.getFactory().isEmpty() && sharedState.getCentre().isEmpty()) {
+            int firstCompleteRow = -1;
+            for (int r = 0; r < 5; r++) {
+                if (playerState[player-'A'].getStorage().rowIsComplete(r)) {
+                    firstCompleteRow = r;
+                    break;
+                }
+            }
+            for (int c = 0 ; c < 5; c++) {
+                String move = player + "" + firstCompleteRow + c;
+                if (isMoveValid(gameState, move)) {
+                    allMoves.add(move);
+                }
+            }
+            int randomIndex = rand.nextInt(allMoves.size());
+            return allMoves.get(randomIndex);
+
+        } else { // drafting move
+
+        }
+
         return null;
         // FIXME Task 15 Implement a "smart" generateAction()
     }

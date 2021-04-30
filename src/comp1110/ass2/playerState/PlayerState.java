@@ -101,6 +101,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang and Jiawen Wang
+     *
      * Get all player states from a string of all player states
      *
      * @param players The string of all player states
@@ -122,6 +124,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang and Jiawen Wang
+     *
      * Get the string of all player states
      *
      * @param allPlayerStates  an array of all player states
