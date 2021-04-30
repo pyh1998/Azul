@@ -546,6 +546,7 @@ public class Azul {
         // FIXME Task 13
         sharedState = new SharedState(gameState[0]);
         playerState = PlayerState.getAllPlayerStates(gameState[1]);
+        int playerNum = PlayerState.getPlayNumber(gameState[1]);
         char player = sharedState.getPlayer();
         ArrayList<String> allMoves = new ArrayList<>();
         Random rand = new Random();
@@ -565,14 +566,42 @@ public class Azul {
                     allMoves.add(move);
                 }
             }
-            int randomIndex = rand.nextInt(allMoves.size());
-            return allMoves.get(randomIndex);
-
         } else { // drafting move
-
+            // from factory
+            for (int n = 0; n < 2*playerNum+1; n++) {
+                for (Tile tile : sharedState.getFactory().uniqueTileTypes(n)) {
+                    if (tile != null) {
+                        // to floor
+                        String facToFlo = player + "" + n + tile.getTILE_TYPE() + 'F';
+                        if (isMoveValid(gameState, facToFlo)) allMoves.add(facToFlo);
+                        // to storage
+                        for (int r = 0; r < 5; r++) {
+                            String facToSto = player + "" + n + tile.getTILE_TYPE() + "" + r;
+                            if (!playerState[player-'A'].getStorage().rowIsComplete(r) && isMoveValid(gameState, facToSto)) {
+                                allMoves.add(facToSto);
+                            }
+                        }
+                    }
+                }
+            }
+            // from centre
+            for (Tile tile : sharedState.getCentre().uniqueTileType()) {
+                if (tile != null) {
+                    // to floor
+                    String cenToFlo = player + "C" + tile.getTILE_TYPE() + 'F';
+                    if (isMoveValid(gameState, cenToFlo)) allMoves.add(cenToFlo);
+                    // to storage
+                    for (int r = 0; r < 5; r++) {
+                        String cenToSto = player + "C" + tile.getTILE_TYPE() + "" + r;
+                        if (!playerState[player-'A'].getStorage().rowIsComplete(r) && isMoveValid(gameState, cenToSto)) {
+                            allMoves.add(cenToSto);
+                        }
+                    }
+                }
+            }
         }
-
-        return null;
+        int randomIndex = rand.nextInt(allMoves.size());
+        return allMoves.get(randomIndex);
         // FIXME Task 15 Implement a "smart" generateAction()
     }
 }

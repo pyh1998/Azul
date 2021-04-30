@@ -160,4 +160,19 @@ public class Centre {
         }
         return false;
     }
+
+    /**
+     * @author Jiawen Wang
+     * get unique tiles inside the centre
+     * @return an array of unique tiles inside the centre
+     */
+    public ArrayList<Tile> uniqueTileType() {
+        ArrayList<Tile> unique = new ArrayList<>();
+        for (int i = 0; i < number; i++) {
+            if (!unique.contains(this.tiles[i]) && this.tiles[i].getTILE_TYPE() != 'f') {
+                unique.add(this.tiles[i]);
+            }
+        }
+        return unique;
+    }
 }

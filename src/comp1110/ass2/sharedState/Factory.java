@@ -186,5 +186,21 @@ public class Factory {
         return false;
     }
 
+    /**
+     * @author Jiawen Wang
+     * get unique tile inside a numbered factory
+     * @param facNum the factory number
+     * @return unique tile inside a numbered factory
+     */
+    public ArrayList<Tile> uniqueTileTypes(int facNum) {
+        ArrayList<Tile> unique = new ArrayList<>();
+        for (int i = 0; i < FACTORY_CAPACITY; i++) {
+            if (!unique.contains(this.tiles[facNum][i])) {
+                unique.add(this.tiles[facNum][i]);
+            }
+        }
+        return unique;
+    }
+
 
 }
