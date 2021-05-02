@@ -15,6 +15,8 @@ public class SharedState {
     private char player;
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of SharedState according to the sharedState string,like "AFCB1915161614D0000000000“
      *
      * The first character indicates the current player
@@ -46,6 +48,8 @@ public class SharedState {
     }
 
     /**
+     * @author QinLing Zhong
+     *
      * Check if the SharedState string is well-formed
      *
      * @param shareStateStr The string representing the Factory state, the tiles in the Centre, Bag and Discard piles
@@ -78,10 +82,21 @@ public class SharedState {
         return true;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Set the player in this round
+     * @param player the player char need add
+     */
     public void setPlayer(char player){
         this.player = player;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * change the current player to next
+     */
     public void nextPlayer(){
         if(player == 'A') player = 'B';
         else if(player == 'B') player = 'A';
@@ -89,6 +104,8 @@ public class SharedState {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the string representing {Player}{Factory}{Centre}{Bag}{Discard}
      *
      * @return the string representing {Player}{Factory}{Centre}{Bag}{Discard}
@@ -98,6 +115,8 @@ public class SharedState {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get field the bag of SharedState
      *
      */
@@ -106,6 +125,8 @@ public class SharedState {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get field the centre of SharedState
      *
      */
@@ -114,6 +135,8 @@ public class SharedState {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get field the discard of SharedState
      *
      */
@@ -122,6 +145,8 @@ public class SharedState {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get field the factory of SharedState
      *
      */
@@ -130,6 +155,8 @@ public class SharedState {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get field the player of SharedState
      *
      */

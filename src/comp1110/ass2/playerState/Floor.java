@@ -5,6 +5,7 @@ import comp1110.ass2.sharedState.Discard;
 
 import java.util.*;
 
+
 public class Floor {
     /**
      * Field MAX_LENGTH: The maximum number of tiles that the Floor can hold
@@ -16,6 +17,8 @@ public class Floor {
     private Tile[] tiles;
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of the Floor
      * @param number number of tiles inside the floor
      * @param tiles tiles inside the floor
@@ -26,8 +29,9 @@ public class Floor {
     }
 
     /**
-     * Constructor of the Floor according to the state string,like "Faabbe“
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
      *
+     * Constructor of the Floor according to the state string,like "Faabbe“
      * Initialize the total tile number in Floor
      * Initialize the tiles in Floor
      *
@@ -43,6 +47,8 @@ public class Floor {
     }
 
     /**
+     * @author QinLing Zhong
+     *
      * Check if the state string is well-formed
      *
      * @param floorStr the state string of the Floor
@@ -59,7 +65,10 @@ public class Floor {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      *Get the lose points by the number of tiles in Floor
+     *
      * @return the lose points (negative)
      */
     public int getLostPoint(){
@@ -77,6 +86,8 @@ public class Floor {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the state string of the floor
      *
      * @return the state string of the floor
@@ -90,18 +101,11 @@ public class Floor {
         }
         return state.toString();
     }
-    /**
-     * Add tiles to the floor
-     * @param tiles the tiles need to be added to the floor
-     * @param floor the current floor to add thr tiles
-     */
-    public void floorAddTiles(Tile[] tiles, Floor floor) {
-        // TODO: FIX the function of floorAddTiles
-    }
 
     /**
-     * After scoring, moves the all tiles except first-player-token in the floor to the discard pile
+     * @author Yuhui Pang
      *
+     * After scoring, moves the all tiles except first-player-token in the floor to the discard pile
      */
     public Tile[] moveTilesToDiscard() {
         Tile[] tilesToDiscard;
@@ -111,7 +115,9 @@ public class Floor {
         this.tiles = new Tile[number];
         return tilesToDiscard;
     }
+
     /**
+     * @author Jiawen Wang
      * empty the floor
      */
     public void emptyFloor() {
@@ -119,6 +125,7 @@ public class Floor {
         this.tiles = new Tile[0];
     }
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
      * get the number of tiles in the floor.
      * @return number of the tiles
      */
@@ -127,6 +134,7 @@ public class Floor {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
      * get all tiles in the floor.
      * @return tiles inside the floor
      */
@@ -135,6 +143,7 @@ public class Floor {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
      * check if the floor is full
      * @return return true if the floor is true
      */
@@ -143,11 +152,12 @@ public class Floor {
     }
 
     /**
-     * add the tiles to floor
+     * @author Yuhui Pang
+     *
+     * Add the tiles to floor and update the tiles and number in floor
      * @param num the number of tiles that need to be added to floor
      * @param type the type of tiles that need to be added to floor
      *
-     * @return the number of remaining tiles need to added to discard
      */
     public void addTilesToFloor(int num,char type){
         if(type == 'f'){
@@ -167,7 +177,15 @@ public class Floor {
         Arrays.sort(this.tiles);
     }
 
-
+    /**
+     * @author Yuhui Pang
+     *
+     * Get the remaining tiles after adding tiles to floor when the floor is full
+     *
+     * @param num the number of tiles that need to be added to floor
+     * @param type the type of tiles that need to be added to floor
+     * @return the remaining tile array
+     */
 
     public Tile[] getRemainTiles(int num,char type){
         Tile[] remain = new Tile[0];

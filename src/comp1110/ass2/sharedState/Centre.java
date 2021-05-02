@@ -17,6 +17,8 @@ public class Centre {
     private Tile[] tiles;
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of Centre by the state string of Centre pat
      * Initialize the tiles number of Centre
      * Initialize the tiles in Centre
@@ -34,6 +36,8 @@ public class Centre {
 
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of Centre
      * Initialize the tiles number of Centre
      * Initialize the tiles in Centre
@@ -45,6 +49,8 @@ public class Centre {
     }
 
     /**
+     * @author QinLing Zhong
+     *
      * Check if the state string is well-formed
      *
      * @param centreStr the state string of centre part
@@ -65,6 +71,8 @@ public class Centre {
 
     }
     /**
+     * @author Yuhui Pang
+     *
      * Get the state string of the centre
      *
      * @return the state string of the centre
@@ -79,6 +87,8 @@ public class Centre {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * get the first-player-token from floor
      * if this floor has first-player-token before next round
      */
@@ -89,13 +99,18 @@ public class Centre {
     }
 
     /**
-     *Get private field number of Centre
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
+     * Get private field number of Centre
      *
      */
     public int getNumber() {
         return number;
     }
+
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      *Get the private field the tile array of Centre
      *
      */
@@ -103,11 +118,19 @@ public class Centre {
         return tiles;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Check if Centre has fist-player-token
+     * @return if centre has first-player-token return true
+     */
     public boolean hasFirst() {
         return tiles[number-1] == Tile.FIRST_PLAYER;
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Add tiles to Centre from Factory
      * Update the array of tiles
      *
@@ -122,6 +145,8 @@ public class Centre {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Select tiles of the color in the Centre based on the color and also update the centre.
      *
      * @param ch the Tile char player choose from Centre

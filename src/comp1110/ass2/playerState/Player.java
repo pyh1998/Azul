@@ -11,6 +11,8 @@ public class Player {
     private final char id;
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of the Player
      * @param id the id of the player
      */
@@ -20,6 +22,8 @@ public class Player {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of the Player according to the state string, like "A20"
      *
      * @param stateStr the state string of the player with score
@@ -31,6 +35,7 @@ public class Player {
     }
 
     /**
+     * @author QinLing Zhong
      * Check if the state string of player is well formed
      *
      * @param playerStr the state string of the Player
@@ -51,6 +56,8 @@ public class Player {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Update the score of the player (add or minus)
      * @param score the score need to be add (negative means minus)
      */
@@ -60,6 +67,8 @@ public class Player {
    }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the state string of the Player with score
      *
      * @return the state string of the Player with score
@@ -72,6 +81,8 @@ public class Player {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Set the score
      * @param score the score to be set
      */
@@ -80,6 +91,8 @@ public class Player {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get the score of the Player
      * @return the score of the Player
      */
@@ -88,6 +101,8 @@ public class Player {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get the id of the Player
      * @return the id of the Player
      */
@@ -96,6 +111,8 @@ public class Player {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Determine whether the player is the first player
      * @param player the player
      * @return whether the player is the first player

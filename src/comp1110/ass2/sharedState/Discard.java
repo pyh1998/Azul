@@ -18,6 +18,8 @@ public class Discard {
 
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of Discard
      * Initialize the tiles number of number of the kind of the tiles
      * Initialize the total number of the tiles in Discard
@@ -29,6 +31,8 @@ public class Discard {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of Discard according to the state string,like "D0005201020“
      * Initialize the total tile number in Discard
      * Initialize the number of different type of tiles in Discard
@@ -50,6 +54,8 @@ public class Discard {
     }
 
     /**
+     * @author QinLing Zhong
+     *
      * Check if the state string is well-formed
      *
      * @param discardStr the state string of discard part
@@ -66,6 +72,8 @@ public class Discard {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      *Check if the discard is empty
      *
      * @return return true if the totalNum is zero
@@ -75,6 +83,8 @@ public class Discard {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the state string of the discard
      *
      * @return the state string of the discard
@@ -92,6 +102,8 @@ public class Discard {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      *Get private field tile_num of Discard
      *
      */
@@ -100,6 +112,8 @@ public class Discard {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      *Get private field totalNum of Discard
      *
      */
@@ -107,26 +121,9 @@ public class Discard {
         return totalNum;
     }
 
-
     /**
-     * Add tiles to Discard from Storage and Floor
-     * Update the array of tiles
+     * @author Yuhui Pang
      *
-     * @param tiles the array of tiles from other places
-     */
-    public void addTiles(Tile[] tiles){
-        for (Tile tile: tiles) {
-            switch (tile.getTILE_TYPE()) {
-                case 'a' -> tile_num[0] ++;
-                case 'b' -> tile_num[1] ++;
-                case 'c' -> tile_num[2] ++;
-                case 'd' -> tile_num[3] ++;
-                case 'e' -> tile_num[4] ++;
-            }
-            totalNum ++;
-        }
-    }
-    /**
      * Move all tiles to Bag when Bag has no tile
      * Make the number of Discard equals zero and empty the array of tiles
      *
@@ -138,6 +135,8 @@ public class Discard {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get tiles from the floor when the round is over
      *
      * @param tiles the tiles in the floor need to move to discard
@@ -149,6 +148,14 @@ public class Discard {
         }
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Get tiles from the storage after tilling tiles to mosaic
+     *
+     * @param type the tile type
+     * @param num the tile number
+     */
     public void getTileFromStorage(char type,int num){
         this.totalNum += num;
         this.tile_num[Tile.CharToTile(type).getTILE_ID()] += num;

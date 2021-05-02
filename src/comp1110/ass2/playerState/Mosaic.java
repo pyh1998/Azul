@@ -17,6 +17,8 @@ public class Mosaic {
     public Tile[][] tiles;
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of the mosaic pile according to the state string, like "Ma02a13b00e42"
      *
      * Initialize the tiles in Mosaic
@@ -34,6 +36,8 @@ public class Mosaic {
     }
 
     /**
+     * @author QinLing Zhong
+     *
      * Check if the state string is well formed
      *
      * @param mosaicStr the state string of the Mosaic
@@ -50,6 +54,8 @@ public class Mosaic {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the state string of the Mosaic
      *
      * @return the state string of the Mosaic
@@ -117,6 +123,8 @@ public class Mosaic {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * get all tiles placed on the mosaic pile
      * @return all tiles placed on the mosaic pile
      */
@@ -125,6 +133,8 @@ public class Mosaic {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Perform a valid tiling move
      * @param type the tile type to be placed
      * @param col the col number
@@ -135,8 +145,10 @@ public class Mosaic {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * get the score need be added after tilling
-
+     *
      * @param col the col number
      * @param row the row number
      */

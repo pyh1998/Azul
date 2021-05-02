@@ -15,6 +15,8 @@ public class Storage {
     private int[] tileNumber;
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Create an array of tile array that stores all the tiles.
      * The index of tile array indicated the row number.
      */
@@ -24,6 +26,8 @@ public class Storage {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of the Storage according to the state string, like S2a13e44a1
      *
      * Initialize the tile type types of the Storage
@@ -45,6 +49,8 @@ public class Storage {
     }
 
     /**
+     * @author QinLing Zhong
+     *
      * Check if the state string is well formed
      *
      * @param storageStr the state string of the Storage
@@ -60,6 +66,12 @@ public class Storage {
         return true;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Check if the storage has full rows
+     * @return if the storage has full rows return true
+     */
     public boolean hasFullRow(){
         for(int i = 0;i<tileNumber.length;i++){
             if(tileNumber[i] == i+1) return true;
@@ -68,6 +80,8 @@ public class Storage {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the state string of the Storage
      * @return the state string of the Storage
      */
@@ -85,6 +99,8 @@ public class Storage {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get the tile types of the Storage
      * @return the tile types of the Storage
      */
@@ -93,6 +109,8 @@ public class Storage {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get the number of tiles of each tile type
      * @return the number of tiles of each tile type
      */
@@ -100,14 +118,6 @@ public class Storage {
         return tileNumber;
     }
 
-    /**
-     * Pick the right most tile of a complete row
-     * @param rowNumber row number
-     * @return the right most tile of a complete row
-     */
-    public Tile pickTile (int rowNumber) {
-        return this.tileType[rowNumber];
-    }
 
     /**
      * @author Jiawen Wang
@@ -122,6 +132,8 @@ public class Storage {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * After picking up tiles, add them to one of the five storage rows
      *
      * @param rowNum the row number to add the tiles
@@ -140,6 +152,16 @@ public class Storage {
         }
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * the remaining tile number after picking tiles to storage
+     * Get the remaining tile number after picking tiles to storage
+     * @param rowNum the row number to add the tiles
+     * @param tileNum the number of tiles that need to be added to storage
+     * @param type the type of tiles that need to be added to storage
+     * @return the remaining tile number after picking tiles to storage
+     */
     public int getRemainTiles(int rowNum,int tileNum,char type){
         int remainNum = 0;
         if(tileNumber[rowNum] + tileNum > rowNum + 1){
@@ -148,10 +170,16 @@ public class Storage {
         return remainNum;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Get the tile type in certain row
+     * @param row the row of storage
+     * @return the type of tile in this row
+     */
     public char getTileTypeByRow(int row){
         char type = tileType[row].getTILE_TYPE();
-        tileNumber[row] = 0;
-        tileType[row] = null;
+        emptyRow(row);
         return type;
     }
 
@@ -174,13 +202,17 @@ public class Storage {
         }
         return false;
     }
+
+
     /**
+     * @author Jiawen Wang
+     *
      * After placing the rightmost tile to the mosaic pile, empty the row;
      * @param rowNumber the row number of the row to be empty
      */
     public void emptyRow(int rowNumber) {
         this.tileType[rowNumber] = null;
-        this.tileNumber[rowNumber] = Integer.parseInt(null);
+        this.tileNumber[rowNumber] = 0;
     }
 
 

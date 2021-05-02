@@ -17,6 +17,8 @@ public class Factory {
     public int totalNum;
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of Factory by the state string
      * Initialize the total number of tiles in Factory
      * Initialize the tiles included in this factory
@@ -41,6 +43,8 @@ public class Factory {
     }
 
     /**
+     * @author QinLing Zhong
+     *
      * Check if the state string is well-formed
      *
      * @param factoryStr the state string of factory part
@@ -65,6 +69,8 @@ public class Factory {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      *Check if the factory is empty
      *
      * @return return true if the totalNum is zero
@@ -74,6 +80,8 @@ public class Factory {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the state string of the discard
      *
      * @return the state string of the discard
@@ -96,6 +104,8 @@ public class Factory {
 
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      *Get field tiles of factory
      *
      */
@@ -104,6 +114,8 @@ public class Factory {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get tiles to Factory from Bag
      *
      * @return Array of the tiles from Bag
@@ -142,6 +154,8 @@ public class Factory {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * get the remaining tiles need to move to centre from factory
      * @param id the id of factory that be selected
      * @param ch the Tile char player choose from this factory
@@ -161,14 +175,6 @@ public class Factory {
         return remainTiles.toArray(new Tile[count]);
     }
 
-
-    /**
-     * Move the unselected tiles to Centre
-     *
-     */
-    public void movetoCentre(){
-        //TODO FIX the function of movetoCentre
-    }
 
     /**
      * @author Jiawen Wang
@@ -201,6 +207,5 @@ public class Factory {
         }
         return unique;
     }
-
 
 }

@@ -19,6 +19,8 @@ public class Bag {
 
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of Bag
      * Initialize the total tile number in Bag
      * Initialize the number of different type of tiles in Bag
@@ -31,7 +33,10 @@ public class Bag {
             tile_num[i] = MAX_SIZE;
         }
     }
+
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of Bag according to the state string,like "B0005201020“
      * Initialize the total tile number in Bag
      * Initialize the number of different type of tiles in Bag
@@ -53,6 +58,8 @@ public class Bag {
     }
 
     /**
+     * @author QinLing Zhong
+     *
      * Check if the state string is well-formed
      *
      * @param bagStr the state string of bag part
@@ -70,6 +77,8 @@ public class Bag {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      *Check if the bag is empty
      *
      * @return return true if the totalNum is zero
@@ -79,6 +88,8 @@ public class Bag {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the state string of the bag
      *
      * @return the state string of the bag
@@ -96,6 +107,8 @@ public class Bag {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      *Get the number of the tiles with certain type
      *
      * @param  tileType the char of the tile type,like 'a','b'
@@ -115,6 +128,8 @@ public class Bag {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Add tiles to Factory from Bag
      * Update the array of tiles
      *
@@ -140,6 +155,8 @@ public class Bag {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Add tiles to Factory from Bag
      * Update the array of tiles in Bag
      *
@@ -157,6 +174,8 @@ public class Bag {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      *Get field the tile_num of Bag
      *
      */
@@ -165,6 +184,8 @@ public class Bag {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      *Get field the totalNum of Bag
      *
      */

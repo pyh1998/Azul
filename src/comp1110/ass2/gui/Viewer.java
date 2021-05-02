@@ -241,14 +241,13 @@ public class Viewer extends Application {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Draw a placement in the window, removing any previously drawn placements
      *
      * @param state an array of two strings, representing the current game state
      *              TASK 4
      */
-
-
-
     void displayState(String[] state) {
         Group allState = new Group();
         //Clear the group

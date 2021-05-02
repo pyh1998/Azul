@@ -5,6 +5,8 @@ import javafx.scene.paint.Color;
 public enum Tile {
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * six different kinds of tiles
      */
     A(0, 'a'),
@@ -21,6 +23,8 @@ public enum Tile {
 
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Constructor of Tile
      * The location of initializing tile is in bag
      * Initialize the color of tile according to the tile's type
@@ -44,6 +48,8 @@ public enum Tile {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the tile from a char, like get Tile A from char 'a'
      *
      * @param ch the char of the tile
@@ -59,6 +65,8 @@ public enum Tile {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the tile from a int id, like get Tile A from int 0
      *
      * @param id the id of the tile
@@ -73,17 +81,11 @@ public enum Tile {
         return null;
     }
 
-    /**
-     * Check if the tile is the first player tile
-     *
-     * @return return true if the tile is the first player tile
-     */
-    public boolean isFirstPlayerTile(){
-        return this.TILE_ID == 5;
-    }
 
     /**
-     *Get private field TILE_TYPE of tile
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
+     * Get private field TILE_TYPE of tile
      *
      */
     public char getTILE_TYPE() {
@@ -91,7 +93,9 @@ public enum Tile {
     }
 
     /**
-     *Get private field TILE_ID of tile
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
+     * Get private field TILE_ID of tile
      *
      */
     public int getTILE_ID() {
@@ -99,7 +103,9 @@ public enum Tile {
     }
 
     /**
-     *Get private field TILE_COLOR of tile
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
+     * Get private field TILE_COLOR of tile
      *
      */
     public Color getTILE_COLOR() {

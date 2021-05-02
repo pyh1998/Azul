@@ -16,6 +16,8 @@ public class PlayerState {
     private Storage storage;
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * The Constructor of the PlayerState according to the single playerState string,like "A20Ma02a13b00e42S2a13e44a1Faabbe“
      *
      * The substring before M indicates the Player with score
@@ -47,6 +49,8 @@ public class PlayerState {
     }
 
     /**
+     * @author QinLing Zhong
+     *
      * Check if the PlayerState string of all player states is well-formed
      *
      * @param playerStateStr The string of all player states
@@ -89,6 +93,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the player number
      * @param allPlayerStateStr the String of playerState, like "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"
      * @return the player number (2 or 3 or 4)
@@ -138,7 +144,10 @@ public class PlayerState {
         }
         return all.toString();
     }
+
     /**
+     * @author Yuhui Pang
+     *
      * Get the bonus point of the PlayerState
      *
      * Gain 2 points for each complete row of your mosaic (5 consecutive horizontal tiles).
@@ -172,6 +181,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * get the next player char
      * @param players the array of PlayerState
      * @return a char represent the next player
@@ -187,6 +198,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Check whether the end is end or not
      * @return whether the end is end or not
      */
@@ -204,6 +217,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Check if the player has first-player token
      * @return return ture if the player has first-player token
      */
@@ -217,6 +232,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Get the string representing {Player with Score}{Mosaic}{Storage}{Floor}
      *
      * @return the string representing {Player with Score}{Mosaic}{Storage}{Floor}
@@ -226,6 +243,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Check if the player has the first player token by checking the floor tiles
      *
      * @return return true if the player has the first player token
@@ -235,6 +254,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get field the player of PlayerState
      *
      */
@@ -243,6 +264,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get field the mosaic of PlayerState
      *
      */
@@ -251,6 +274,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get field the floor of PlayerState
      *
      */
@@ -259,6 +284,8 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
      * Get field the storage of PlayerState
      *
      */
