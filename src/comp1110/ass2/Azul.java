@@ -527,12 +527,6 @@ public class Azul {
         }
     }
 
-    public static void main(String[] args) {
-        String[] gameState = {"BFCB0807111004D0002050609", "A0Me04b11c21S0b11d22a23a44a4FaeeeefB3Mc02e03d04e24d33S1b22c23b44a1Fbbb"};
-        String move = "B14";
-        String[] gameState2 = applyMove(gameState,move);
-    }
-
     /**
      * @author started by Jiawen Wang
      *
