@@ -378,7 +378,7 @@ public class Azul {
             boolean pickingValid = true;
             boolean placingValid = true;
 
-            // The specified factory/centre contains at least one tile of the specified colour.
+            // 1. The specified factory/centre contains at least one tile of the specified colour.
             if (pickingFrom == 'C') {
                 if (!sharedState.getCentre().atLeastOneTile(tileType)) pickingValid =  false;
             } else if (!sharedState.getFactory().atLeastOneTile(tileType,pickingFrom-'0')) pickingValid = false;
