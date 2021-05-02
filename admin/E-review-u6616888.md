@@ -8,7 +8,7 @@ Component: <IsMoveValidTest - method in class Azul (Task 10)>
 
 ### Comments 
 
-The purpose of this part wants to delivery whether the movie is valid by giving a valid gameState and a move.
+The purpose of this part wants to delivery whether the move is valid by giving a valid gameState and a move.
 
 To start with, the code format of this part is clear and concise. Jiawen separates it in two main steps.
 1.Determining the specified factory has at least one tile of the specified colour, 
