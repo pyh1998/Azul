@@ -528,22 +528,37 @@ public class Azul {
     }
 
     /**
-     * @author started by Jiawen Wang
+     * @author Task13: Jiawen Wang
      *
      * Given a valid game state, return a valid move.
      *
-     * @param gameState the game state
+     * @param gameState the game state strings
      * @return a move for the current game state.
      * TASK 13
      */
     public static String generateAction(String[] gameState) {
         // FIXME Task 13
+        Random rand = new Random();
+        ArrayList<String> allMoves = getAllValidMoves(gameState);
+        int randomIndex = rand.nextInt(allMoves.size());
+        return allMoves.get(randomIndex);
+        // FIXME Task 15 Implement a "smart" generateAction()
+    }
+
+    /**
+     * @author Jiawen Wang
+     *
+     * Get all valid moves according to a valid game state.
+     *
+     * @param gameState the game state strings
+     * @return all valid moves
+     */
+    public static ArrayList<String> getAllValidMoves(String[] gameState) {
         sharedState = new SharedState(gameState[0]);
         playerState = PlayerState.getAllPlayerStates(gameState[1]);
         int playerNum = PlayerState.getPlayNumber(gameState[1]);
         char player = sharedState.getPlayer();
         ArrayList<String> allMoves = new ArrayList<>();
-        Random rand = new Random();
 
         // tilling move
         if (sharedState.getFactory().isEmpty() && sharedState.getCentre().isEmpty()) {
@@ -594,8 +609,6 @@ public class Azul {
                 }
             }
         }
-        int randomIndex = rand.nextInt(allMoves.size());
-        return allMoves.get(randomIndex);
-        // FIXME Task 15 Implement a "smart" generateAction()
+        return allMoves;
     }
 }

@@ -10,8 +10,9 @@ import java.awt.*;
 
 public class Game extends Application {
     /* board layout */
-    private static final int BOARD_WIDTH = 1200;
-    private static final int BOARD_HEIGHT = 700;
+    private static final int BOARD_WIDTH = 1280;
+    private static final int BOARD_HEIGHT = 768;
+    private final Group controls = new Group();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -21,6 +22,7 @@ public class Game extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
         stage.setScene(scene);
+
         stage.show();
     }
 }
