@@ -1,15 +1,9 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Azul;
-import comp1110.ass2.Tile.Tile;
 import comp1110.ass2.gui.Group.PlayerGroup;
 import comp1110.ass2.gui.Group.SharedGroup;
-import comp1110.ass2.gui.Group.Square;
 import comp1110.ass2.playerState.PlayerState;
-import comp1110.ass2.playerState.Floor;
-import comp1110.ass2.playerState.Mosaic;
-import comp1110.ass2.playerState.Player;
-import comp1110.ass2.playerState.Storage;
 import comp1110.ass2.sharedState.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
