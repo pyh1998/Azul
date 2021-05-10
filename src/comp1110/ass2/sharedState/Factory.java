@@ -12,7 +12,7 @@ public class Factory {
      * Every factory has 4 regions to place tiles.
      */
     public final int FACTORY_CAPACITY = 4;
-    public final int FACTORY_NUMBER = 9;
+    public final int FACTORY_NUMBER;
     public Tile[][] tiles;
     public int totalNum;
 
@@ -26,8 +26,8 @@ public class Factory {
      * @param stateStr the state string of Factory
      */
     // F1aabc2abbb4ddee
-    public Factory(String stateStr) {
-        //this.FACTORY_NUMBER = (state.length()-1)/5;
+    public Factory(String stateStr, int playerNum) {
+        this.FACTORY_NUMBER = 2 * playerNum + 1;
         int count = 0;
         this.tiles = new Tile[FACTORY_NUMBER][FACTORY_CAPACITY];
         for (int i = 1; i < stateStr.length(); i += 5) {

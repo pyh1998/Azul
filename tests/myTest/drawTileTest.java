@@ -48,7 +48,7 @@ public class drawTileTest {
     @Test
     public void FactoryEmptyTest(){
         String stateStr = "F";
-        Factory factory = new Factory(stateStr);
+        Factory factory = new Factory(stateStr,2);
         assertTrue(factory.isEmpty());
     }
 

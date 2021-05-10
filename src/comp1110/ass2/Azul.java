@@ -12,8 +12,8 @@ import java.util.Random;
 public class Azul {
 
 
-    public static SharedState sharedState = new SharedState("AFCfB2020202020D0000000000");
-    public static PlayerState[] playerState = PlayerState.getAllPlayerStates("A0MSFB0MSF");
+    public static SharedState sharedState;
+    public static PlayerState[] playerState;
     public static String lastShareState;
     public static String lastPlayerState;
 
@@ -154,9 +154,10 @@ public class Azul {
      */
     public static char drawTileFromBag(String[] gameState) {
         // FIXME Task 5
+        int playerNum = PlayerState.getPlayNumber(gameState[1]);
         //{"AFCB1915161614D0000000000", "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"}
         String sharedStateStr = gameState[0];
-        sharedState = new SharedState(sharedStateStr);
+        sharedState = new SharedState(sharedStateStr,playerNum);
 
         if (sharedState.getBag().isEmpty() && sharedState.getDiscard().isEmpty()) {
             return 'Z';
@@ -185,11 +186,11 @@ public class Azul {
      */
     public static String[] refillFactories(String[] gameState) {
         // FIXME Task 6
-        //{"AFCB1915161614D0000000000", "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"}
-        sharedState = new SharedState(gameState[0]);
-
         // get player number
         int playerNum = PlayerState.getPlayNumber(gameState[1]);
+
+        //{"AFCB1915161614D0000000000", "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"}
+        sharedState = new SharedState(gameState[0],playerNum);
 
         if (sharedState.getFactory().isEmpty() && sharedState.getCentre().isEmpty()) {
             Tile[] tiles = new Tile[4 * (2 * playerNum + 1)];
@@ -244,13 +245,13 @@ public class Azul {
      */
     public static String[] nextRound(String[] gameState) {
         // FIXME TASK 8
+        int playerNum = PlayerState.getPlayNumber(gameState[1]);
         //Initialization the shareState and playerState
-        sharedState = new SharedState(gameState[0]);
+        sharedState = new SharedState(gameState[0],playerNum);
         playerState = PlayerState.getAllPlayerStates(gameState[1]);
 
         //get the next player
         char nextPlayer = PlayerState.getNextPlayer(playerState);
-        int playerNum = PlayerState.getPlayNumber(gameState[1]);
 
         //Check if is the next round status
         for (int i = 0; i < playerNum; i++) {
@@ -362,7 +363,8 @@ public class Azul {
      */
     public static boolean isMoveValid(String[] gameState, String move) {
         // FIXME Task 10
-        sharedState = new SharedState(gameState[0]);
+        int playerNum = PlayerState.getPlayNumber(gameState[1]);
+        sharedState = new SharedState(gameState[0],playerNum);
         playerState = PlayerState.getAllPlayerStates(gameState[1]);
         if (sharedState.getPlayer() != move.charAt(0)) return false;
 
@@ -447,7 +449,8 @@ public class Azul {
 //            playerState = PlayerState.getAllPlayerStates(gameState[0]);
 //            lastPlayerState = PlayerState.getAllStateStr(playerState);
 //        }
-        sharedState = new SharedState(gameState[0]);
+        int playerNum = PlayerState.getPlayNumber(gameState[1]);
+        sharedState = new SharedState(gameState[0],playerNum);
         playerState = PlayerState.getAllPlayerStates(gameState[1]);
 
         char player = move.charAt(0);
@@ -554,9 +557,9 @@ public class Azul {
      * @return all valid moves
      */
     public static ArrayList<String> getAllValidMoves(String[] gameState) {
-        sharedState = new SharedState(gameState[0]);
-        playerState = PlayerState.getAllPlayerStates(gameState[1]);
         int playerNum = PlayerState.getPlayNumber(gameState[1]);
+        sharedState = new SharedState(gameState[0],playerNum);
+        playerState = PlayerState.getAllPlayerStates(gameState[1]);
         char player = sharedState.getPlayer();
         ArrayList<String> allMoves = new ArrayList<>();
 

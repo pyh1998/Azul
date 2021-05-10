@@ -15,7 +15,7 @@ public class SharedStateTest {
     public void FactoryTest() {
         String stateStr = "F1aabc2abbb4ddee";
         assertTrue(Factory.isWellFormed(stateStr));
-        Factory factory = new Factory(stateStr);
+        Factory factory = new Factory(stateStr,2);
         assertEquals(stateStr,factory.getStateStr());
     }
 

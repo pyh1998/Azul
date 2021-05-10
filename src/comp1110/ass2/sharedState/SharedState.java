@@ -30,7 +30,7 @@ public class SharedState {
      *
      * @param shareStateStr The string representing the Factory state, the tiles in the Centre, Bag and Discard piles
      */
-    public SharedState(String shareStateStr){
+    public SharedState(String shareStateStr, int playerNum){
         int indexF = shareStateStr.indexOf("F",1);
         int indexC = shareStateStr.indexOf("C",1);
         int indexB = shareStateStr.indexOf("B",1);
@@ -41,7 +41,7 @@ public class SharedState {
         String discardStr = shareStateStr.substring(indexD);
 
         player = shareStateStr.charAt(0);
-        factory = new Factory(factoryStr);
+        factory = new Factory(factoryStr,playerNum);
         centre = new Centre(centreStr);
         bag = new Bag(bagStr);
         discard = new Discard(discardStr);

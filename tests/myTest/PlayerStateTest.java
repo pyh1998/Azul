@@ -202,7 +202,7 @@ public class PlayerStateTest {
         char[][] notContains = new char[][] {new char[] {'a','b'},new char[] {'a','c'}
                                             ,new char[] {'c','d'},new char[] {'a'}
                                             ,new char[] {'b','c','d'}};
-        Factory factory = new Factory(factoryStr);
+        Factory factory = new Factory(factoryStr,2);
         assertTrue(factory.atLeastOneTile('c',0));
         for (int i = 0; i < contains.length; i++) {
             for (char tileType : contains[i]) {
@@ -215,7 +215,7 @@ public class PlayerStateTest {
 
         String emptyFactory = "F";
         assertTrue(Factory.isWellFormed(emptyFactory));
-        Factory empty = new Factory(emptyFactory);
+        Factory empty = new Factory(emptyFactory,2);
         for (int i = 0; i < factory.FACTORY_NUMBER; i++) {
             for (int j = 0; j < 5; j++) {
                 assertFalse(empty.atLeastOneTile((char)('a'+j), i));

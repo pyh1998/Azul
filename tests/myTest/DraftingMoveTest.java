@@ -18,14 +18,14 @@ public class DraftingMoveTest {
     @Test
     public void selectTilesToStorageOrFloorTest(){
         String stateStr = "F0aabc1aabc2abbb3ccde4ddee";
-        Factory factory = new Factory(stateStr);
+        Factory factory = new Factory(stateStr,2);
         assertEquals(2,factory.selectTilesFromFactory(0,'a'));
         assertEquals("F0bc1aabc2abbb3ccde4ddee",factory.getStateStr());
     }
     @Test
     public void remainTilesToCentreTest(){
         String stateStr = "F0aabc1aabc2abbb3ccde4ddee";
-        Factory factory = new Factory(stateStr);
+        Factory factory = new Factory(stateStr,2);
         assertEquals(2,factory.selectTilesFromFactory(0,'a'));
         Tile[] tiles = {Tile.B,Tile.C};
         Tile[] tiles2 = factory.remainTilesToCentre(0,'a');
