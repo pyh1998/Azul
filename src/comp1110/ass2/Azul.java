@@ -331,7 +331,76 @@ public class Azul {
      */
     public static boolean isStateValid(String[] gameState) {
         // FIXME Task 9
-        return false;
+        if (!isSharedStateWellFormed(gameState[0]) ){
+            return false;
+        }
+        if (!isPlayerStateWellFormed(gameState[1])){
+            return false;
+        }
+        PlayerState[] playerStates = PlayerState.getAllPlayerStates(gameState[1]);
+        SharedState sharedState = new SharedState(gameState[0],playerStates.length);
+        char[] listoftiles = new char[] {'a','b','c','d','e', 'f'};
+        for (int i=0; i<6; i++){
+            int count = 0;
+            // playerstate
+            for (PlayerState player: playerStates){
+                for (Tile[] tiles: player.getMosaic().tiles){
+                    for (Tile tile: tiles){
+                        if (tile != null && tile.getTILE_TYPE() == listoftiles[i]){
+                            count++;
+                        }
+                    }
+                }
+                for (Tile tile : player.getFloor().getTiles()){
+                    if (tile != null && tile.getTILE_TYPE() == listoftiles[i]){
+                        count++;
+                    }
+                }
+                for (int j=0; j< player.getStorage().getTileNumber().length; j++){
+                    if (player.getStorage().getTileType()[j] != null && player.getStorage().getTileType()[j].getTILE_TYPE() == listoftiles[i]){
+                        count += player.getStorage().getTileNumber()[j];
+                    }
+                }
+            }
+
+            if (sharedState.getCentre().getTiles() != null){
+                for (Tile tile: sharedState.getCentre().getTiles()){
+                    if (tile != null && tile.getTILE_TYPE() == listoftiles[i]){
+                        count ++;
+                    }
+                }
+            }
+
+            if (i > 4 ){
+                if (count >1 ){
+                    return false;
+                }
+                continue;
+            }
+            if (sharedState.getBag().getTile_num() != null){
+                count += sharedState.getBag().getTile_num()[i];
+            }
+            if (sharedState.getDiscard().getTile_num() != null){
+                count += sharedState.getDiscard().getTile_num()[i];
+            }
+
+            if (sharedState.getFactory().tiles != null){
+                for (Tile[] tiles: sharedState.getFactory().tiles){
+                    for (Tile tile: tiles){
+                        if (tile != null && tile.getTILE_TYPE()== listoftiles[i]){
+                            count ++;
+                        }
+                    }
+                }
+            }
+
+            if (count > 20 ){
+                return false;
+            }else if (listoftiles[i] == 'f' && count > 1){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
