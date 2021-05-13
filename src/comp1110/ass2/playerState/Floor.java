@@ -19,13 +19,11 @@ public class Floor {
     /**
      * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
      *
-     * Constructor of the Floor
-     * @param number number of tiles inside the floor
-     * @param tiles tiles inside the floor
+     * Constructor of the empty Floor
      */
-    public Floor(int number, Tile[] tiles) {
-        this.number = number;
-        this.tiles = tiles;
+    public Floor() {
+        this.number = 0;
+        this.tiles = new Tile[number];
     }
 
     /**
@@ -109,7 +107,7 @@ public class Floor {
      */
     public Tile[] moveTilesToDiscard() {
         Tile[] tilesToDiscard;
-        if(tiles[number - 1] == Tile.FIRST_PLAYER) tilesToDiscard = Arrays.copyOf(tiles,number - 1);
+        if(number > 0 && tiles[number - 1] == Tile.FIRST_PLAYER) tilesToDiscard = Arrays.copyOf(tiles,number - 1);
         else tilesToDiscard = this.tiles;
         this.number = 0;
         this.tiles = new Tile[number];

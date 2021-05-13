@@ -12,29 +12,33 @@ import javafx.scene.text.Font;
  * @author Yuhui Pang
  */
 public class PlayerGroup extends Group {
+
+    private final double side = Square.SIZE;
+    private final double space = 5;
+    private final Group player;
+    private final Group storage;
+    private final Group mosaic;
+    private final Group floor;
+
     public Group drawStorage(Storage storage){
         Tile[] tileType = storage.getTileType();
         int[] tileNum = storage.getTileNumber();
-        int side = 40;
-        int space = 5;
         Group storageGroup = new Group();
 
         for(int i=0;i<Storage.NUMBER_ROWS;i++){
             int count = 0;
             for(int j=0;j<=i;j++){
-                Rectangle r = new Rectangle();
-                r.setX((Storage.NUMBER_ROWS - j) * (side + space));
-                r.setY(i * (side + space));
-                r.setWidth(side);
-                r.setHeight(side);
-                if(tileType[i] == null || count == tileNum[i]){
-                    r.setFill(Color.GRAY);
+                Square square;
+                double x = (Storage.NUMBER_ROWS - j) * (side + space);
+                double y = i * (side + space);
+                if(count == tileNum[i]){
+                    square = new Square(x,y,null,Square.Position.Storage,this,i);
                 }
                 else{
-                    r.setFill(tileType[i].getTILE_COLOR());
+                    square = new Square(x,y,tileType[i],Square.Position.Storage,this,i);
                     count++;
                 }
-                storageGroup.getChildren().add(r);
+                storageGroup.getChildren().add(square);
             }
         }
 
@@ -43,25 +47,12 @@ public class PlayerGroup extends Group {
 
     public Group drawMosaic(Mosaic mosaic){
         Tile[][] tiles = mosaic.getTiles();
-
-        int side = 40;
-        int space = 5;
         Group mosaicGroup = new Group();
 
         for(int i=0;i<Mosaic.HEIGHT;i++){
             for(int j=0;j<Mosaic.HEIGHT;j++){
-                Rectangle r = new Rectangle();
-                r.setX(j * (side + space));
-                r.setY(i * (side + space));
-                r.setWidth(side);
-                r.setHeight(side);
-                if(tiles[i][j] == null){
-                    r.setFill(Color.GRAY);
-                }
-                else{
-                    r.setFill(tiles[i][j].getTILE_COLOR());
-                }
-                mosaicGroup.getChildren().add(r);
+                Square square = new Square(j * (side + space),i * (side + space),tiles[i][j],Square.Position.Mosaic,this);
+                mosaicGroup.getChildren().add(square);
             }
         }
 
@@ -84,20 +75,15 @@ public class PlayerGroup extends Group {
     public Group drawFloor( Floor floor){
         Tile[] tiles =floor.getTiles();
         Group floorGroup = new Group();
-        int side = 40;
-        int space = 5;
         for(int i=0;i<Floor.MAX_LENGTH;i++){
-            Rectangle r = new Rectangle();
-            r.setX(i * (side + space));
-            r.setWidth(side);
-            r.setHeight(side);
-            if(i >= floor.getNumber() || tiles[i] == null){
-                r.setFill(Color.GRAY);
+            Square square;
+            if(i >= floor.getNumber()){
+                square = new Square(i * (side + space),0,null,Square.Position.Floor,this);
             }
             else{
-                r.setFill(tiles[i].getTILE_COLOR());
+                square = new Square(i * (side + space),0,tiles[i],Square.Position.Floor,this);
             }
-            floorGroup.getChildren().add(r);
+            floorGroup.getChildren().add(square);
         }
         return floorGroup;
     }
@@ -112,10 +98,10 @@ public class PlayerGroup extends Group {
 
         this.playerChar = playerChar;
 
-        Group player = drawPlayer(playerState.getPlayer());
-        Group storage = drawStorage(playerState.getStorage());
-        Group mosaic = drawMosaic(playerState.getMosaic());
-        Group floor = drawFloor(playerState.getFloor());
+        player = drawPlayer(playerState.getPlayer());
+        storage = drawStorage(playerState.getStorage());
+        mosaic = drawMosaic(playerState.getMosaic());
+        floor = drawFloor(playerState.getFloor());
 
         storage.setLayoutX(0);
         storage.setLayoutY(280);
@@ -128,6 +114,5 @@ public class PlayerGroup extends Group {
 
         this.setLayoutX((playerChar - 'A') * 600);
         this.getChildren().addAll(storage,mosaic,player,floor);
-
     }
 }

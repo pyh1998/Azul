@@ -43,6 +43,19 @@ public class Factory {
     }
 
     /**
+     * @author Yuhui Pang
+     *
+     * Constructor of empty Factory
+     * Initialize the total number of tiles in Factory
+     * Initialize the tiles included in this factory
+     *
+     */
+    public Factory(int playerNum) {
+        FACTORY_NUMBER = 2 * playerNum + 1;
+        this.tiles = new Tile[FACTORY_NUMBER][FACTORY_CAPACITY];
+    }
+
+    /**
      * @author QinLing Zhong
      *
      * Check if the state string is well-formed

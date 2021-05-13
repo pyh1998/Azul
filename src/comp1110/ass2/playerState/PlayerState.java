@@ -49,6 +49,20 @@ public class PlayerState {
     }
 
     /**
+     * @author Yuhui Pang
+     *
+     * The Constructor of the PlayerState
+     * Initialize fields player, mosaic, storage and floor
+     *
+     */
+    public PlayerState(char playerId) {
+        this.player = new Player(playerId);
+        this.mosaic = new Mosaic();
+        this.storage = new Storage();
+        this.floor = new Floor();
+    }
+
+    /**
      * @author QinLing Zhong
      *
      * Check if the PlayerState string of all player states is well-formed
@@ -125,6 +139,20 @@ public class PlayerState {
                 playerStateStr = players.substring(players.indexOf(i + 'A'));
             }
             all[i] = new PlayerState(playerStateStr);
+        }
+        return all;
+    }
+
+    /**
+     * @author Yuhui Pang
+     *
+     * Get all player states
+     */
+    public static PlayerState[] getAllPlayerStates(int playerNum){
+        String playerStateStr;
+        PlayerState[] all = new PlayerState[playerNum];
+        for (int i = 0; i < playerNum; i++) {
+            all[i] = new PlayerState((char) (i+'A'));
         }
         return all;
     }
@@ -250,6 +278,7 @@ public class PlayerState {
      * @return return true if the player has the first player token
      */
     public boolean isFirstPlayer(){
+        if(this.floor.getNumber() == 0) return false;
         return this.floor.getTiles()[this.floor.getNumber() - 1] == Tile.FIRST_PLAYER;
     }
 

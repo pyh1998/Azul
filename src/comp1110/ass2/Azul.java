@@ -518,6 +518,7 @@ public class Azul {
 //            playerState = PlayerState.getAllPlayerStates(gameState[0]);
 //            lastPlayerState = PlayerState.getAllStateStr(playerState);
 //        }
+        if (!isMoveValid(gameState, move)) return gameState;
         int playerNum = PlayerState.getPlayNumber(gameState[1]);
         sharedState = new SharedState(gameState[0],playerNum);
         playerState = PlayerState.getAllPlayerStates(gameState[1]);

@@ -13,34 +13,35 @@ import javafx.scene.text.Font;
  */
 public class SharedGroup extends Group {
 
+    private final double side = Square.SIZE;
+    private final double space = 5;
+    private final Group factory;
+    private final Group bag;
+    private final Group discard;
+    private final Group centre;
+    private final Group playTurn;
+
     public Group drawFactory(Factory factory){
         Tile[][] tiles= factory.getTiles();
         Group factoryGroup = new Group();
         Label label = new Label("Factory:");
         label.setFont(new Font("Arial", 20));
         factoryGroup.getChildren().add(label);
-        int side = 40;
-        int space = 5;
-        int distance = 20;
+        double distance = 20;
         for(int i=0;i<factory.FACTORY_NUMBER;i++){
             for (int j=0;j<factory.FACTORY_CAPACITY;j++){
-                Rectangle r = new Rectangle();
+                Square square;
                 if(j % 2 == 0){
-                    r.setX(i * (side * 2 + space + distance));
+                    square = new Square(i * (side * 2 + space + distance),(double)(j / 2) * (side + space) + 30,null,Square.Position.Factory,this);
                 }
                 else{
-                    r.setX(i * (side * 2 + space + distance) + side + space);
+                    square = new Square(i * (side * 2 + space + distance) + side + space,(double)(j / 2) * (side + space) + 30,null,Square.Position.Factory,this);
                 }
-                r.setY((j / 2) * (side + space) + 30);
-                r.setWidth(side);
-                r.setHeight(side);
-                if(tiles[i][j] == null){
-                    r.setFill(Color.GRAY);
+                factoryGroup.getChildren().addAll(square);
+                if(tiles[i][j] != null){
+                    Square draggableSquare = new Square.DraggableSquare(square.getX(), square.getY(), tiles[i][j], Square.Position.Factory,this, i);
+                    factoryGroup.getChildren().add(draggableSquare);
                 }
-                else{
-                    r.setFill(tiles[i][j].getTILE_COLOR());
-                }
-                factoryGroup.getChildren().add(r);
             }
         }
         return factoryGroup;
@@ -52,19 +53,12 @@ public class SharedGroup extends Group {
         Label label = new Label("Bag:");
         label.setFont(new Font("Arial", 20));
         bagGroup.getChildren().add(label);
-        int side = 40;
-        int space = 5;
         for(int i=0;i<tileNum.length;i++){
-            Rectangle r = new Rectangle();
-            r.setX(i * (side + space));
-            r.setY(30);
-            r.setWidth(side);
-            r.setHeight(side);
-            r.setFill(Tile.idToTile(i).getTILE_COLOR());
+            Square square = new Square(i * (side + space),30,Tile.idToTile(i),Square.Position.Bag,this);
             Label numLabel = new Label(String.valueOf(tileNum[i]));
             numLabel.setLayoutX(15 + i * (side + space));
             numLabel.setLayoutY(30 + side + space);
-            bagGroup.getChildren().addAll(r,numLabel);
+            bagGroup.getChildren().addAll(square,numLabel);
         }
         return bagGroup;
     }
@@ -79,19 +73,14 @@ public class SharedGroup extends Group {
         Label label = new Label("Centre:");
         label.setFont(new Font("Arial", 20));
         centreGroup.getChildren().add(label);
-        int side = 40;
-        int space = 5;
         for(int i = 0;i < row;i++){
             for(int j = 0;j < col;j++){
                 if(index < num){
-                    Rectangle r = new Rectangle();
-                    r.setX(j * (side + space));
-                    r.setY(30 + i * (side + space));
-                    r.setWidth(side);
-                    r.setHeight(side);
-                    r.setFill(tiles[index].getTILE_COLOR());
+                    Square square = new Square(j * (side + space),30 + i * (side + space),null,Square.Position.Centre,this);
+                    centreGroup.getChildren().add(square);
+                    Square.DraggableSquare draggableSquare = new Square.DraggableSquare(j * (side + space),30 + i * (side + space),tiles[index],Square.Position.Centre,this);
+                    centreGroup.getChildren().add(draggableSquare);
                     index ++;
-                    centreGroup.getChildren().add(r);
                 }
             }
         }
@@ -104,19 +93,12 @@ public class SharedGroup extends Group {
         Label label = new Label("Discard:");
         label.setFont(new Font("Arial", 20));
         discardGroup.getChildren().add(label);
-        int side = 40;
-        int space = 5;
         for(int i=0;i<tileNum.length;i++){
-            Rectangle r = new Rectangle();
-            r.setX(i * (side + space));
-            r.setY(30);
-            r.setWidth(side);
-            r.setHeight(side);
-            r.setFill(Tile.idToTile(i).getTILE_COLOR());
+            Square square = new Square(i * (side + space),30,Tile.idToTile(i),Square.Position.Discard,this);
             Label numLabel = new Label(String.valueOf(tileNum[i]));
             numLabel.setLayoutX(15 + i * (side + space));
             numLabel.setLayoutY(30 + side + space);
-            discardGroup.getChildren().addAll(r,numLabel);
+            discardGroup.getChildren().addAll(square,numLabel);
         }
         return discardGroup;
     }
@@ -133,11 +115,11 @@ public class SharedGroup extends Group {
     }
 
     public SharedGroup(SharedState sharedState) {
-        Group factory = drawFactory(sharedState.getFactory());
-        Group bag = drawBag(sharedState.getBag());
-        Group discard = drawDiscard(sharedState.getDiscard());
-        Group centre = drawCentre(sharedState.getCentre());
-        Group playTurn = drawPlayerTurn(sharedState.getPlayer());
+        factory = drawFactory(sharedState.getFactory());
+        bag = drawBag(sharedState.getBag());
+        discard = drawDiscard(sharedState.getDiscard());
+        centre = drawCentre(sharedState.getCentre());
+        playTurn = drawPlayerTurn(sharedState.getPlayer());
 
         factory.setLayoutX(50);
         factory.setLayoutY(0);
@@ -151,6 +133,5 @@ public class SharedGroup extends Group {
         playTurn.setLayoutY(220);
 
         this.getChildren().addAll(factory,bag,discard,centre,playTurn);
-
     }
 }

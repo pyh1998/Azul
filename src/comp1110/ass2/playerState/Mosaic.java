@@ -36,6 +36,18 @@ public class Mosaic {
     }
 
     /**
+     * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
+     *
+     * Constructor of the empty mosaic
+     *
+     * Initialize the tiles in Mosaic
+     *
+     */
+    public Mosaic() {
+        tiles = new Tile[HEIGHT][WIDTH];
+    }
+
+    /**
      * @author QinLing Zhong
      *
      * Check if the state string is well formed
@@ -182,6 +194,25 @@ public class Mosaic {
         }
         if(rowFlag && colFlag) count++;
         return count;
+    }
+
+    private static final char[][] BeginnerMosaic = {{'a','b','c','d','e'},
+                                                    {'e','a','b','c','d'},
+                                                    {'d','e','a','b','c'},
+                                                    {'c','d','e','a','b'},
+                                                    {'b','c','d','e','a'}
+                                                   };
+    /**
+     * Find the column of the mosaic in beginner mode.
+     * @param row the row of the mosaic
+     * @param tile the tile should be put
+     * @return the column
+     */
+    public static int getColInBeginnerMosaic(int row, Tile tile) {
+        for (int i=0;i<WIDTH;i++) {
+            if (tile.getTILE_TYPE() == BeginnerMosaic[row][i]) return i;
+        }
+        return -1;
     }
 
 }

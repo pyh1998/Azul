@@ -48,6 +48,21 @@ public class SharedState {
     }
 
     /**
+     * @author Yuhui Pang
+     *
+     * Constructor of SharedState
+     * Initialize fields player, factory, centre, bag and discard
+     *
+     */
+    public SharedState(int playerNum){
+        player = 'A';
+        factory = new Factory(playerNum);
+        centre = new Centre();
+        bag = new Bag();
+        discard = new Discard();
+    }
+
+    /**
      * @author QinLing Zhong
      *
      * Check if the SharedState string is well-formed

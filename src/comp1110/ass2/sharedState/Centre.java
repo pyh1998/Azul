@@ -43,9 +43,9 @@ public class Centre {
      * Initialize the tiles in Centre
      *
      */
-    public Centre(int number) {
-        this.number = 0;
-        this.tiles = new Tile[number];
+    public Centre() {
+        this.number = 1;
+        this.tiles = new Tile[]{Tile.FIRST_PLAYER};
     }
 
     /**

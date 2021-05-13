@@ -6,7 +6,7 @@ public class Player {
      * Field onTurn: Whether the player is on turn
      * Field id: The id of the player
      */
-    private int score = 0;
+    private int score;
     public boolean onTurn;
     private final char id;
 
@@ -16,9 +16,9 @@ public class Player {
      * Constructor of the Player
      * @param id the id of the player
      */
-    public Player(char id, boolean onTurn) {
+    public Player(char id) {
         this.id = id;
-        this.onTurn = onTurn;
+        this.score = 0;
     }
 
     /**
