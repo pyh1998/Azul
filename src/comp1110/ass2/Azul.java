@@ -619,7 +619,6 @@ public class Azul {
         char player = gameState[0].charAt(0);
         int playerNum = PlayerState.getPlayNumber(gameState[1]);
         sharedState = new SharedState(gameState[0],playerNum);
-        playerState = PlayerState.getAllPlayerStates(gameState[1]);
         String bestMove = allMoves.get(0);
         boolean isTillingMove = sharedState.getFactory().isEmpty() && sharedState.getCentre().isEmpty();
 
@@ -660,7 +659,6 @@ public class Azul {
      * @return player board score
      */
     public static int draftingHeuristic(String[] gameState, char player) {
-        int playerNum = PlayerState.getPlayNumber(gameState[1]);
         PlayerState playerState = PlayerState.getAllPlayerStates(gameState[1])[player - 'A'];
         // count the number of complete row
         Storage storage = playerState.getStorage();
