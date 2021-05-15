@@ -601,7 +601,7 @@ public class Azul {
     }
 
     /**
-     * @author Task13: Jiawen Wang
+     * @author Jiawen Wang
      *
      * Given a valid game state, return a valid move.
      *
@@ -611,11 +611,24 @@ public class Azul {
      */
     public static String generateAction(String[] gameState) {
         // FIXME Task 13
-        Random rand = new Random();
         ArrayList<String> allMoves = getAllValidMoves(gameState);
-        int randomIndex = rand.nextInt(allMoves.size());
-        return allMoves.get(randomIndex);
+        //Random rand = new Random();
+        //int randomIndex = rand.nextInt(allMoves.size());
+        //return allMoves.get(randomIndex);
         // FIXME Task 15 Implement a "smart" generateAction()
+        char player = gameState[0].charAt(0);
+        String bestMove = allMoves.get(0);
+        // find the move that result in the greatest score
+        for (int i = 1; i < allMoves.size(); i++) {
+            String[] oldNextState = applyMove(gameState, bestMove);
+            String[] newNextState = applyMove(gameState, allMoves.get(i));
+            int oldBestScore = PlayerState.getAllPlayerStates(oldNextState[1])[player - 'A'].getPlayer().getScore();
+            int newNextScore = PlayerState.getAllPlayerStates(newNextState[1])[player - 'A'].getPlayer().getScore();
+            if (oldBestScore < newNextScore) {
+                bestMove = allMoves.get(i);
+            }
+        }
+        return bestMove;
     }
 
     /**
