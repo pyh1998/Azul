@@ -617,18 +617,60 @@ public class Azul {
         //return allMoves.get(randomIndex);
         // FIXME Task 15 Implement a "smart" generateAction()
         char player = gameState[0].charAt(0);
+        int playerNum = PlayerState.getPlayNumber(gameState[1]);
+        sharedState = new SharedState(gameState[0],playerNum);
+        playerState = PlayerState.getAllPlayerStates(gameState[1]);
         String bestMove = allMoves.get(0);
-        // find the move that result in the greatest score
+        boolean isTillingMove = sharedState.getFactory().isEmpty() && sharedState.getCentre().isEmpty();
+
         for (int i = 1; i < allMoves.size(); i++) {
             String[] oldNextState = applyMove(gameState, bestMove);
             String[] newNextState = applyMove(gameState, allMoves.get(i));
-            int oldBestScore = PlayerState.getAllPlayerStates(oldNextState[1])[player - 'A'].getPlayer().getScore();
-            int newNextScore = PlayerState.getAllPlayerStates(newNextState[1])[player - 'A'].getPlayer().getScore();
-            if (oldBestScore < newNextScore) {
-                bestMove = allMoves.get(i);
+            // tilling move: find the move with the highest score
+            if (isTillingMove) {
+                int oldBestScore = PlayerState.getAllPlayerStates(oldNextState[1])[player - 'A'].getPlayer().getScore();
+                int newNextScore = PlayerState.getAllPlayerStates(newNextState[1])[player - 'A'].getPlayer().getScore();
+                if (oldBestScore < newNextScore) {
+                    bestMove = allMoves.get(i);
+                }
+
+            // drafting move: find the mpve with the highest heuristic
+            } else {
+                int oldBestHeuristic = draftingHeuristic(oldNextState, player);
+                int newNextHeuristic = draftingHeuristic(newNextState, player);
+                if (oldBestHeuristic < newNextHeuristic) {
+                    bestMove = allMoves.get(i);
+                }
             }
+
         }
         return bestMove;
+    }
+
+    /**
+     * @author Jiawen Wang
+     *
+     * Evaluate the current gamestate according to the player's storage area.
+     * This method is called to find the best draftingMove.
+     *
+     * The player board is evaluated by:
+     * number of complete rows * 10 - number of tiles in the floor
+     *
+     * @param gameState the game state strings
+     * @return player board score
+     */
+    public static int draftingHeuristic(String[] gameState, char player) {
+        int playerNum = PlayerState.getPlayNumber(gameState[1]);
+        PlayerState playerState = PlayerState.getAllPlayerStates(gameState[1])[player - 'A'];
+        // count the number of complete row
+        Storage storage = playerState.getStorage();
+        int countCompleteRow = 0;
+        for (int r = 0; r < Storage.NUMBER_ROWS; r++) {
+            if (storage.rowIsComplete(r)) countCompleteRow++;
+        }
+        // count number of tiles in the floor
+        int floorTileNum = playerState.getFloor().getNumber();
+        return countCompleteRow * 10 - floorTileNum;
     }
 
     /**
