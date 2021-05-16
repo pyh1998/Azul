@@ -27,10 +27,15 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
+import java.security.cert.PolicyNode;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Game extends Application {
@@ -45,7 +50,7 @@ public class Game extends Application {
     private static final int BACK_Y = 650;
 
     private final Group controls = new Group();
-    private final Group root = new Group();
+    private static final Group root = new Group();
     public static final Group allState = new Group();
     public static final Viewer viewer = new Viewer();
 
@@ -123,6 +128,7 @@ public class Game extends Application {
             text = new Text(name);
             text.setFont(text.getFont().font(20));
             text.setFill(Color.WHITE);
+            text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,20));
             // shape of the button
             Rectangle bg = new Rectangle(300,30);
             bg.setOpacity(0.7);
@@ -223,6 +229,7 @@ public class Game extends Application {
         }
         tilling();
         Azul.nextRound(gameState);
+        checkCompletion();
         displayState();
     }
 
@@ -269,6 +276,36 @@ public class Game extends Application {
         score.play();
     }
 
+    /**
+     * Check game completion and show completion if the game is over
+     */
+    private static void checkCompletion() {
+        boolean isEnd = PlayerState.isGameComplete(gameState[1]);
+        if (isEnd) {
+            makeCompletion();
+        }
+    }
+
+    private static void makeCompletion() {
+        ArrayList<Character> winners = PlayerState.findWinner(gameState[1]);
+        String winnersStr = "Player " + winners.get(0).toString();
+        if (winners.size() > 1) {
+            for (int i = 1; i < winners.size(); i++) {
+                winnersStr += ", Player " + winners.get(i).toString();
+            }
+        }
+        String sub;
+        if (winners.size() == 1) sub = " wins!";
+        else sub = " win!";
+
+        Text message = new Text(winnersStr + sub);
+        message.setFill(Color.BLACK);
+        message.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,50));
+        message.setLayoutX(BOARD_WIDTH/2 - 150);
+        message.setLayoutY(BOARD_HEIGHT/2);
+        message.setTextAlignment(TextAlignment.CENTER);
+        root.getChildren().add(message);
+    }
 
     /**
      * Set up event handlers for the main game

@@ -35,6 +35,10 @@ code:
     url: N/A
     licence: All right reserved
 
+  - comment: refered to Almas Baimagambetov's YouTube video "JavaFX Custom Game Menu - Thief" to add the game menu
+    url: https://www.youtube.com/watch?v=aOcow70vqb4&ab_channel=AlmasBaimagambetov
+    licence: All right reserved
+
 # Use this to list any assets (artwork, sound, etc) that you used.
 # Provide a comment explaining your use of that asset and the URL
 # and license for the asset
@@ -65,6 +69,10 @@ assets:
   - comment: click sound 3, {Journey in the New World.} by Twin Musicom (twinmusicom.org)
     url: https://sc.chinaz.com/yinxiao/191008157210.htm
     licence: CopyRight 2002-2020
+
+  - comment: game menu background, image published by W. Eric Martin in website boardgamegeek
+    url: https://boardgamegeek.com/image/3718275/azul
+    licence: Attribution 3.0 Unported (CC BY 3.0)
 
 # Sign *your* name and uids here. (Remove entries if you have fewer
 # than three members.)

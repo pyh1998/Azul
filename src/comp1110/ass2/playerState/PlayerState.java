@@ -3,6 +3,8 @@ package comp1110.ass2.playerState;
 import comp1110.ass2.Azul;
 import comp1110.ass2.Tile.Tile;
 
+import java.util.ArrayList;
+
 public class PlayerState {
     /**
      * Field player: The Player of the PlayerState
@@ -242,6 +244,84 @@ public class PlayerState {
             if (count == 5) return true;
         }
         return false;
+    }
+
+    /**
+     * @author Jiawen Wang
+     *
+     * Assume this method is only called when the game is end
+     * Find the winner of the game when the game is over
+     *
+     * The player with the highest score wins.
+     * In the case of a draw, the player with the greatest number of complete rows wins.
+     * In the case of a further draw, those players share the win.
+     *
+     * @param playerStateStr all playerState string
+     * @return the char represents the player
+     */
+    public static ArrayList<Character> findWinner(String playerStateStr) {
+        PlayerState[] allStates = getAllPlayerStates(playerStateStr);
+        int highestScore = allStates[0].getPlayer().getScore();
+        for (int i = 1; i < allStates.length; i++) {
+            if (highestScore < allStates[i].getPlayer().getScore()) {
+                highestScore = allStates[i].getPlayer().getScore();
+            }
+        }
+        ArrayList<Character> winners = new ArrayList<>();
+        for (int i = 0; i < allStates.length; i++) {
+            if (allStates[i].getPlayer().getScore() == highestScore) {
+                winners.add(allStates[i].getPlayer().getId());
+            }
+        }
+        if (winners.size() == 1) {
+            return winners;
+        }
+        else {
+            int mostCompleteRows = countCompleteRows (playerStateStr, winners.get(0));
+            for (int i = 1; i < winners.size(); i++) {
+                if (mostCompleteRows < countCompleteRows (playerStateStr, winners.get(i))) {
+                    mostCompleteRows = countCompleteRows (playerStateStr, winners.get(i));
+                }
+            }
+            ArrayList<Character> finalWinner = new ArrayList<>();
+            for (int i = 0; i < winners.size(); i++) {
+                if (countCompleteRows (playerStateStr, winners.get(i)) == mostCompleteRows) {
+                    finalWinner.add(winners.get(i));
+                }
+            }
+            return finalWinner;
+        }
+    }
+
+    /**
+     * @author Jiawen Wang
+     *
+     * Find number of complete rows for a specific player
+     *
+     * @param playerStateStr all playerState string
+     * @param player char of the player
+     * @return number of complete rows for the player
+     */
+    public static int countCompleteRows(String playerStateStr, char player) {
+        PlayerState playerState = getAllPlayerStates(playerStateStr)[player - 'A'];
+        Storage storage = playerState.getStorage();
+        int count = 0;
+        for (int r = 0; r < Storage.NUMBER_ROWS; r++) {
+            if (storage.rowIsComplete(r)) count++;
+        }
+        return count;
+    }
+
+    public static boolean isGameComplete(String playerStatesStr) {
+        PlayerState[] allStates = PlayerState.getAllPlayerStates(playerStatesStr);
+        boolean isEnd = false;
+        for (int i = 0; i < allStates.length; i++) {
+            if (allStates[i].isEndOfGame()) {
+                isEnd = true;
+                break;
+            }
+        }
+        return isEnd;
     }
 
     /**
