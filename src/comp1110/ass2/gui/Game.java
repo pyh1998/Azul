@@ -9,28 +9,40 @@ import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.playerState.Storage;
 import comp1110.ass2.sharedState.SharedState;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
-import java.awt.*;
 import java.util.Arrays;
 
 public class Game extends Application {
     /* board layout */
     private static final int BOARD_WIDTH = 1280;
     private static final int BOARD_HEIGHT = 768;
+    /* menu position */
+    private static final int MENU_X = 900;
+    private static final int MENU_Y = 520;
+    /* back button position */
+    private static final int BACK_X = 900;
+    private static final int BACK_Y = 650;
 
     private final Group controls = new Group();
     private final Group root = new Group();
@@ -44,17 +56,112 @@ public class Game extends Application {
     private static Square square;
     private static Square highlighted;
     private static Paint preColor;
+    private GameMenu gameMenu;
 
     /* where to find media assets */
     private static final String URI_BASE = "assets/";
 
+    /* menu page background */
+    private static final String BACKGROUND_URI = Game.class.getResource(URI_BASE + "azul.png").toString();
+
+    /* sound effects from https://sc.chinaz.com/yinxiao/ */
     private static AudioClip score = new AudioClip(Game.class.getResource(URI_BASE + "click1.mp3").toString());
     private static AudioClip snap = new AudioClip(Game.class.getResource(URI_BASE + "click3.mp3").toString());
 
     /* Loop in public domain CC 0 https://soundcloud.com/keysofmoon */
-    private static final String LOOP_URI = Game.class.getResource(URI_BASE + "Yugen-Emotional-Ethnic-Music.mp3").toString();
-    private AudioClip loop;
-    private boolean loopPlaying = false;
+    private static final String MENU_LOOP_URI = Game.class.getResource(URI_BASE + "Yugen-Emotional-Ethnic-Music.mp3").toString();
+    /* Loop in public domain CC 0 http://www.twinmusicom.org/ */
+    private static final String GAME_LOOP_URI = Game.class.getResource(URI_BASE + "Twin Musicom - Retro Dreamscape.mp3").toString();
+    private AudioClip gameLoop;
+    private AudioClip menuLoop;
+    private boolean gameLoopPlaying = true;
+
+    /**
+     * Class for the menu
+     */
+    private class GameMenu extends Parent {
+        public GameMenu() {
+            VBox menu0 = new VBox(10);
+            menu0.setTranslateX(MENU_X);
+            menu0.setTranslateY(MENU_Y);
+            addBackground();
+            menuSoundLoop();
+            menuLoop.play();
+            MenuButton botTwoPlayer = new MenuButton("Two Players");
+            botTwoPlayer.setOnMouseClicked(event -> {
+                score.play();
+                menuLoop.stop();
+                root.getChildren().clear();
+                root.getChildren().add(allState);
+                startGame();
+                setUpSoundLoop();
+                gameLoop.play();
+                gameLoopPlaying = true;
+            });
+            MenuButton botThreePlayer = new MenuButton("Three Players");
+            botThreePlayer.setOnMouseClicked(event -> {
+                score.play();
+            });
+            MenuButton botFourPlayer = new MenuButton("Four Players");
+            botFourPlayer.setOnMouseClicked(event -> {
+                score.play();
+            });
+            MenuButton botExist = new MenuButton("Exist");
+            botExist.setOnMouseClicked(event -> System.exit(0));
+
+            menu0.getChildren().addAll(botTwoPlayer,botThreePlayer,botFourPlayer,botExist);
+            getChildren().add(menu0);
+        }
+    }
+
+    /**
+     * Class for the menu button
+     */
+    private static class MenuButton extends StackPane {
+        private Text text;
+        public MenuButton(String name) {
+            text = new Text(name);
+            text.setFont(text.getFont().font(20));
+            text.setFill(Color.WHITE);
+            // shape of the button
+            Rectangle bg = new Rectangle(300,30);
+            bg.setOpacity(0.7);
+            bg.setFill(Color.BLACK);
+            bg.setEffect(new GaussianBlur(3.5));
+            setAlignment(Pos.CENTER_LEFT);
+            setRotate(-0.5);
+            getChildren().addAll(bg,text);
+            // add effect when the mouse is positioned in the button area
+            this.setOnMouseEntered(event -> {
+                bg.setTranslateX(10);
+                text.setTranslateX(10);
+                bg.setFill(Color.WHITE);
+                text.setFill(Color.BLACK);
+            });
+            this.setOnMouseExited(event -> {
+                bg.setTranslateX(0);
+                text.setTranslateX(0);
+                bg.setFill(Color.BLACK);
+                text.setFill(Color.WHITE);
+            });
+            // add glow effect when mouse pressed the button
+            DropShadow drop = new DropShadow(50, Color.WHITE);
+            drop.setInput(new Glow());
+            this.setOnMousePressed(event -> setEffect(drop));
+            this.setOnMouseReleased(event -> setEffect(null));
+        }
+    }
+
+    /**
+     * Add background for the game menu
+     */
+    private void addBackground(){
+        ImageView background = new ImageView(new Image(BACKGROUND_URI));
+        background.setFitWidth(BOARD_WIDTH);
+        background.setFitHeight(BOARD_WIDTH);
+        background.setY((BOARD_HEIGHT - BOARD_WIDTH) / 2 - 50);
+        root.getChildren().add(background);
+    }
 
     public static void displayState() {
         //Clear the group
@@ -165,6 +272,8 @@ public class Game extends Application {
 
     /**
      * Set up event handlers for the main game
+     * press M key for controlling music
+     * press Escape key for returning to game menu
      *
      * @param scene The Scene used by the game.
      */
@@ -174,8 +283,27 @@ public class Game extends Application {
             if (event.getCode() == KeyCode.M) {
                 toggleSoundLoop();
                 event.consume();
+            } else if (event.getCode() == KeyCode.ESCAPE) {
+                gameLoop.stop();
+                gameLoopPlaying = false;
+                root.getChildren().clear();
+                gameMenu = new GameMenu();
+                root.getChildren().add(gameMenu);
+                event.consume();
             }
         });
+    }
+
+    /**
+     * Set up the sound loop for the game menu
+     */
+    private void menuSoundLoop() {
+        try {
+            menuLoop = new AudioClip(MENU_LOOP_URI);
+            menuLoop.setCycleCount(AudioClip.INDEFINITE);
+        } catch (Exception e) {
+            System.err.println(":-( something bad happened (" + MENU_LOOP_URI + "): " + e);
+        }
     }
 
     /**
@@ -183,22 +311,22 @@ public class Game extends Application {
      */
     private void setUpSoundLoop() {
         try {
-            loop = new AudioClip(LOOP_URI);
-            loop.setCycleCount(AudioClip.INDEFINITE);
+            gameLoop = new AudioClip(GAME_LOOP_URI);
+            gameLoop.setCycleCount(AudioClip.INDEFINITE);
         } catch (Exception e) {
-            System.err.println(":-( something bad happened (" + LOOP_URI + "): " + e);
+            System.err.println(":-( something bad happened (" + GAME_LOOP_URI + "): " + e);
         }
     }
 
     /**
-     * Turn the sound loop on or off, (play after pressing M), idea from dinosaurs
+     * Turn the game sound loop on or off, (play after pressing M), idea from dinosaurs
      */
     private void toggleSoundLoop() {
-        if (loopPlaying)
-            loop.stop();
-        else
-            loop.play();
-        loopPlaying = !loopPlaying;
+        if (gameLoopPlaying) {
+            gameLoop.stop();
+        } else if (!menuLoop.isPlaying())
+            gameLoop.play();
+        gameLoopPlaying = !gameLoopPlaying;
     }
 
     @Override
@@ -212,12 +340,16 @@ public class Game extends Application {
         //String[] gameState = {"A0MSFB0MSF","AF0cdde1bbbe2abde3cdee4bcceCfB1915161614D0000000000"};
         //viewer.displayState(gameState);
 
-        root.getChildren().add(allState);
+        gameMenu = new GameMenu();
+        root.getChildren().add(gameMenu);
+
+        //root.getChildren().add(allState);
         setUpHandlers(scene);
-        startGame();
-        setUpSoundLoop();
+        //startGame();
+        //setUpSoundLoop();
 
         stage.setScene(scene);
         stage.show();
+
     }
 }
