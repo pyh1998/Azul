@@ -69,11 +69,11 @@ public class Square extends Rectangle {
 
         public DraggableSquare(double x, double y, Tile tile, Position position, Group group) {
             super(x, y, tile, position, group);
-            this.setEvents();
+            if (tile.getTILE_TYPE() != 'f') this.setEvents();
         }
         public DraggableSquare(double x, double y, Tile tile, Position position, Group group, int index) {
             super(x, y, tile, position, group, index);
-            this.setEvents();
+            if (tile.getTILE_TYPE() != 'f') this.setEvents();
         }
         private void setEvents() {
             this.setOnMousePressed((mouseEvent) -> {

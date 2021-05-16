@@ -30,10 +30,10 @@ declaration: >-
 #
 # Add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external code)
-#code:
-#  - comment:
-#    url:
-#    licence:
+code:
+  - comment: refered to last year's ass1 dinosaurs to add sound effect and bgm
+    url: N/A
+    licence: All right reserved
 
 # Use this to list any assets (artwork, sound, etc) that you used.
 # Provide a comment explaining your use of that asset and the URL
@@ -41,11 +41,30 @@ declaration: >-
 #
 # Add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external assets)
-#assets:
-#  - comment:
-#    url:
-#    licence:
+assets:
+  - comment: Background music, Yugen - Emotional Ethnic Music by Keys of Moon
+    url: https://soundcloud.com/keysofmoon
+    licence: Attribution 4.0 International (CC BY 4.0)
 
+  - comment: Background music, {Retro Dreamscape} by Twin Musicom (twinmusicom.org)
+    url: http://www.twinmusicom.org/
+    licence: Attribution 4.0 International (CC BY 4.0)
+
+  - comment: Background music, {Journey in the New World.} by Twin Musicom (twinmusicom.org)
+    url: http://www.twinmusicom.org/
+    licence: Attribution 4.0 International (CC BY 4.0)
+
+  - comment: click sound 1, {Journey in the New World.} by Twin Musicom (twinmusicom.org)
+    url: https://sc.chinaz.com/yinxiao/180904492042.htm
+    licence: CopyRight 2002-2020
+
+  - comment: click sound 2, {Journey in the New World.} by Twin Musicom (twinmusicom.org)
+    url: https://sc.chinaz.com/yinxiao/YouXi_5.html
+    licence: CopyRight 2002-2020
+
+  - comment: click sound 3, {Journey in the New World.} by Twin Musicom (twinmusicom.org)
+    url: https://sc.chinaz.com/yinxiao/191008157210.htm
+    licence: CopyRight 2002-2020
 
 # Sign *your* name and uids here. (Remove entries if you have fewer
 # than three members.)

@@ -15,8 +15,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
@@ -29,6 +33,7 @@ public class Game extends Application {
     private static final int BOARD_HEIGHT = 768;
 
     private final Group controls = new Group();
+    private final Group root = new Group();
     public static final Group allState = new Group();
     public static final Viewer viewer = new Viewer();
 
@@ -40,6 +45,16 @@ public class Game extends Application {
     private static Square highlighted;
     private static Paint preColor;
 
+    /* where to find media assets */
+    private static final String URI_BASE = "assets/";
+
+    private static AudioClip score = new AudioClip(Game.class.getResource(URI_BASE + "click1.mp3").toString());
+    private static AudioClip snap = new AudioClip(Game.class.getResource(URI_BASE + "click3.mp3").toString());
+
+    /* Loop in public domain CC 0 https://soundcloud.com/keysofmoon */
+    private static final String LOOP_URI = Game.class.getResource(URI_BASE + "Yugen-Emotional-Ethnic-Music.mp3").toString();
+    private AudioClip loop;
+    private boolean loopPlaying = false;
 
     public static void displayState() {
         //Clear the group
@@ -109,10 +124,12 @@ public class Game extends Application {
         if (draggableSquare.position == Square.Position.Factory) {
             int factoryNum = draggableSquare.index;
             move = String.valueOf(player) + factoryNum + draggableSquare.tile.getTILE_TYPE() + placedTo;
+            if (Azul.isMoveValid(gameState, move)) snap.play();
             gameState = Azul.applyMove(gameState, move);
         }
         else if (draggableSquare.position == Square.Position.Centre) {
             move = String.valueOf(player) + 'C' + draggableSquare.tile.getTILE_TYPE() + placedTo;
+            if (Azul.isMoveValid(gameState, move)) snap.play();
             gameState = Azul.applyMove(gameState, move);
         }
         if (move != null) {
@@ -141,25 +158,66 @@ public class Game extends Application {
                     System.out.println(move);
                 }
             }
+        }
+        score.play();
+    }
 
+
+    /**
+     * Set up event handlers for the main game
+     *
+     * @param scene The Scene used by the game.
+     */
+    private void setUpHandlers(Scene scene) {
+        /* create handlers for key press and release events */
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.M) {
+                toggleSoundLoop();
+                event.consume();
+            }
+        });
+    }
+
+    /**
+     * Set up the sound loop, idea from dinosaurs
+     */
+    private void setUpSoundLoop() {
+        try {
+            loop = new AudioClip(LOOP_URI);
+            loop.setCycleCount(AudioClip.INDEFINITE);
+        } catch (Exception e) {
+            System.err.println(":-( something bad happened (" + LOOP_URI + "): " + e);
         }
     }
 
+    /**
+     * Turn the sound loop on or off, (play after pressing M), idea from dinosaurs
+     */
+    private void toggleSoundLoop() {
+        if (loopPlaying)
+            loop.stop();
+        else
+            loop.play();
+        loopPlaying = !loopPlaying;
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
         //  FIXME Task 12: Implement a basic playable Azul game in JavaFX that only allows tiles to be placed in valid places
         //  FIXME Task 14: Implement a computer opponent so that a human can play your game against the computer.
         stage.setTitle("Azul");
-        Group root = new Group();
+        //Group root = new Group();
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
         //viewer.start(stage);
         //String[] gameState = {"A0MSFB0MSF","AF0cdde1bbbe2abde3cdee4bcceCfB1915161614D0000000000"};
         //viewer.displayState(gameState);
 
         root.getChildren().add(allState);
+        setUpHandlers(scene);
+        startGame();
+        setUpSoundLoop();
+
         stage.setScene(scene);
         stage.show();
-        startGame();
     }
 }
