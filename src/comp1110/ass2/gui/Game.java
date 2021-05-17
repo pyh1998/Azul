@@ -33,8 +33,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-
-import java.security.cert.PolicyNode;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -45,9 +43,6 @@ public class Game extends Application {
     /* menu position */
     private static final int MENU_X = 900;
     private static final int MENU_Y = 520;
-    /* back button position */
-    private static final int BACK_X = 900;
-    private static final int BACK_Y = 650;
 
     private final Group controls = new Group();
     private static final Group root = new Group();
@@ -70,13 +65,14 @@ public class Game extends Application {
     private static final String BACKGROUND_URI = Game.class.getResource(URI_BASE + "azul.png").toString();
 
     /* sound effects from https://sc.chinaz.com/yinxiao/ */
-    private static AudioClip score = new AudioClip(Game.class.getResource(URI_BASE + "click1.mp3").toString());
-    private static AudioClip snap = new AudioClip(Game.class.getResource(URI_BASE + "click3.mp3").toString());
+    private static final AudioClip score = new AudioClip(Game.class.getResource(URI_BASE + "click1.mp3").toString());
+    private static final AudioClip snap = new AudioClip(Game.class.getResource(URI_BASE + "click3.mp3").toString());
 
     /* Loop in public domain CC 0 https://soundcloud.com/keysofmoon */
     private static final String MENU_LOOP_URI = Game.class.getResource(URI_BASE + "Yugen-Emotional-Ethnic-Music.mp3").toString();
     /* Loop in public domain CC 0 http://www.twinmusicom.org/ */
     private static final String GAME_LOOP_URI = Game.class.getResource(URI_BASE + "Twin Musicom - Retro Dreamscape.mp3").toString();
+
     private AudioClip gameLoop;
     private AudioClip menuLoop;
     private boolean gameLoopPlaying = true;
@@ -123,7 +119,7 @@ public class Game extends Application {
      * Class for the menu button
      */
     private static class MenuButton extends StackPane {
-        private Text text;
+        private final Text text;
         public MenuButton(String name) {
             text = new Text(name);
             text.setFont(text.getFont().font(20));
@@ -304,7 +300,13 @@ public class Game extends Application {
         message.setLayoutX(BOARD_WIDTH/2 - 150);
         message.setLayoutY(BOARD_HEIGHT/2);
         message.setTextAlignment(TextAlignment.CENTER);
-        root.getChildren().add(message);
+        Text hint = new Text("Press ESC - back to the game menu");
+        hint.setFill(Color.BLACK);
+        hint.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,25));
+        hint.setLayoutX(BOARD_WIDTH*2/3);
+        hint.setLayoutY(BOARD_HEIGHT-50);
+        hint.setTextAlignment(TextAlignment.CENTER);
+        root.getChildren().addAll(hint,message);
     }
 
     /**
