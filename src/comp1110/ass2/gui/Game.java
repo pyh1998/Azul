@@ -43,7 +43,7 @@ public class Game extends Application {
     private static final int BOARD_HEIGHT = 768;
     /* menu position */
     private static final int MENU_X = 900;
-    private static final int MENU_Y = 520;
+    private static final int MENU_Y = 600;
 
     private final Group controls = new Group();
     private static final Group root = new Group();
@@ -224,7 +224,7 @@ public class Game extends Application {
         ImageView background = new ImageView(new Image(BACKGROUND_URI));
         background.setFitWidth(BOARD_WIDTH);
         background.setFitHeight(BOARD_WIDTH);
-        background.setY((BOARD_HEIGHT - BOARD_WIDTH) / 2 - 50);
+        background.setY((BOARD_HEIGHT - BOARD_WIDTH) / 2);
         root.getChildren().add(background);
     }
 
