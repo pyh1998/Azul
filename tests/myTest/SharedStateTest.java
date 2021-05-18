@@ -51,8 +51,8 @@ public class SharedStateTest {
 
     @Test
     public void gameStateTest() {
-        String share = "CF6acdd7bcee8aabdCaaaaaccccdddddeeefB1014131215D0000000000";
-        String play = "A0MS0b12b1FB0MS2b13c1FC0MS1a2FD0MS3b1F";
+        String share = "BFCaaabbbbbccccdddddddeeeeeeeefB1513141210D0000000000";
+        String play = "A0MS0e11e12c1FB0MS0b11d1FC0MS0a11c1FD0MS0b12a1F";
 
         assertTrue(Azul.isSharedStateWellFormed(share));
         assertTrue(Azul.isPlayerStateWellFormed(play));

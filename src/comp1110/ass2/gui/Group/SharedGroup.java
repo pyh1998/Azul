@@ -127,7 +127,7 @@ public class SharedGroup extends Group {
         discard.setLayoutX(centre.getLayoutX() + 5 * (Square.SIZE + Square.SPACE) + 50);
         discard.setLayoutY(100);
         playTurn.setLayoutX(550);
-        playTurn.setLayoutY(150);
+        playTurn.setLayoutY(160);
 
         this.getChildren().addAll(factory,bag,discard,centre,playTurn);
     }
