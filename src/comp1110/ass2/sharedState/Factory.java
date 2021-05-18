@@ -64,7 +64,7 @@ public class Factory {
      * @return return ture if the string is well-formed and return false if it is not well-formed
      */
     public static boolean isWellFormed(String factoryStr){
-        if (factoryStr.length() > (1 + 5 * 5)) {
+        if (factoryStr.length() > (1 + 5 * 9)) {
             return false;
         }
         if ((factoryStr.length() - 1) % 5 != 0) {

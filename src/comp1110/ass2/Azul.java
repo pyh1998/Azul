@@ -13,6 +13,7 @@ public class Azul {
 
     public static SharedState sharedState;
     public static PlayerState[] playerState;
+
     public static String lastShareState;
     public static String lastPlayerState;
 

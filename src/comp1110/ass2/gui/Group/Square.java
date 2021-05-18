@@ -15,7 +15,8 @@ public class Square extends Rectangle {
         double y;
 
     }
-    public static final double SIZE = 40;
+    public static double SIZE = 40;
+    public static double SPACE = 5;
     public final Tile tile;
     public Position position;
     public Group group;
@@ -86,7 +87,7 @@ public class Square extends Rectangle {
             this.setOnMouseDragged((mouseEvent) -> {
                 this.setX(mouseEvent.getSceneX() + this.x);
                 this.setY(mouseEvent.getSceneY() + this.y);
-                Game.setHighlighted(findNearest(getPosition()));
+                Game.highlightNearestSquare(findNearest(getPosition()));
             });
             this.setOnMouseReleased((mouseEvent) -> {
                 Game.applyMove();
@@ -98,15 +99,17 @@ public class Square extends Rectangle {
         double distance = Double.MAX_VALUE;
         Square nearest = null;
         for (Node group : Game.allState.getChildren()) {
-            for(Node subGroup : ((Group)group).getChildren()){
-                for(Node node : ((Group)subGroup).getChildren()){
-                    if ((node instanceof Square) && !(node instanceof DraggableSquare)) {
-                        Square square = (Square) node;
-                        double[] dxy = square.getPosition();
-                        double temp = Math.sqrt(Math.pow(xy[0] - dxy[0], 2) + Math.pow(xy[1] - dxy[1], 2));
-                        if (temp < distance) {
-                            distance = temp;
-                            nearest = square;
+            if(group instanceof Group){
+                for(Node subGroup : ((Group)group).getChildren()){
+                    for(Node node : ((Group)subGroup).getChildren()){
+                        if ((node instanceof Square) && !(node instanceof DraggableSquare)) {
+                            Square square = (Square) node;
+                            double[] dxy = square.getPosition();
+                            double temp = Math.sqrt(Math.pow(xy[0] - dxy[0], 2) + Math.pow(xy[1] - dxy[1], 2));
+                            if (temp < distance) {
+                                distance = temp;
+                                nearest = square;
+                            }
                         }
                     }
                 }

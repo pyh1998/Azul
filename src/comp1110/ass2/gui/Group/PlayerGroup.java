@@ -14,7 +14,7 @@ import javafx.scene.text.Font;
 public class PlayerGroup extends Group {
 
     private final double side = Square.SIZE;
-    private final double space = 5;
+    private final double space = Square.SPACE;
     private final Group player;
     private final Group storage;
     private final Group mosaic;
@@ -52,6 +52,12 @@ public class PlayerGroup extends Group {
         for(int i=0;i<Mosaic.HEIGHT;i++){
             for(int j=0;j<Mosaic.HEIGHT;j++){
                 Square square = new Square(j * (side + space),i * (side + space),tiles[i][j],Square.Position.Mosaic,this);
+                if(tiles[i][j] == null){
+                    char tileChar = Mosaic.BeginnerMosaic[i][j];
+                    square.setFill(Tile.CharToTile(tileChar).getTILE_COLOR());
+                    square.setOpacity(0.3);
+
+                }
                 mosaicGroup.getChildren().add(square);
             }
         }
@@ -103,16 +109,18 @@ public class PlayerGroup extends Group {
         mosaic = drawMosaic(playerState.getMosaic());
         floor = drawFloor(playerState.getFloor());
 
-        storage.setLayoutX(0);
-        storage.setLayoutY(280);
-        mosaic.setLayoutX(300);
-        mosaic.setLayoutY(280);
         player.setLayoutX(45);
-        player.setLayoutY(230);
+        player.setLayoutY(0);
+        storage.setLayoutX(0);
+        storage.setLayoutY(50);
+        mosaic.setLayoutX(300);
+        mosaic.setLayoutY(50);
         floor.setLayoutX(45);
-        floor.setLayoutY(550);
+        floor.setLayoutY(storage.getLayoutY() + storage.getBoundsInParent().getHeight() + 30);
 
-        this.setLayoutX((playerChar - 'A') * 600);
+        if(playerChar == 'B' || playerChar == 'D')   this.setLayoutX(600);
+        if(playerChar == 'A' || playerChar == 'B')   this.setLayoutY(200);
+        else if(playerChar == 'C' || playerChar == 'D') this.setLayoutY(480);
         this.getChildren().addAll(storage,mosaic,player,floor);
     }
 }

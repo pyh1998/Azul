@@ -13,6 +13,8 @@ public class SharedState {
     private Discard discard;
     private Factory factory;
     private char player;
+    public static int playerNum = 2;
+    public static int factoryNum = 5;
 
     /**
      * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
@@ -31,6 +33,8 @@ public class SharedState {
      * @param shareStateStr The string representing the Factory state, the tiles in the Centre, Bag and Discard piles
      */
     public SharedState(String shareStateStr, int playerNum){
+        SharedState.playerNum = playerNum;
+        SharedState.factoryNum = 2 * playerNum + 1;
         int indexF = shareStateStr.indexOf("F",1);
         int indexC = shareStateStr.indexOf("C",1);
         int indexB = shareStateStr.indexOf("B",1);
@@ -55,6 +59,8 @@ public class SharedState {
      *
      */
     public SharedState(int playerNum){
+        SharedState.playerNum = playerNum;
+        SharedState.factoryNum = 2 * playerNum + 1;
         player = 'A';
         factory = new Factory(playerNum);
         centre = new Centre();
@@ -113,9 +119,7 @@ public class SharedState {
      * change the current player to next
      */
     public void nextPlayer(){
-        if(player == 'A') player = 'B';
-        else if(player == 'B') player = 'A';
-        //TODO Fix the function with 4 players
+        player = (char) (((player - 'A') + 1) % playerNum + 'A');
     }
 
     /**

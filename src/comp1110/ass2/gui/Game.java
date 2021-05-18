@@ -14,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
@@ -52,10 +53,9 @@ public class Game extends Application {
     public static String[] gameState;
     public static Square.DraggableSquare draggableSquare;
     public static int playerNum;
-
+    private static Paint preColor;
     private static Square square;
     private static Square highlighted;
-    private static Paint preColor;
     private GameMenu gameMenu;
 
     /* where to find media assets */
@@ -90,6 +90,9 @@ public class Game extends Application {
             menuLoop.play();
             MenuButton botTwoPlayer = new MenuButton("Two Players");
             botTwoPlayer.setOnMouseClicked(event -> {
+                playerNum = 2;
+                Square.SIZE = 40;
+                Square.SPACE = 5;
                 score.play();
                 menuLoop.stop();
                 root.getChildren().clear();
@@ -101,11 +104,31 @@ public class Game extends Application {
             });
             MenuButton botThreePlayer = new MenuButton("Three Players");
             botThreePlayer.setOnMouseClicked(event -> {
+                playerNum = 3;
+                Square.SIZE = 30;
+                Square.SPACE = 3;
                 score.play();
+                menuLoop.stop();
+                root.getChildren().clear();
+                root.getChildren().add(allState);
+                startGame();
+                setUpSoundLoop();
+                gameLoop.play();
+                gameLoopPlaying = true;
             });
             MenuButton botFourPlayer = new MenuButton("Four Players");
             botFourPlayer.setOnMouseClicked(event -> {
+                playerNum = 4;
+                Square.SIZE = 30;
+                Square.SPACE = 3;
                 score.play();
+                menuLoop.stop();
+                root.getChildren().clear();
+                root.getChildren().add(allState);
+                startGame();
+                setUpSoundLoop();
+                gameLoop.play();
+                gameLoopPlaying = true;
             });
             MenuButton botExist = new MenuButton("Exist");
             botExist.setOnMouseClicked(event -> System.exit(0));
@@ -174,11 +197,10 @@ public class Game extends Application {
 
         //Check if  the input is valid
         if(!Azul.isSharedStateWellFormed(sharedStateStr) || !Azul.isPlayerStateWellFormed(playerStateStr)){
-            new Alert(Alert.AlertType.NONE, "Invalid input!   Please re-enter!", new ButtonType[]{ButtonType.CLOSE}).show();
+            System.out.println("Invalid:" + Arrays.toString(gameState));
+            new Alert(Alert.AlertType.NONE, "Invalid state!", new ButtonType[]{ButtonType.CLOSE}).show();
             return;
         }
-
-        int playerNum = PlayerState.getPlayNumber(gameState[1]);
 
         //Draw playerState
         PlayerState[] playerState = PlayerState.getAllPlayerStates(playerStateStr);
@@ -197,19 +219,18 @@ public class Game extends Application {
     }
 
     public void startGame() {
-        playerNum = 2;
         gameState = new String[] {new SharedState(playerNum).getStateStr(),PlayerState.getAllStateStr(PlayerState.getAllPlayerStates(playerNum))};
         Azul.refillFactories(gameState);
         displayState();
         System.out.println(Arrays.toString(gameState));
     }
 
-    public static void setHighlighted(Square square) {
+    public static void highlightNearestSquare(Square square) {
         Game.square = square;
         if (highlighted != null) highlighted.setFill(preColor);
         highlighted = square;
         preColor = square.getFill();
-        highlighted.setFill(Color.LIGHTGREY);
+        if (highlighted.getFill() == Color.GREY) highlighted.setFill(Color.LIGHTGREY);
     }
 
     public static void applyMove() {
@@ -217,19 +238,19 @@ public class Game extends Application {
         if (square.position == Square.Position.Storage) {
             char player = ((PlayerGroup)square.group).getPlayer();
             int row = square.index;
-            drafting(player, (char)(row + '0'));
+            draftingMove(player, (char)(row + '0'));
         }
         else if (square.position == Square.Position.Floor) {
             char player = ((PlayerGroup)square.group).getPlayer();
-            drafting(player, 'F');
+            draftingMove(player, 'F');
         }
-        tilling();
+        tillingMove();
         Azul.nextRound(gameState);
         checkCompletion();
         displayState();
     }
 
-    public static void drafting(char player, char placedTo) {
+    public static void draftingMove(char player, char placedTo) {
         String move = null;
         if (draggableSquare.position == Square.Position.Factory) {
             int factoryNum = draggableSquare.index;
@@ -248,7 +269,7 @@ public class Game extends Application {
         }
     }
 
-    public static void tilling() {
+    public static void tillingMove() {
         SharedState sharedState = new SharedState(gameState[0], playerNum);
         PlayerState[] playerStates = PlayerState.getAllPlayerStates(gameState[1]);
         if (!sharedState.getFactory().isEmpty() || !sharedState.getCentre().isEmpty()) return;

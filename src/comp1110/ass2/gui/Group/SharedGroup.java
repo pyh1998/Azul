@@ -14,7 +14,7 @@ import javafx.scene.text.Font;
 public class SharedGroup extends Group {
 
     private final double side = Square.SIZE;
-    private final double space = 5;
+    private final double space = Square.SPACE;
     private final Group factory;
     private final Group bag;
     private final Group discard;
@@ -107,9 +107,6 @@ public class SharedGroup extends Group {
         Group playerTurnGroup = new Group();
         Label label =new Label(String.valueOf(playerTurn) + "'s Turn");
         label.setFont(new Font("Arial", 30));
-        if(playerTurn == 'B'){
-            label.setLayoutX(600);
-        }
         playerTurnGroup.getChildren().add(label);
         return playerTurnGroup;
     }
@@ -123,14 +120,14 @@ public class SharedGroup extends Group {
 
         factory.setLayoutX(50);
         factory.setLayoutY(0);
-        bag.setLayoutX(600);
-        bag.setLayoutY(0);
-        discard.setLayoutX(600);
-        discard.setLayoutY(100);
-        centre.setLayoutX(900);
+        centre.setLayoutX(factory.getLayoutX() + factory.getBoundsInParent().getWidth() + 50);
         centre.setLayoutY(0);
-        playTurn.setLayoutX(350);
-        playTurn.setLayoutY(220);
+        bag.setLayoutX(centre.getLayoutX() + 5 * (Square.SIZE + Square.SPACE) + 50);
+        bag.setLayoutY(0);
+        discard.setLayoutX(centre.getLayoutX() + 5 * (Square.SIZE + Square.SPACE) + 50);
+        discard.setLayoutY(100);
+        playTurn.setLayoutX(550);
+        playTurn.setLayoutY(150);
 
         this.getChildren().addAll(factory,bag,discard,centre,playTurn);
     }

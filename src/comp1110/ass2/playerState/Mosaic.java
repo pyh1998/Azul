@@ -196,7 +196,7 @@ public class Mosaic {
         return count;
     }
 
-    private static final char[][] BeginnerMosaic = {{'a','b','c','d','e'},
+    public static final char[][] BeginnerMosaic = {{'a','b','c','d','e'},
                                                     {'e','a','b','c','d'},
                                                     {'d','e','a','b','c'},
                                                     {'c','d','e','a','b'},

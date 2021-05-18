@@ -48,4 +48,13 @@ public class SharedStateTest {
         String stateStr = "AF1bbce3aabeCaaeeeB0807111004D0002050609";
         assertTrue(Azul.isSharedStateWellFormed(stateStr));
     }
+
+    @Test
+    public void gameStateTest() {
+        String share = "CF6acdd7bcee8aabdCaaaaaccccdddddeeefB1014131215D0000000000";
+        String play = "A0MS0b12b1FB0MS2b13c1FC0MS1a2FD0MS3b1F";
+
+        assertTrue(Azul.isSharedStateWellFormed(share));
+        assertTrue(Azul.isPlayerStateWellFormed(play));
+    }
 }
