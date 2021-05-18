@@ -14,7 +14,6 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
@@ -36,6 +35,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Game extends Application {
     /* board layout */
@@ -76,6 +76,38 @@ public class Game extends Application {
     private AudioClip gameLoop;
     private AudioClip menuLoop;
     private boolean gameLoopPlaying = true;
+
+    private static final Group ruleGroup = new Group();
+
+//    int index = 0;
+//    Image [] images = {
+//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
+//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
+//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
+//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
+//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString())
+//    };
+//    ImageView imageView = new ImageView();
+//    private void showNext() {
+//        index++;
+//        if (index >=images.length) {
+//            index = 0;
+//        }
+//        imageView.setImage(images[index]);
+//    }
+//    public void addRuleGroup(){
+//
+//        MenuButton botNext = new MenuButton("Next Page");
+//        botNext.setOnMouseClicked(event -> {
+//            showNext();
+//        });
+//        showNext();
+//        imageView.setFitWidth(500);
+//        imageView.setFitHeight(500);
+//        ruleGroup.getChildren().add(imageView);
+//        ruleGroup.getChildren().add(botNext);
+//        root.getChildren().add(ruleGroup);
+//    }
 
     /**
      * Class for the menu
@@ -130,10 +162,18 @@ public class Game extends Application {
                 gameLoop.play();
                 gameLoopPlaying = true;
             });
+
+            MenuButton botRule = new MenuButton("Game Rule");
+            botRule.setOnMouseClicked(event -> {
+                //addRuleGroup();
+            });
+
             MenuButton botExist = new MenuButton("Exist");
             botExist.setOnMouseClicked(event -> System.exit(0));
 
-            menu0.getChildren().addAll(botTwoPlayer,botThreePlayer,botFourPlayer,botExist);
+
+
+            menu0.getChildren().addAll(botTwoPlayer,botThreePlayer,botFourPlayer,botExist,botRule);
             getChildren().add(menu0);
         }
     }
