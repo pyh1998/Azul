@@ -43,7 +43,7 @@ public class Game extends Application {
     private static final int BOARD_HEIGHT = 768;
     /* menu position */
     private static final int MENU_X = 1000;
-    private static final int MENU_Y = 550;
+    private static final int MENU_Y = 480;
 
     private final Group controls = new Group();
     private static final Group root = new Group();
@@ -175,8 +175,8 @@ public class Game extends Application {
             MenuButton botExist = new MenuButton("Exist");
             botExist.setOnMouseClicked(event -> System.exit(0));
 
-            HBox radioGroup = new HBox();
-            radioGroup.setSpacing(20);
+            VBox radioGroup = new VBox();
+            radioGroup.setSpacing(10);
             ToggleGroup group = new ToggleGroup();
             MenuRadioButton button1 = new MenuRadioButton("Beginner Mosaic");
             button1.setToggleGroup(group);
@@ -194,7 +194,6 @@ public class Game extends Application {
                 });
             radioGroup.getChildren().addAll(button1,button2);
 
-            menu0.getChildren().addAll(button1,button2,butTwoPlayer,butThreePlayer,butFourPlayer,butComp,botExist);
             MenuButton butPlayBack = new MenuButton("Back");
             butPlayBack.setOnMouseClicked(event -> {
                 score.play();
@@ -229,7 +228,7 @@ public class Game extends Application {
             butExist.setOnMouseClicked(event -> System.exit(0));
 
             menu0.getChildren().addAll(butPlay,butRules,butExist);
-            menu1.getChildren().addAll(butTwoPlayer,butThreePlayer,butFourPlayer,butComp,butPlayBack);
+            menu1.getChildren().addAll(radioGroup,butTwoPlayer,butThreePlayer,butFourPlayer,butComp,butPlayBack);
             menu2.getChildren().addAll(butNextPage,butRuleBack);
             getChildren().add(menu0);
         }
