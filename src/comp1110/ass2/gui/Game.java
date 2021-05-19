@@ -14,7 +14,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
@@ -42,8 +44,8 @@ public class Game extends Application {
     private static final int BOARD_WIDTH = 1280;
     private static final int BOARD_HEIGHT = 768;
     /* menu position */
-    private static final int MENU_X = 900;
-    private static final int MENU_Y = 500;
+    private static final int MENU_X = 1000;
+    private static final int MENU_Y = 550;
 
     private final Group controls = new Group();
     private static final Group root = new Group();
@@ -54,10 +56,11 @@ public class Game extends Application {
     public static SharedState sharedState;
     public static PlayerState[] playerStates;
     public static Square.DraggableSquare draggableSquare;
+    public static int playerNum;
     private static Paint preColor;
-    private static Square targetSquare;
+    private static Square square;
     private static Square highlighted;
-    private static GameMenu gameMenu;
+    private GameMenu gameMenu;
 
     /* where to find media assets */
     private static final String URI_BASE = "assets/";
@@ -75,9 +78,9 @@ public class Game extends Application {
     /* Loop in public domain CC 0 http://www.twinmusicom.org/ */
     private static final String GAME_LOOP_URI = Game.class.getResource(URI_BASE + "Twin Musicom - Retro Dreamscape.mp3").toString();
 
-    private static AudioClip gameLoop;
-    private static AudioClip menuLoop;
-    private static boolean gameLoopPlaying = true;
+    private AudioClip gameLoop;
+    private AudioClip menuLoop;
+    private boolean gameLoopPlaying = true;
 
     // Game settings
     public static boolean variantMosaic = false;
@@ -87,7 +90,29 @@ public class Game extends Application {
 
     private static final Group ruleGroup = new Group();
 
-    private static void gameInitialization(int playerNum,int size, int space,boolean flag){
+    /* index for selecting rules images */
+    private static int index = 0;
+    /* images of the rules */
+    private static Image [] images = {
+            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
+            new Image(Game.class.getResource(URI_BASE + "Rule2.png").toString()),
+            new Image(Game.class.getResource(URI_BASE + "Rule3.png").toString()),
+            new Image(Game.class.getResource(URI_BASE + "Rule4.png").toString()),
+            new Image(Game.class.getResource(URI_BASE + "Rule5.png").toString())
+    };
+
+    /* View the rules image given a index */
+    private void showRulesImage(int index) {
+        ImageView imageView = new ImageView();
+        imageView.setImage(images[index % 5]);
+        imageView.setFitWidth(BOARD_HEIGHT);
+        imageView.setFitHeight(BOARD_HEIGHT);
+        imageView.setX((BOARD_WIDTH - BOARD_HEIGHT) / 2);
+        ruleGroup.getChildren().clear();
+        ruleGroup.getChildren().add(imageView);
+    }
+
+    private void gameInitialization(int playerNum,int size, int space,boolean flag){
         Game.playerNum = playerNum;
         Square.SIZE = size;
         Square.SPACE = space;
@@ -106,29 +131,47 @@ public class Game extends Application {
     /**
      * Class for the menu
      */
-    private static class GameMenu extends Parent {
+    private class GameMenu extends Parent {
         public GameMenu() {
             VBox menu0 = new VBox(10);
+            VBox menu1 = new VBox(10);
+            VBox menu2 = new VBox(10);
             menu0.setTranslateX(MENU_X);
             menu0.setTranslateY(MENU_Y);
+            menu1.setTranslateX(MENU_X);
+            menu1.setTranslateY(MENU_Y);
+            menu2.setTranslateX(MENU_X);
+            menu2.setTranslateY(MENU_Y);
+            Rectangle backCover = new Rectangle();
+            backCover.setHeight(BOARD_HEIGHT);
+            backCover.setWidth(BOARD_WIDTH);
+            backCover.setFill(Color.WHITE);
+            backCover.setX(0);
+            backCover.setY(0);
             addBackground(MENU_BACKGROUND_URI,1);
             menuSoundLoop();
             menuLoop.play();
-            MenuButton botTwoPlayer = new MenuButton("Two Players");
-            botTwoPlayer.setOnMouseClicked(event -> {
+            // Play button and its sub-buttons
+            MenuButton butPlay = new MenuButton("Play");
+            butPlay.setOnMouseClicked(event -> {
+                score.play();
+                getChildren().clear();
+                getChildren().add(menu1);
+            });
+            MenuButton butTwoPlayer = new MenuButton("Two Players");
+            butTwoPlayer.setOnMouseClicked(event -> {
                 gameInitialization(2,40,5,false);
             });
-            MenuButton botThreePlayer = new MenuButton("Three Players");
-            botThreePlayer.setOnMouseClicked(event -> {
+            MenuButton butThreePlayer = new MenuButton("Three Players");
+            butThreePlayer.setOnMouseClicked(event -> {
                 gameInitialization(3,30,3,false);
             });
-            MenuButton botFourPlayer = new MenuButton("Four Players");
-            botFourPlayer.setOnMouseClicked(event -> {
+            MenuButton butFourPlayer = new MenuButton("Four Players");
+            butFourPlayer.setOnMouseClicked(event -> {
                 gameInitialization(4,30,3,false);
             });
-
-            MenuButton botComp = new MenuButton("Play with Computer");
-            botComp.setOnMouseClicked(event -> {
+            MenuButton butComp = new MenuButton("P v E");
+            butComp.setOnMouseClicked(event -> {
                 gameInitialization(2,40,5,true);
             });
 
@@ -155,6 +198,42 @@ public class Game extends Application {
             radioGroup.getChildren().addAll(button1,button2);
 
             menu0.getChildren().addAll(button1,button2,botTwoPlayer,botThreePlayer,botFourPlayer,botComp,botExist);
+            MenuButton butPlayBack = new MenuButton("Back");
+            butPlayBack.setOnMouseClicked(event -> {
+                score.play();
+                getChildren().clear();
+                getChildren().add(menu0);
+            });
+            // Rules button and its sub-buttons
+            MenuButton butRules = new MenuButton("Rules");
+            butRules.setOnMouseClicked(event -> {
+                score.play();
+                getChildren().clear();
+                showRulesImage(index);
+                getChildren().addAll(backCover,ruleGroup,menu2);
+            });
+            MenuButton butNextPage = new MenuButton("Next Page");
+            butNextPage.setOnMouseClicked(event -> {
+                index++;
+                score.play();
+                getChildren().clear();
+                showRulesImage(index);
+                getChildren().addAll(backCover,ruleGroup,menu2);
+            });
+            MenuButton butRuleBack = new MenuButton("Back");
+            butRuleBack.setOnMouseClicked(event -> {
+                score.play();
+                index = 0;
+                getChildren().clear();
+                getChildren().add(menu0);
+            });
+
+            MenuButton butExist = new MenuButton("Exist");
+            butExist.setOnMouseClicked(event -> System.exit(0));
+
+            menu0.getChildren().addAll(butPlay,butRules,butExist);
+            menu1.getChildren().addAll(butTwoPlayer,butThreePlayer,butFourPlayer,butComp,butPlayBack);
+            menu2.getChildren().addAll(butNextPage,butRuleBack);
             getChildren().add(menu0);
         }
     }
@@ -214,7 +293,7 @@ public class Game extends Application {
     }
 
     /**
-     * Add background for the game menu
+     * Add backgrounds
      */
     private static void addBackground(String imageURL,double opacity){
         ImageView background = new ImageView(new Image(imageURL));
@@ -263,7 +342,7 @@ public class Game extends Application {
             allState.getChildren().add(compTurn);
         }
 
-        MenuButton back = new MenuButton("    Back to Menu");
+        MenuButton back = new MenuButton("Back to Menu");
         back.setOnMouseClicked(event -> {
             gameLoop.stop();
             gameLoopPlaying = false;
@@ -430,17 +509,21 @@ public class Game extends Application {
         if (winners.size() == 1) sub = " wins!";
         else sub = " win!";
 
+        DropShadow drop = new DropShadow(50, Color.WHITE);
+        drop.setInput(new Glow());
         Text message = new Text(winnersStr + sub);
         message.setFill(Color.BLACK);
         message.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,50));
         message.setLayoutX(BOARD_WIDTH/2 - 150);
         message.setLayoutY(BOARD_HEIGHT/2);
+        message.setEffect(drop);
         message.setTextAlignment(TextAlignment.CENTER);
         Text hint = new Text("Press ESC - back to the game menu");
         hint.setFill(Color.BLACK);
         hint.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,25));
         hint.setLayoutX(BOARD_WIDTH*2/3);
         hint.setLayoutY(BOARD_HEIGHT-50);
+        hint.setEffect(drop);
         hint.setTextAlignment(TextAlignment.CENTER);
         root.getChildren().addAll(hint,message);
     }
@@ -472,7 +555,7 @@ public class Game extends Application {
     /**
      * Set up the sound loop for the game menu
      */
-    private static void menuSoundLoop() {
+    private void menuSoundLoop() {
         try {
             menuLoop = new AudioClip(MENU_LOOP_URI);
             menuLoop.setCycleCount(AudioClip.INDEFINITE);
@@ -484,7 +567,7 @@ public class Game extends Application {
     /**
      * Set up the sound loop, idea from dinosaurs
      */
-    private static void setUpSoundLoop() {
+    private void setUpSoundLoop() {
         try {
             gameLoop = new AudioClip(GAME_LOOP_URI);
             gameLoop.setCycleCount(AudioClip.INDEFINITE);
