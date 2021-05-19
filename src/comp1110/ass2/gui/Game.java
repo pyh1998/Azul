@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
@@ -41,13 +42,11 @@ public class Game extends Application {
     private static final int BOARD_WIDTH = 1280;
     private static final int BOARD_HEIGHT = 768;
     /* menu position */
-    private static final int MENU_X = 900;
-    private static final int MENU_Y = 500;
+    private static final int MENU_X = 1000;
+    private static final int MENU_Y = 550;
 
-    private final Group controls = new Group();
     private static final Group root = new Group();
     public static final Group allState = new Group();
-    public static final Viewer viewer = new Viewer();
 
     public static String[] gameState;
     public static Square.DraggableSquare draggableSquare;
@@ -81,35 +80,27 @@ public class Game extends Application {
 
     private static final Group ruleGroup = new Group();
 
-//    int index = 0;
-//    Image [] images = {
-//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
-//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
-//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
-//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
-//            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString())
-//    };
-//    ImageView imageView = new ImageView();
-//    private void showNext() {
-//        index++;
-//        if (index >=images.length) {
-//            index = 0;
-//        }
-//        imageView.setImage(images[index]);
-//    }
-//    public void addRuleGroup(){
-//
-//        MenuButton botNext = new MenuButton("Next Page");
-//        botNext.setOnMouseClicked(event -> {
-//            showNext();
-//        });
-//        showNext();
-//        imageView.setFitWidth(500);
-//        imageView.setFitHeight(500);
-//        ruleGroup.getChildren().add(imageView);
-//        ruleGroup.getChildren().add(botNext);
-//        root.getChildren().add(ruleGroup);
-//    }
+    /* index for selecting rules images */
+    private static int index = 0;
+    /* images of the rules */
+    private static Image [] images = {
+            new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
+            new Image(Game.class.getResource(URI_BASE + "Rule2.png").toString()),
+            new Image(Game.class.getResource(URI_BASE + "Rule3.png").toString()),
+            new Image(Game.class.getResource(URI_BASE + "Rule4.png").toString()),
+            new Image(Game.class.getResource(URI_BASE + "Rule5.png").toString())
+    };
+
+    /* View the rules image given a index */
+    private void showRulesImage(int index) {
+        ImageView imageView = new ImageView();
+        imageView.setImage(images[index % 5]);
+        imageView.setFitWidth(BOARD_HEIGHT);
+        imageView.setFitHeight(BOARD_HEIGHT);
+        imageView.setX((BOARD_WIDTH - BOARD_HEIGHT) / 2);
+        ruleGroup.getChildren().clear();
+        ruleGroup.getChildren().add(imageView);
+    }
 
     private void gameInitialization(int playerNum,int size, int space,boolean flag){
         Game.playerNum = playerNum;
@@ -133,35 +124,82 @@ public class Game extends Application {
     private class GameMenu extends Parent {
         public GameMenu() {
             VBox menu0 = new VBox(10);
+            VBox menu1 = new VBox(10);
+            VBox menu2 = new VBox(10);
             menu0.setTranslateX(MENU_X);
             menu0.setTranslateY(MENU_Y);
+            menu1.setTranslateX(MENU_X);
+            menu1.setTranslateY(MENU_Y);
+            menu2.setTranslateX(MENU_X);
+            menu2.setTranslateY(MENU_Y);
+            Rectangle backCover = new Rectangle();
+            backCover.setHeight(BOARD_HEIGHT);
+            backCover.setWidth(BOARD_WIDTH);
+            backCover.setFill(Color.WHITE);
+            backCover.setX(0);
+            backCover.setY(0);
             addBackground(MENU_BACKGROUND_URI,1);
             menuSoundLoop();
             menuLoop.play();
-            MenuButton botTwoPlayer = new MenuButton("Two Players");
-            botTwoPlayer.setOnMouseClicked(event -> {
+            // Play button and its sub-buttons
+            MenuButton butPlay = new MenuButton("Play");
+            butPlay.setOnMouseClicked(event -> {
+                score.play();
+                getChildren().clear();
+                getChildren().add(menu1);
+            });
+            MenuButton butTwoPlayer = new MenuButton("Two Players");
+            butTwoPlayer.setOnMouseClicked(event -> {
                 gameInitialization(2,40,5,false);
             });
-            MenuButton botThreePlayer = new MenuButton("Three Players");
-            botThreePlayer.setOnMouseClicked(event -> {
+            MenuButton butThreePlayer = new MenuButton("Three Players");
+            butThreePlayer.setOnMouseClicked(event -> {
                 gameInitialization(3,30,3,false);
             });
-            MenuButton botFourPlayer = new MenuButton("Four Players");
-            botFourPlayer.setOnMouseClicked(event -> {
+            MenuButton butFourPlayer = new MenuButton("Four Players");
+            butFourPlayer.setOnMouseClicked(event -> {
                 gameInitialization(4,30,3,false);
             });
-
-            MenuButton botComp = new MenuButton("P v E");
-            botComp.setOnMouseClicked(event -> {
+            MenuButton butComp = new MenuButton("P v E");
+            butComp.setOnMouseClicked(event -> {
                 gameInitialization(2,40,5,true);
             });
+            MenuButton butPlayBack = new MenuButton("Back");
+            butPlayBack.setOnMouseClicked(event -> {
+                score.play();
+                getChildren().clear();
+                getChildren().add(menu0);
+            });
+            // Rules button and its sub-buttons
+            MenuButton butRules = new MenuButton("Rules");
+            butRules.setOnMouseClicked(event -> {
+                score.play();
+                getChildren().clear();
+                showRulesImage(index);
+                getChildren().addAll(backCover,ruleGroup,menu2);
+            });
+            MenuButton butNextPage = new MenuButton("Next Page");
+            butNextPage.setOnMouseClicked(event -> {
+                index++;
+                score.play();
+                getChildren().clear();
+                showRulesImage(index);
+                getChildren().addAll(backCover,ruleGroup,menu2);
+            });
+            MenuButton butRuleBack = new MenuButton("Back");
+            butRuleBack.setOnMouseClicked(event -> {
+                score.play();
+                index = 0;
+                getChildren().clear();
+                getChildren().add(menu0);
+            });
 
-            MenuButton botExist = new MenuButton("Exist");
-            botExist.setOnMouseClicked(event -> System.exit(0));
+            MenuButton butExist = new MenuButton("Exist");
+            butExist.setOnMouseClicked(event -> System.exit(0));
 
-
-
-            menu0.getChildren().addAll(botTwoPlayer,botThreePlayer,botFourPlayer,botComp,botExist);
+            menu0.getChildren().addAll(butPlay,butRules,butExist);
+            menu1.getChildren().addAll(butTwoPlayer,butThreePlayer,butFourPlayer,butComp,butPlayBack);
+            menu2.getChildren().addAll(butNextPage,butRuleBack);
             getChildren().add(menu0);
         }
     }
@@ -206,7 +244,7 @@ public class Game extends Application {
     }
 
     /**
-     * Add background for the game menu
+     * Add backgrounds
      */
     private static void addBackground(String imageURL,double opacity){
         ImageView background = new ImageView(new Image(imageURL));
@@ -245,7 +283,7 @@ public class Game extends Application {
 
         allState.getChildren().add(sharedGroup);
 
-        if(playWithComputer && sharedState.getPlayer() != 'A'){
+        if(playWithComputer && sharedState.getPlayer() != 'A' && (!PlayerState.isGameComplete(gameState[1]))){
             MenuButton compTurn = new MenuButton("Click here to do next!");
             compTurn.setLayoutX(550);
             compTurn.setLayoutY(250);
@@ -366,17 +404,21 @@ public class Game extends Application {
         if (winners.size() == 1) sub = " wins!";
         else sub = " win!";
 
+        DropShadow drop = new DropShadow(50, Color.WHITE);
+        drop.setInput(new Glow());
         Text message = new Text(winnersStr + sub);
         message.setFill(Color.BLACK);
         message.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,50));
         message.setLayoutX(BOARD_WIDTH/2 - 150);
         message.setLayoutY(BOARD_HEIGHT/2);
+        message.setEffect(drop);
         message.setTextAlignment(TextAlignment.CENTER);
         Text hint = new Text("Press ESC - back to the game menu");
         hint.setFill(Color.BLACK);
         hint.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,25));
         hint.setLayoutX(BOARD_WIDTH*2/3);
         hint.setLayoutY(BOARD_HEIGHT-50);
+        hint.setEffect(drop);
         hint.setTextAlignment(TextAlignment.CENTER);
         root.getChildren().addAll(hint,message);
     }
