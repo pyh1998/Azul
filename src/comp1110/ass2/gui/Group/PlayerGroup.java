@@ -1,6 +1,7 @@
 package comp1110.ass2.gui.Group;
 
 import comp1110.ass2.Tile.Tile;
+import comp1110.ass2.gui.Game;
 import comp1110.ass2.playerState.*;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -32,13 +33,19 @@ public class PlayerGroup extends Group {
                 double x = (Storage.NUMBER_ROWS - j) * (side + space);
                 double y = i * (side + space);
                 if(count == tileNum[i]){
-                    square = new Square(x,y,null,Square.Position.Storage,this,i);
+                    square = new Square(x,y,null,Square.Position.Storage,this,i,j);
                 }
                 else{
-                    square = new Square(x,y,tileType[i],Square.Position.Storage,this,i);
+                    if(Game.variantMosaic && j == 0 && tileNum[i] == i + 1) square = new Square(x,y,null,Square.Position.Storage,this,i,j);
+                    else square = new Square(x,y,tileType[i],Square.Position.Storage,this,i,j);
                     count++;
                 }
                 storageGroup.getChildren().add(square);
+                if(Game.variantMosaic && count == i + 1){
+                    Square.DraggableSquare draggableSquare = new Square.DraggableSquare(Storage.NUMBER_ROWS * (side + space),y,tileType[i],Square.Position.Storage,this,i,j);
+                    storageGroup.getChildren().add(draggableSquare);
+                }
+
             }
         }
 
@@ -51,8 +58,8 @@ public class PlayerGroup extends Group {
 
         for(int i=0;i<Mosaic.HEIGHT;i++){
             for(int j=0;j<Mosaic.HEIGHT;j++){
-                Square square = new Square(j * (side + space),i * (side + space),tiles[i][j],Square.Position.Mosaic,this);
-                if(tiles[i][j] == null){
+                Square square = new Square(j * (side + space),i * (side + space),tiles[i][j],Square.Position.Mosaic,this,i,j);
+                if(!Game.variantMosaic && tiles[i][j] == null){
                     char tileChar = Mosaic.BeginnerMosaic[i][j];
                     square.setFill(Tile.CharToTile(tileChar).getTILE_COLOR());
                     square.setOpacity(0.3);
@@ -84,10 +91,10 @@ public class PlayerGroup extends Group {
         for(int i=0;i<Floor.MAX_LENGTH;i++){
             Square square;
             if(i >= floor.getNumber()){
-                square = new Square(i * (side + space),0,null,Square.Position.Floor,this);
+                square = new Square(i * (side + space),0,null,Square.Position.Floor,this,i,-1);
             }
             else{
-                square = new Square(i * (side + space),0,tiles[i],Square.Position.Floor,this);
+                square = new Square(i * (side + space),0,tiles[i],Square.Position.Floor,this,i,-1);
             }
             floorGroup.getChildren().add(square);
         }
