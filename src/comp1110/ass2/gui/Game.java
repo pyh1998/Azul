@@ -35,7 +35,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Game extends Application {
     /* board layout */
@@ -43,7 +42,7 @@ public class Game extends Application {
     private static final int BOARD_HEIGHT = 768;
     /* menu position */
     private static final int MENU_X = 900;
-    private static final int MENU_Y = 600;
+    private static final int MENU_Y = 500;
 
     private final Group controls = new Group();
     private static final Group root = new Group();
@@ -62,7 +61,8 @@ public class Game extends Application {
     private static final String URI_BASE = "assets/";
 
     /* menu page background */
-    private static final String BACKGROUND_URI = Game.class.getResource(URI_BASE + "azul.png").toString();
+    private static final String MENU_BACKGROUND_URI = Game.class.getResource(URI_BASE + "azul.png").toString();
+    private static final String GAME_BACKGROUND_URI = Game.class.getResource(URI_BASE + "game.jpg").toString();
 
     /* sound effects from https://sc.chinaz.com/yinxiao/ */
     private static final AudioClip score = new AudioClip(Game.class.getResource(URI_BASE + "click1.mp3").toString());
@@ -76,6 +76,8 @@ public class Game extends Application {
     private AudioClip gameLoop;
     private AudioClip menuLoop;
     private boolean gameLoopPlaying = true;
+
+    public static boolean playWithComputer = false;
 
     private static final Group ruleGroup = new Group();
 
@@ -109,6 +111,22 @@ public class Game extends Application {
 //        root.getChildren().add(ruleGroup);
 //    }
 
+    private void gameInitialization(int playerNum,int size, int space,boolean flag){
+        Game.playerNum = playerNum;
+        Square.SIZE = size;
+        Square.SPACE = space;
+        playWithComputer = flag;
+        score.play();
+        menuLoop.stop();
+        root.getChildren().clear();
+        addBackground(GAME_BACKGROUND_URI,0.3);
+        root.getChildren().add(allState);
+        startGame();
+        setUpSoundLoop();
+        gameLoop.play();
+        gameLoopPlaying = true;
+    }
+
     /**
      * Class for the menu
      */
@@ -117,55 +135,25 @@ public class Game extends Application {
             VBox menu0 = new VBox(10);
             menu0.setTranslateX(MENU_X);
             menu0.setTranslateY(MENU_Y);
-            addBackground();
+            addBackground(MENU_BACKGROUND_URI,1);
             menuSoundLoop();
             menuLoop.play();
             MenuButton botTwoPlayer = new MenuButton("Two Players");
             botTwoPlayer.setOnMouseClicked(event -> {
-                playerNum = 2;
-                Square.SIZE = 40;
-                Square.SPACE = 5;
-                score.play();
-                menuLoop.stop();
-                root.getChildren().clear();
-                root.getChildren().add(allState);
-                startGame();
-                setUpSoundLoop();
-                gameLoop.play();
-                gameLoopPlaying = true;
+                gameInitialization(2,40,5,false);
             });
             MenuButton botThreePlayer = new MenuButton("Three Players");
             botThreePlayer.setOnMouseClicked(event -> {
-                playerNum = 3;
-                Square.SIZE = 30;
-                Square.SPACE = 3;
-                score.play();
-                menuLoop.stop();
-                root.getChildren().clear();
-                root.getChildren().add(allState);
-                startGame();
-                setUpSoundLoop();
-                gameLoop.play();
-                gameLoopPlaying = true;
+                gameInitialization(3,30,3,false);
             });
             MenuButton botFourPlayer = new MenuButton("Four Players");
             botFourPlayer.setOnMouseClicked(event -> {
-                playerNum = 4;
-                Square.SIZE = 30;
-                Square.SPACE = 3;
-                score.play();
-                menuLoop.stop();
-                root.getChildren().clear();
-                root.getChildren().add(allState);
-                startGame();
-                setUpSoundLoop();
-                gameLoop.play();
-                gameLoopPlaying = true;
+                gameInitialization(4,30,3,false);
             });
 
-            MenuButton botRule = new MenuButton("Game Rule");
-            botRule.setOnMouseClicked(event -> {
-                //addRuleGroup();
+            MenuButton botComp = new MenuButton("P v E");
+            botComp.setOnMouseClicked(event -> {
+                gameInitialization(2,40,5,true);
             });
 
             MenuButton botExist = new MenuButton("Exist");
@@ -173,7 +161,7 @@ public class Game extends Application {
 
 
 
-            menu0.getChildren().addAll(botTwoPlayer,botThreePlayer,botFourPlayer,botExist,botRule);
+            menu0.getChildren().addAll(botTwoPlayer,botThreePlayer,botFourPlayer,botComp,botExist);
             getChildren().add(menu0);
         }
     }
@@ -189,7 +177,7 @@ public class Game extends Application {
             text.setFill(Color.WHITE);
             text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,20));
             // shape of the button
-            Rectangle bg = new Rectangle(300,30);
+            Rectangle bg = new Rectangle(250,30);
             bg.setOpacity(0.7);
             bg.setFill(Color.BLACK);
             bg.setEffect(new GaussianBlur(3.5));
@@ -220,18 +208,18 @@ public class Game extends Application {
     /**
      * Add background for the game menu
      */
-    private void addBackground(){
-        ImageView background = new ImageView(new Image(BACKGROUND_URI));
+    private static void addBackground(String imageURL,double opacity){
+        ImageView background = new ImageView(new Image(imageURL));
         background.setFitWidth(BOARD_WIDTH);
         background.setFitHeight(BOARD_WIDTH);
         background.setY((BOARD_HEIGHT - BOARD_WIDTH) / 2);
+        background.setOpacity(opacity);
         root.getChildren().add(background);
     }
 
     public static void displayState() {
         //Clear the group
         allState.getChildren().clear();
-
         String sharedStateStr = gameState[0];
         String playerStateStr = gameState[1];
 
@@ -256,6 +244,17 @@ public class Game extends Application {
         SharedGroup sharedGroup = new SharedGroup(sharedState);
 
         allState.getChildren().add(sharedGroup);
+
+        if(playWithComputer && sharedState.getPlayer() != 'A'){
+            MenuButton compTurn = new MenuButton("Click here to do next!");
+            compTurn.setLayoutX(550);
+            compTurn.setLayoutY(250);
+            compTurn.setOnMouseClicked(event -> {
+                applyAutoMove();
+            });
+            allState.getChildren().add(compTurn);
+        }
+
     }
 
     public void startGame() {
@@ -271,6 +270,18 @@ public class Game extends Application {
         highlighted = square;
         preColor = square.getFill();
         if (highlighted.getFill() == Color.GREY) highlighted.setFill(Color.LIGHTGREY);
+    }
+
+    public static void applyAutoMove() {
+        String move = Azul.generateAction(gameState);
+        snap.play();
+        gameState = Azul.applyMove(gameState,move);
+        System.out.println("auto:"+ Arrays.toString(gameState));
+        System.out.println("auto:"+ move);
+        tillingMove();
+        Azul.nextRound(gameState);
+        checkCompletion();
+        displayState();
     }
 
     public static void applyMove() {

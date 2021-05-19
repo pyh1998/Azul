@@ -74,6 +74,10 @@ assets:
     url: https://boardgamegeek.com/image/3718275/azul
     licence: Attribution 3.0 Unported (CC BY 3.0)
 
+  - comment: game background, image published by illustratelife in www.vecteezy.com
+      url: https://www.vecteezy.com/vector-art/273835-white-background
+      licence: Attribution 3.0 Unported (CC BY 3.0)
+
 # Sign *your* name and uids here. (Remove entries if you have fewer
 # than three members.)
 signatures:

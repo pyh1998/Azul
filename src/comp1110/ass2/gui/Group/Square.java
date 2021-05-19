@@ -77,7 +77,14 @@ public class Square extends Rectangle {
             if (tile.getTILE_TYPE() != 'f') this.setEvents();
         }
         private void setEvents() {
+            this.setOnMouseEntered((mouseEvent) -> {
+                this.setOpacity(0.5);
+            });
+            this.setOnMouseExited((mouseEvent) -> {
+                this.setOpacity(1);
+            });
             this.setOnMousePressed((mouseEvent) -> {
+                this.setOpacity(1);
                 this.toFront();
                 this.group.toFront();
                 this.x = this.getX() - mouseEvent.getSceneX();

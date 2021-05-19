@@ -20,6 +20,7 @@ public class SharedGroup extends Group {
     private final Group discard;
     private final Group centre;
     private final Group playTurn;
+    private char turn;
 
     public Group drawFactory(Factory factory){
         Tile[][] tiles= factory.getTiles();
@@ -66,8 +67,8 @@ public class SharedGroup extends Group {
     public Group drawCentre(Centre centre){
         Tile[] tiles = centre.getTiles();
         int num = centre.getNumber();
-        int col = 5;
-        int row = num / 5 + 1;
+        int col = 6;
+        int row = num / 6 + 1;
         int index = 0;
         Group centreGroup = new Group();
         Label label = new Label("Centre:");
@@ -117,14 +118,15 @@ public class SharedGroup extends Group {
         discard = drawDiscard(sharedState.getDiscard());
         centre = drawCentre(sharedState.getCentre());
         playTurn = drawPlayerTurn(sharedState.getPlayer());
+        turn = sharedState.getPlayer();
 
         factory.setLayoutX(50);
         factory.setLayoutY(0);
         centre.setLayoutX(factory.getLayoutX() + factory.getBoundsInParent().getWidth() + 50);
         centre.setLayoutY(0);
-        bag.setLayoutX(centre.getLayoutX() + 5 * (Square.SIZE + Square.SPACE) + 50);
+        bag.setLayoutX(centre.getLayoutX() + 6 * (Square.SIZE + Square.SPACE) + 50);
         bag.setLayoutY(0);
-        discard.setLayoutX(centre.getLayoutX() + 5 * (Square.SIZE + Square.SPACE) + 50);
+        discard.setLayoutX(centre.getLayoutX() + 6 * (Square.SIZE + Square.SPACE) + 50);
         discard.setLayoutY(100);
         playTurn.setLayoutX(550);
         playTurn.setLayoutY(160);
