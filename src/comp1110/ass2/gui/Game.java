@@ -136,12 +136,13 @@ public class Game extends Application {
             botExist.setOnMouseClicked(event -> System.exit(0));
 
             HBox radioGroup = new HBox();
+            radioGroup.setSpacing(20);
             ToggleGroup group = new ToggleGroup();
-            RadioButton button1 = new RadioButton("Beginner Mosaic");
+            MenuRadioButton button1 = new MenuRadioButton("Beginner Mosaic");
             button1.setToggleGroup(group);
             button1.setSelected(true);
             button1.setUserData("Beginner");
-            RadioButton button2 = new RadioButton("Variant Mosaic");
+            MenuRadioButton button2 = new MenuRadioButton("Variant Mosaic");
             button2.setToggleGroup(group);
             button2.setUserData("Variant");
 
@@ -153,8 +154,23 @@ public class Game extends Application {
                 });
             radioGroup.getChildren().addAll(button1,button2);
 
-            menu0.getChildren().addAll(radioGroup,botTwoPlayer,botThreePlayer,botFourPlayer,botComp,botExist);
+            menu0.getChildren().addAll(button1,button2,botTwoPlayer,botThreePlayer,botFourPlayer,botComp,botExist);
             getChildren().add(menu0);
+        }
+    }
+
+    private static class MenuRadioButton extends RadioButton{
+        public MenuRadioButton(String name){
+            super(name);
+            this.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,20));
+//            Rectangle bg = new Rectangle(250,30);
+//            bg.setOpacity(0.7);
+//            bg.setFill(Color.BLACK);
+//            bg.setEffect(new GaussianBlur(3.5));
+//            setAlignment(Pos.CENTER_LEFT);
+//            setRotate(-0.5);
+//            this.getChildren().add(bg);
+//            bg.toFront();
         }
     }
 
@@ -247,7 +263,7 @@ public class Game extends Application {
             allState.getChildren().add(compTurn);
         }
 
-        MenuButton back = new MenuButton("Back to Menu");
+        MenuButton back = new MenuButton("    Back to Menu");
         back.setOnMouseClicked(event -> {
             gameLoop.stop();
             gameLoopPlaying = false;
