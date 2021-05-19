@@ -11,38 +11,21 @@ public class Square extends Rectangle {
 
     public enum Position{
         Bag,Centre,Discard,Factory,Floor,Mosaic,Storage;
-        double x;
-        double y;
-
     }
     public static double SIZE = 40;
     public static double SPACE = 5;
     public final Tile tile;
     public Position position;
     public Group group;
-    public int index;
-    public double distance;
+    public int row;
+    public int col;
 
-    public Square(double x, double y, Tile tile, Position position,Group group) {
+    public Square(double x, double y, Tile tile, Position position, Group group, int row, int col) {
         this.tile = tile;
         this.position = position;
         this.group = group;
-        this.drawSquare(x, y);
-        if (tile == null) {
-            this.setFill(Color.GREY);
-        } else {
-            this.setFill(tile.getTILE_COLOR());
-        }
-    }
-
-    /**
-     * @param index factory num or storage row
-     */
-    public Square(double x, double y, Tile tile, Position position, Group group, int index) {
-        this.tile = tile;
-        this.position = position;
-        this.group = group;
-        this.index = index;
+        this.row = row;
+        this.col = col;
         this.drawSquare(x, y);
         if (tile == null) {
             this.setFill(Color.GREY);
@@ -68,12 +51,8 @@ public class Square extends Rectangle {
         private double x;
         private double y;
 
-        public DraggableSquare(double x, double y, Tile tile, Position position, Group group) {
-            super(x, y, tile, position, group);
-            if (tile.getTILE_TYPE() != 'f') this.setEvents();
-        }
-        public DraggableSquare(double x, double y, Tile tile, Position position, Group group, int index) {
-            super(x, y, tile, position, group, index);
+        public DraggableSquare(double x, double y, Tile tile, Position position, Group group, int row, int col) {
+            super(x, y, tile, position, group, row , col);
             if (tile.getTILE_TYPE() != 'f') this.setEvents();
         }
         private void setEvents() {
@@ -84,9 +63,9 @@ public class Square extends Rectangle {
                 this.setOpacity(1);
             });
             this.setOnMousePressed((mouseEvent) -> {
-                this.setOpacity(1);
                 this.toFront();
-                this.group.toFront();
+                this.setOpacity(1);
+                this.getParent().toFront();
                 this.x = this.getX() - mouseEvent.getSceneX();
                 this.y = this.getY() - mouseEvent.getSceneY();
                 Game.draggableSquare = this;
@@ -97,7 +76,7 @@ public class Square extends Rectangle {
                 Game.highlightNearestSquare(findNearest(getPosition()));
             });
             this.setOnMouseReleased((mouseEvent) -> {
-                Game.applyMove();
+                Game.tileMove();
             });
         }
     }

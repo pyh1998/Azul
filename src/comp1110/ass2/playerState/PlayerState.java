@@ -315,8 +315,13 @@ public class PlayerState {
     public static boolean isGameComplete(String playerStatesStr) {
         PlayerState[] allStates = PlayerState.getAllPlayerStates(playerStatesStr);
         boolean isEnd = false;
-        for (int i = 0; i < allStates.length; i++) {
-            if (allStates[i].isEndOfGame()) {
+        for (PlayerState allState : allStates) {
+            if (allState.getStorage().hasFullRow()) {
+                return false;
+            }
+        }
+        for (PlayerState allState : allStates) {
+            if (allState.isEndOfGame()) {
                 isEnd = true;
                 break;
             }

@@ -33,14 +33,14 @@ public class SharedGroup extends Group {
             for (int j=0;j<factory.FACTORY_CAPACITY;j++){
                 Square square;
                 if(j % 2 == 0){
-                    square = new Square(i * (side * 2 + space + distance),(double)(j / 2) * (side + space) + 30,null,Square.Position.Factory,this);
+                    square = new Square(i * (side * 2 + space + distance),(double)(j / 2) * (side + space) + 30,null,Square.Position.Factory,this,-1,-1);
                 }
                 else{
-                    square = new Square(i * (side * 2 + space + distance) + side + space,(double)(j / 2) * (side + space) + 30,null,Square.Position.Factory,this);
+                    square = new Square(i * (side * 2 + space + distance) + side + space,(double)(j / 2) * (side + space) + 30,null,Square.Position.Factory,this,-1,-1);
                 }
                 factoryGroup.getChildren().addAll(square);
                 if(tiles[i][j] != null){
-                    Square draggableSquare = new Square.DraggableSquare(square.getX(), square.getY(), tiles[i][j], Square.Position.Factory,this, i);
+                    Square draggableSquare = new Square.DraggableSquare(square.getX(), square.getY(), tiles[i][j], Square.Position.Factory,this, i, j);
                     factoryGroup.getChildren().add(draggableSquare);
                 }
             }
@@ -55,7 +55,7 @@ public class SharedGroup extends Group {
         label.setFont(new Font("Arial", 20));
         bagGroup.getChildren().add(label);
         for(int i=0;i<tileNum.length;i++){
-            Square square = new Square(i * (side + space),30,Tile.idToTile(i),Square.Position.Bag,this);
+            Square square = new Square(i * (side + space),30,Tile.idToTile(i),Square.Position.Bag,this,-1,-1);
             Label numLabel = new Label(String.valueOf(tileNum[i]));
             numLabel.setLayoutX(15 + i * (side + space));
             numLabel.setLayoutY(30 + side + space);
@@ -77,9 +77,9 @@ public class SharedGroup extends Group {
         for(int i = 0;i < row;i++){
             for(int j = 0;j < col;j++){
                 if(index < num){
-                    Square square = new Square(j * (side + space),30 + i * (side + space),null,Square.Position.Centre,this);
+                    Square square = new Square(j * (side + space),30 + i * (side + space),null,Square.Position.Centre,this,-1,-1);
                     centreGroup.getChildren().add(square);
-                    Square.DraggableSquare draggableSquare = new Square.DraggableSquare(j * (side + space),30 + i * (side + space),tiles[index],Square.Position.Centre,this);
+                    Square.DraggableSquare draggableSquare = new Square.DraggableSquare(j * (side + space),30 + i * (side + space),tiles[index],Square.Position.Centre,this,index,-1);
                     centreGroup.getChildren().add(draggableSquare);
                     index ++;
                 }
@@ -95,7 +95,7 @@ public class SharedGroup extends Group {
         label.setFont(new Font("Arial", 20));
         discardGroup.getChildren().add(label);
         for(int i=0;i<tileNum.length;i++){
-            Square square = new Square(i * (side + space),30,Tile.idToTile(i),Square.Position.Discard,this);
+            Square square = new Square(i * (side + space),30,Tile.idToTile(i),Square.Position.Discard,this,-1,-1);
             Label numLabel = new Label(String.valueOf(tileNum[i]));
             numLabel.setLayoutX(15 + i * (side + space));
             numLabel.setLayoutY(30 + side + space);
