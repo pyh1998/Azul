@@ -14,9 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Menu;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
@@ -56,11 +54,10 @@ public class Game extends Application {
     public static SharedState sharedState;
     public static PlayerState[] playerStates;
     public static Square.DraggableSquare draggableSquare;
-    public static int playerNum;
     private static Paint preColor;
-    private static Square square;
+    private static Square targetSquare;
     private static Square highlighted;
-    private GameMenu gameMenu;
+    private static GameMenu gameMenu;
 
     /* where to find media assets */
     private static final String URI_BASE = "assets/";
@@ -78,9 +75,9 @@ public class Game extends Application {
     /* Loop in public domain CC 0 http://www.twinmusicom.org/ */
     private static final String GAME_LOOP_URI = Game.class.getResource(URI_BASE + "Twin Musicom - Retro Dreamscape.mp3").toString();
 
-    private AudioClip gameLoop;
-    private AudioClip menuLoop;
-    private boolean gameLoopPlaying = true;
+    private static AudioClip gameLoop;
+    private static AudioClip menuLoop;
+    private static boolean gameLoopPlaying = true;
 
     // Game settings
     public static boolean variantMosaic = false;
@@ -102,7 +99,7 @@ public class Game extends Application {
     };
 
     /* View the rules image given a index */
-    private void showRulesImage(int index) {
+    private static void showRulesImage(int index) {
         ImageView imageView = new ImageView();
         imageView.setImage(images[index % 5]);
         imageView.setFitWidth(BOARD_HEIGHT);
@@ -112,7 +109,7 @@ public class Game extends Application {
         ruleGroup.getChildren().add(imageView);
     }
 
-    private void gameInitialization(int playerNum,int size, int space,boolean flag){
+    private static void gameInitialization(int playerNum, int size, int space, boolean flag){
         Game.playerNum = playerNum;
         Square.SIZE = size;
         Square.SPACE = space;
@@ -131,7 +128,7 @@ public class Game extends Application {
     /**
      * Class for the menu
      */
-    private class GameMenu extends Parent {
+    private static class GameMenu extends Parent {
         public GameMenu() {
             VBox menu0 = new VBox(10);
             VBox menu1 = new VBox(10);
@@ -170,7 +167,7 @@ public class Game extends Application {
             butFourPlayer.setOnMouseClicked(event -> {
                 gameInitialization(4,30,3,false);
             });
-            MenuButton butComp = new MenuButton("P v E");
+            MenuButton butComp = new MenuButton("Play with Computer");
             butComp.setOnMouseClicked(event -> {
                 gameInitialization(2,40,5,true);
             });
@@ -197,7 +194,7 @@ public class Game extends Application {
                 });
             radioGroup.getChildren().addAll(button1,button2);
 
-            menu0.getChildren().addAll(button1,button2,botTwoPlayer,botThreePlayer,botFourPlayer,botComp,botExist);
+            menu0.getChildren().addAll(button1,button2,butTwoPlayer,butThreePlayer,butFourPlayer,butComp,botExist);
             MenuButton butPlayBack = new MenuButton("Back");
             butPlayBack.setOnMouseClicked(event -> {
                 score.play();
@@ -555,7 +552,7 @@ public class Game extends Application {
     /**
      * Set up the sound loop for the game menu
      */
-    private void menuSoundLoop() {
+    private static void menuSoundLoop() {
         try {
             menuLoop = new AudioClip(MENU_LOOP_URI);
             menuLoop.setCycleCount(AudioClip.INDEFINITE);
@@ -567,7 +564,7 @@ public class Game extends Application {
     /**
      * Set up the sound loop, idea from dinosaurs
      */
-    private void setUpSoundLoop() {
+    private static void setUpSoundLoop() {
         try {
             gameLoop = new AudioClip(GAME_LOOP_URI);
             gameLoop.setCycleCount(AudioClip.INDEFINITE);
