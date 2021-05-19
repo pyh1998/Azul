@@ -45,16 +45,19 @@ public class Game extends Application {
     private static final int MENU_X = 1000;
     private static final int MENU_Y = 550;
 
+    private final Group controls = new Group();
     private static final Group root = new Group();
     public static final Group allState = new Group();
+    public static final Viewer viewer = new Viewer();
 
     public static String[] gameState;
+    public static SharedState sharedState;
+    public static PlayerState[] playerStates;
     public static Square.DraggableSquare draggableSquare;
-    public static int playerNum;
     private static Paint preColor;
-    private static Square square;
+    private static Square targetSquare;
     private static Square highlighted;
-    private GameMenu gameMenu;
+    private static GameMenu gameMenu;
 
     /* where to find media assets */
     private static final String URI_BASE = "assets/";
@@ -72,10 +75,13 @@ public class Game extends Application {
     /* Loop in public domain CC 0 http://www.twinmusicom.org/ */
     private static final String GAME_LOOP_URI = Game.class.getResource(URI_BASE + "Twin Musicom - Retro Dreamscape.mp3").toString();
 
-    private AudioClip gameLoop;
-    private AudioClip menuLoop;
-    private boolean gameLoopPlaying = true;
+    private static AudioClip gameLoop;
+    private static AudioClip menuLoop;
+    private static boolean gameLoopPlaying = true;
 
+    // Game settings
+    public static boolean variantMosaic = false;
+    public static int playerNum;
     public static boolean playWithComputer = false;
 
     private static final Group ruleGroup = new Group();
@@ -92,7 +98,7 @@ public class Game extends Application {
     };
 
     /* View the rules image given a index */
-    private void showRulesImage(int index) {
+    private static void showRulesImage(int index) {
         ImageView imageView = new ImageView();
         imageView.setImage(images[index % 5]);
         imageView.setFitWidth(BOARD_HEIGHT);
@@ -102,7 +108,7 @@ public class Game extends Application {
         ruleGroup.getChildren().add(imageView);
     }
 
-    private void gameInitialization(int playerNum,int size, int space,boolean flag){
+    private static void gameInitialization(int playerNum,int size, int space,boolean flag){
         Game.playerNum = playerNum;
         Square.SIZE = size;
         Square.SPACE = space;
@@ -118,10 +124,11 @@ public class Game extends Application {
         gameLoopPlaying = true;
     }
 
+
     /**
      * Class for the menu
      */
-    private class GameMenu extends Parent {
+    private static class GameMenu extends Parent {
         public GameMenu() {
             VBox menu0 = new VBox(10);
             VBox menu1 = new VBox(10);
@@ -269,33 +276,45 @@ public class Game extends Application {
         }
 
         //Draw playerState
-        PlayerState[] playerState = PlayerState.getAllPlayerStates(playerStateStr);
+        playerStates = PlayerState.getAllPlayerStates(playerStateStr);
         for (int i = 0; i < playerNum; i++) {
             char player = (char) ('A' + i);
-            PlayerGroup playerGroup = new PlayerGroup(playerState[i],player);
+            PlayerGroup playerGroup = new PlayerGroup(playerStates[i],player);
 
             allState.getChildren().add(playerGroup);
         }
 
         //Draw shareState
-        SharedState sharedState = new SharedState(sharedStateStr,playerNum);
+        sharedState = new SharedState(sharedStateStr,playerNum);
         SharedGroup sharedGroup = new SharedGroup(sharedState);
 
         allState.getChildren().add(sharedGroup);
 
-        if(playWithComputer && sharedState.getPlayer() != 'A' && (!PlayerState.isGameComplete(gameState[1]))){
+        if(playWithComputer && sharedState.getPlayer() != 'A'){
             MenuButton compTurn = new MenuButton("Click here to do next!");
             compTurn.setLayoutX(550);
             compTurn.setLayoutY(250);
             compTurn.setOnMouseClicked(event -> {
-                applyAutoMove();
+                autoTileMove();
             });
             allState.getChildren().add(compTurn);
         }
 
+        MenuButton back = new MenuButton("Back to Menu");
+        back.setOnMouseClicked(event -> {
+            gameLoop.stop();
+            gameLoopPlaying = false;
+            root.getChildren().clear();
+            gameMenu = new GameMenu();
+            root.getChildren().add(gameMenu);
+            event.consume();
+        });
+        back.setLayoutX(1000);
+        back.setLayoutY(730);
+        allState.getChildren().add(back);
     }
 
-    public void startGame() {
+    public static void startGame() {
         gameState = new String[] {new SharedState(playerNum).getStateStr(),PlayerState.getAllStateStr(PlayerState.getAllPlayerStates(playerNum))};
         Azul.refillFactories(gameState);
         displayState();
@@ -303,46 +322,74 @@ public class Game extends Application {
     }
 
     public static void highlightNearestSquare(Square square) {
-        Game.square = square;
+        Game.targetSquare = square;
         if (highlighted != null) highlighted.setFill(preColor);
         highlighted = square;
         preColor = square.getFill();
         if (highlighted.getFill() == Color.GREY) highlighted.setFill(Color.LIGHTGREY);
     }
-
-    public static void applyAutoMove() {
+    public static void autoTileMove() {
         String move = Azul.generateAction(gameState);
-        snap.play();
-        gameState = Azul.applyMove(gameState,move);
-        System.out.println("auto:"+ Arrays.toString(gameState));
-        System.out.println("auto:"+ move);
-        tillingMove();
+        if(move.length() == 4){
+            gameState = Azul.applyMove(gameState,move);
+            sharedState = new SharedState(gameState[0],playerNum);
+            playerStates = PlayerState.getAllPlayerStates(gameState[1]);
+            snap.play();
+            System.out.println("auto drifting:"+ Arrays.toString(gameState));
+            System.out.println("auto drifting:"+ move);
+        }
+
+        if(!variantMosaic){
+            autoTillingMove();
+        }
+        else if(move.length() == 3){
+            tillingMove(move);
+            System.out.println("auto tilling:"+ Arrays.toString(gameState));
+            System.out.println("auto tilling:"+ move);
+        }
         Azul.nextRound(gameState);
-        checkCompletion();
         displayState();
+        checkCompletion();
     }
 
-    public static void applyMove() {
+    public static void tileMove() {
 
-        if (square.position == Square.Position.Storage) {
-            char player = ((PlayerGroup)square.group).getPlayer();
-            int row = square.index;
+        //drafting move
+        if (targetSquare.position == Square.Position.Storage) {
+            char player = ((PlayerGroup) targetSquare.group).getPlayer();
+            int row = targetSquare.row;
             draftingMove(player, (char)(row + '0'));
         }
-        else if (square.position == Square.Position.Floor) {
-            char player = ((PlayerGroup)square.group).getPlayer();
+        else if (targetSquare.position == Square.Position.Floor) {
+            char player = ((PlayerGroup) targetSquare.group).getPlayer();
             draftingMove(player, 'F');
         }
-        tillingMove();
+
+        //tilling move
+        if(!variantMosaic){
+            autoTillingMove();
+        }
+        else if (targetSquare.position == Square.Position.Mosaic) {
+            char player = ((PlayerGroup) targetSquare.group).getPlayer();
+            int sRow = draggableSquare.row;
+            int mRow = targetSquare.row;
+            int mCol = targetSquare.col;
+            if(sRow == mRow){
+                String move = player + String.valueOf(sRow) + mCol;
+                tillingMove(move);
+            }
+        }
         Azul.nextRound(gameState);
-        checkCompletion();
         displayState();
+        checkCompletion();
     }
+
+
 
     public static void draftingMove(char player, char placedTo) {
         String move = null;
         if (draggableSquare.position == Square.Position.Factory) {
-            int factoryNum = draggableSquare.index;
+            int factoryNum = draggableSquare.row;
             move = String.valueOf(player) + factoryNum + draggableSquare.tile.getTILE_TYPE() + placedTo;
             if (Azul.isMoveValid(gameState, move)) snap.play();
             gameState = Azul.applyMove(gameState, move);
@@ -353,14 +400,29 @@ public class Game extends Application {
             gameState = Azul.applyMove(gameState, move);
         }
         if (move != null) {
+            sharedState = new SharedState(gameState[0],playerNum);
+            playerStates = PlayerState.getAllPlayerStates(gameState[1]);
             System.out.println(Arrays.toString(gameState));
             System.out.println(move);
         }
     }
 
-    public static void tillingMove() {
-        SharedState sharedState = new SharedState(gameState[0], playerNum);
-        PlayerState[] playerStates = PlayerState.getAllPlayerStates(gameState[1]);
+    private static void tillingMove(String move) {
+        if (!sharedState.getFactory().isEmpty() || !sharedState.getCentre().isEmpty()) return;
+        if(!Azul.isMoveValid(gameState,move)) return;
+        gameState = Azul.applyMove(gameState,move);
+        sharedState = new SharedState(gameState[0],playerNum);
+        playerStates = PlayerState.getAllPlayerStates(gameState[1]);
+        score.play();
+        System.out.println(Arrays.toString(gameState));
+        System.out.println(move);
+    }
+    /**
+     * @author Yuhui Pang
+     *
+     * Auto tilling move in beginner mosaic mode
+     */
+    public static void autoTillingMove() {
         if (!sharedState.getFactory().isEmpty() || !sharedState.getCentre().isEmpty()) return;
         for (PlayerState playerState : playerStates) {
             Storage storage = playerState.getStorage();
@@ -450,7 +512,7 @@ public class Game extends Application {
     /**
      * Set up the sound loop for the game menu
      */
-    private void menuSoundLoop() {
+    private static void menuSoundLoop() {
         try {
             menuLoop = new AudioClip(MENU_LOOP_URI);
             menuLoop.setCycleCount(AudioClip.INDEFINITE);
@@ -462,7 +524,7 @@ public class Game extends Application {
     /**
      * Set up the sound loop, idea from dinosaurs
      */
-    private void setUpSoundLoop() {
+    private static void setUpSoundLoop() {
         try {
             gameLoop = new AudioClip(GAME_LOOP_URI);
             gameLoop.setCycleCount(AudioClip.INDEFINITE);
