@@ -9,19 +9,19 @@ import comp1110.ass2.playerState.PlayerState;
 import comp1110.ass2.playerState.Storage;
 import comp1110.ass2.sharedState.SharedState;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Menu;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
@@ -167,7 +167,7 @@ public class Game extends Application {
             butFourPlayer.setOnMouseClicked(event -> {
                 gameInitialization(4,30,3,false);
             });
-            MenuButton butComp = new MenuButton("P v E");
+            MenuButton butComp = new MenuButton("Play with Computer");
             butComp.setOnMouseClicked(event -> {
                 gameInitialization(2,40,5,true);
             });
@@ -204,8 +204,26 @@ public class Game extends Application {
             MenuButton butExist = new MenuButton("Exist");
             butExist.setOnMouseClicked(event -> System.exit(0));
 
+            HBox radioGroup = new HBox();
+            ToggleGroup group = new ToggleGroup();
+            RadioButton button1 = new RadioButton("Beginner Mosaic");
+            button1.setToggleGroup(group);
+            button1.setSelected(true);
+            button1.setUserData("Beginner");
+            RadioButton button2 = new RadioButton("Variant Mosaic");
+            button2.setToggleGroup(group);
+            button2.setUserData("Variant");
+
+            group.selectedToggleProperty().addListener(
+                    (ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
+                        if (group.getSelectedToggle() != null) {
+                            variantMosaic = group.getSelectedToggle().getUserData().toString().equals("Variant");
+                        }
+                    });
+            radioGroup.getChildren().addAll(button1,button2);
+
             menu0.getChildren().addAll(butPlay,butRules,butExist);
-            menu1.getChildren().addAll(butTwoPlayer,butThreePlayer,butFourPlayer,butComp,butPlayBack);
+            menu1.getChildren().addAll(radioGroup,butTwoPlayer,butThreePlayer,butFourPlayer,butComp,butPlayBack);
             menu2.getChildren().addAll(butNextPage,butRuleBack);
             getChildren().add(menu0);
         }
