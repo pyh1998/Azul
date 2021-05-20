@@ -11,6 +11,7 @@ of our project implements the following features:
 
 additional features...
 
+
 - Background pictures and background music 
 - Hierarchy menu
 - Mouse click effect

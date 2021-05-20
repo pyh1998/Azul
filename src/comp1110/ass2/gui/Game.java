@@ -46,10 +46,9 @@ public class Game extends Application {
     private static final int MENU_X = 1000;
     private static final int MENU_Y = 480;
 
-    private final Group controls = new Group();
     private static final Group root = new Group();
     public static final Group allState = new Group();
-    public static final Viewer viewer = new Viewer();
+    private static final Group ruleGroup = new Group();
 
     public static String[] gameState;
     public static SharedState sharedState;
@@ -74,7 +73,7 @@ public class Game extends Application {
     /* Loop in public domain CC 0 https://soundcloud.com/keysofmoon */
     private static final String MENU_LOOP_URI = Game.class.getResource(URI_BASE + "Yugen-Emotional-Ethnic-Music.mp3").toString();
     /* Loop in public domain CC 0 http://www.twinmusicom.org/ */
-    private static final String GAME_LOOP_URI = Game.class.getResource(URI_BASE + "Twin Musicom - Retro Dreamscape.mp3").toString();
+    private static final String GAME_LOOP_URI = Game.class.getResource(URI_BASE + "Twin Musicom - Old Bossa.mp3").toString();
 
     private static AudioClip gameLoop;
     private static AudioClip menuLoop;
@@ -84,9 +83,6 @@ public class Game extends Application {
     public static boolean variantMosaic = false;
     public static int playerNum;
     public static boolean playWithComputer = false;
-
-
-    private static final Group ruleGroup = new Group();
 
     /* index for selecting rules images */
     private static int index = 0;
@@ -100,7 +96,12 @@ public class Game extends Application {
             new Image(Game.class.getResource(URI_BASE + "Rule5.png").toString())
     };
 
-    /* View the rules image given a index */
+    /**
+     * @author Jiawen Wang, Yuhui Pang
+     *
+     * View the rules image given a index
+     * @param index index of the images
+     */
     private static void showRulesImage(int index) {
         ImageView imageView = new ImageView();
         imageView.setImage(images[index % images.length]);
@@ -112,6 +113,16 @@ public class Game extends Application {
         ruleGroup.getChildren().add(imageView);
     }
 
+    /**
+     * @author Yuhui Pang, Jiawen Wang
+     *
+     * Initialise game boards according to the player number, size of the square, space between the squares
+     * and whether player with computer
+     * @param playerNum number of players
+     * @param size size of the square
+     * @param space space between the squares
+     * @param flag whether player with computer
+     */
     private static void gameInitialization(int playerNum, int size, int space, boolean flag){
         Game.playerNum = playerNum;
         Square.SIZE = size;
@@ -129,7 +140,9 @@ public class Game extends Application {
     }
 
     /**
-     * Class for the menu
+     * @author Yuhui Pang, Jiawen Wang
+     *
+     * Class for the game menu, add buttons to select play and show rules
      */
     private static class GameMenu extends Parent {
         public GameMenu() {
@@ -232,6 +245,11 @@ public class Game extends Application {
         }
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Class for radio button
+     */
     private static class MenuRadioButton extends RadioButton{
         public MenuRadioButton(String name){
             super(name);
@@ -245,6 +263,8 @@ public class Game extends Application {
     }
 
     /**
+     * @author Yuhui Pang
+     *
      * Class for the menu button
      */
     private static class MenuButton extends StackPane {
@@ -284,7 +304,13 @@ public class Game extends Application {
     }
 
     /**
+     * @author Jiawen Wang, Yuhui Pang
+     *
      * Add backgrounds
+     *
+     * @param imageURL string of the image url
+     * @param opacity opacity
+     * @param group group to be added
      */
     private static void addBackground(String imageURL, double opacity, Group group){
         ImageView background = new ImageView(new Image(imageURL));
@@ -295,6 +321,11 @@ public class Game extends Application {
         group.getChildren().add(background);
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * display game state
+     */
     public static void displayState() {
         //Clear the group
         allState.getChildren().clear();
@@ -347,6 +378,11 @@ public class Game extends Application {
         allState.getChildren().add(back);
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * start game, refill factories and display game state
+     */
     public static void startGame() {
         gameState = new String[] {new SharedState(playerNum).getStateStr(),PlayerState.getAllStateStr(PlayerState.getAllPlayerStates(playerNum))};
         Azul.refillFactories(gameState);
@@ -354,6 +390,12 @@ public class Game extends Application {
         System.out.println(Arrays.toString(gameState));
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * highlight the given nearest square
+     * @param square the nearest square
+     */
     public static void highlightNearestSquare(Square square) {
         Game.targetSquare = square;
         if (highlighted != null) highlighted.setFill(preColor);
@@ -362,6 +404,11 @@ public class Game extends Application {
         if (highlighted.getFill() == Color.GREY) highlighted.setFill(Color.LIGHTGREY);
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * auto tilling move for computer opponent
+     */
     public static void autoTileMove() {
         String move = Azul.generateAction(gameState);
         if(move.length() == 4){
@@ -386,6 +433,11 @@ public class Game extends Application {
         checkCompletion();
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * move tiles, include tiling move and drafting move
+     */
     public static void tileMove() {
 
         //drafting move
@@ -418,8 +470,13 @@ public class Game extends Application {
         checkCompletion();
     }
 
-
-
+    /**
+     * @author Yuhui Pang
+     *
+     * drafting move of tiles, allow users to drag tiles and snap in the valid placement
+     * @param player char of the player
+     * @param placedTo position placed to
+     */
     public static void draftingMove(char player, char placedTo) {
         String move = null;
         if (draggableSquare.position == Square.Position.Factory) {
@@ -441,6 +498,12 @@ public class Game extends Application {
         }
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * given a move and perform tilling move
+     * @param move string representation of the move
+     */
     private static void tillingMove(String move) {
         if (!sharedState.getFactory().isEmpty() || !sharedState.getCentre().isEmpty()) return;
         if(!Azul.isMoveValid(gameState,move)) return;
@@ -451,6 +514,7 @@ public class Game extends Application {
         System.out.println(Arrays.toString(gameState));
         System.out.println(move);
     }
+
     /**
      * @author Yuhui Pang
      *
@@ -479,6 +543,8 @@ public class Game extends Application {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Check game completion and show completion if the game is over
      */
     private static void checkCompletion() {
@@ -488,6 +554,11 @@ public class Game extends Application {
         }
     }
 
+    /**
+     * @author Jiawen Wang
+     *
+     * find the winner and make the completion message
+     */
     private static void makeCompletion() {
         ArrayList<Character> winners = PlayerState.findWinner(gameState[1]);
         String winnersStr = "Player " + winners.get(0).toString();
@@ -520,6 +591,8 @@ public class Game extends Application {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Set up event handlers for the main game
      * press M key for controlling music
      * press Escape key for returning to game menu
@@ -544,6 +617,8 @@ public class Game extends Application {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Set up the sound loop for the game menu
      */
     private static void menuSoundLoop() {
@@ -556,6 +631,8 @@ public class Game extends Application {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Set up the sound loop, idea from dinosaurs
      */
     private static void setUpSoundLoop() {
@@ -568,6 +645,8 @@ public class Game extends Application {
     }
 
     /**
+     * @author Jiawen Wang
+     *
      * Turn the game sound loop on or off, (play after pressing M), idea from dinosaurs
      */
     private void toggleSoundLoop() {

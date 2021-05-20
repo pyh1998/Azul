@@ -46,39 +46,31 @@ code:
 # Add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external assets)
 assets:
-  - comment: Background music, Yugen - Emotional Ethnic Music by Keys of Moon
-    url: https://soundcloud.com/keysofmoon
-    licence: Attribution 4.0 International (CC BY 4.0)
+  - comment: Menu background music, Yugen - Emotional Ethnic Music by Keys of Moon
+      url: https://soundcloud.com/keysofmoon
+      licence: Attribution 4.0 International (CC BY 4.0)
 
-  - comment: Background music, {Retro Dreamscape} by Twin Musicom (twinmusicom.org)
+  - comment: Game background music, {Old Bossa} by Twin Musicom
     url: http://www.twinmusicom.org/
     licence: Attribution 4.0 International (CC BY 4.0)
 
-  - comment: Background music, {Journey in the New World.} by Twin Musicom (twinmusicom.org)
-    url: http://www.twinmusicom.org/
-    licence: Attribution 4.0 International (CC BY 4.0)
-
-  - comment: click sound 1, {Journey in the New World.} by Twin Musicom (twinmusicom.org)
+  - comment: click sound 1
     url: https://sc.chinaz.com/yinxiao/180904492042.htm
     licence: CopyRight 2002-2020
 
-  - comment: click sound 2, {Journey in the New World.} by Twin Musicom (twinmusicom.org)
-    url: https://sc.chinaz.com/yinxiao/YouXi_5.html
-    licence: CopyRight 2002-2020
-
-  - comment: click sound 3, {Journey in the New World.} by Twin Musicom (twinmusicom.org)
-    url: https://sc.chinaz.com/yinxiao/191008157210.htm
+  - comment: click sound 3,
+    url: https://sc.chinaz.com/yinxiao/171122209170.htm
     licence: CopyRight 2002-2020
 
   - comment: game menu background, image published by W. Eric Martin in website boardgamegeek
-    url: https://boardgamegeek.com/image/3718275/azul
-    licence: Attribution 3.0 Unported (CC BY 3.0)
+      url: https://boardgamegeek.com/image/3718275/azul
+      licence: Attribution 3.0 Unported (CC BY 3.0)
 
   - comment: game background, image published by illustratelife in www.vecteezy.com
       url: https://www.vecteezy.com/vector-art/273835-white-background
       licence: Attribution 3.0 Unported (CC BY 3.0)
 
-  - comment: game rule, image in the rulebook
+  - comment: game rule, images in the rulebook
       url: https://www.boardgamecapital.com/game_rules/azul.pdf
       licence: Attribution 3.0 Unported (CC BY 3.0)
 

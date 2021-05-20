@@ -29,15 +29,13 @@ collaboration:
 #
 # Add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external code)
-code:
-  - comment:
-    url:
-    licence:
+  - comment: refered to Almas Baimagambetov's YouTube video "JavaFX Custom Game Menu - Thief" to add the game menu
+    url: https://www.youtube.com/watch?v=aOcow70vqb4&ab_channel=AlmasBaimagambetov
+    licence: All right reserved
 
 # I wish to submit the following classes as entirely my own (remove this if
 # you want to just submit methods):
 class:
-   - class GameMenu in Game
    - class MenuButton in Game
 
 # I wish to submit the following methods as entirely my own (remove this if
