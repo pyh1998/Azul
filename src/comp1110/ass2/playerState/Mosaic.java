@@ -223,7 +223,11 @@ public class Mosaic {
      */
     public int[] getTotalNumOfTiles(){
         int[] totalNum = new int[6];
-
+        for(Tile[] tiles1 : tiles){
+            for(Tile tile : tiles1){
+                if(tile!=null) totalNum[tile.getTILE_ID()] ++;
+            }
+        }
         return totalNum;
     }
 

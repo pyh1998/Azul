@@ -210,7 +210,7 @@ public class Centre {
     public int[] getTotalNumOfTiles(){
         int[] totalNum = new int[6];
         for(Tile tile : tiles){
-            totalNum[tile.getTILE_ID()] ++;
+            if(tile!=null) totalNum[tile.getTILE_ID()] ++;
         }
         return totalNum;
     }

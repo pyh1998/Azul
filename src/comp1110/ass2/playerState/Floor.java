@@ -205,7 +205,9 @@ public class Floor {
      */
     public int[] getTotalNumOfTiles(){
         int[] totalNum = new int[6];
-
+        for(Tile tile : tiles){
+            if(tile!=null) totalNum[tile.getTILE_ID()] ++;
+        }
         return totalNum;
     }
 }
