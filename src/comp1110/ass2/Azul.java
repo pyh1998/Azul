@@ -423,12 +423,11 @@ public class Azul {
 
             // 2. The specified column does not already contain a tile of the same colour.
             // 3. The specified location in the mosaic is empty.
+            char tileType = storage.getTileType()[rowPick].getTILE_TYPE();
             if (colPut != 'F') {
-                char tileType = storage.getTileType()[rowPick].getTILE_TYPE();
                 return mosaic.isValidPlacement(tileType, rowPick, colPut - '0');
             } else {
                 // if there is a valid move to the mosaic area, then the placement cannot be F
-                char tileType = storage.getTileType()[rowPick].getTILE_TYPE();
                 for (int c = 0; c < Mosaic.WIDTH; c++) {
                     if (mosaic.isValidPlacement(tileType, rowPick, c)) return false;
                 }
