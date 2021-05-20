@@ -1,7 +1,7 @@
 In addition to the features that are auto-graded, the graphical user interface
 of our project implements the following features:
 
-*(Remove those that are unimplemented)*
+
 
  - A simple placement viewer (Task 4)
  - A basic playable game
@@ -10,3 +10,7 @@ of our project implements the following features:
  - Implements interesting game variant/s (Task 16)
 
 additional features...
+
+- Background pictures and background music 
+- Hierarchy menu
+- Mouse click effect
