@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
  */
 public class SharedGroup extends Group {
 
+
     private final double side = Square.SIZE;
     private final double space = Square.SPACE;
     private final Group factory;
@@ -22,6 +23,11 @@ public class SharedGroup extends Group {
     private final Group playTurn;
     private char turn;
 
+    /**
+     * @author Yuhui Pang
+     *
+     * draw the group of Factory to the shared group
+     */
     public Group drawFactory(Factory factory){
         Tile[][] tiles= factory.getTiles();
         Group factoryGroup = new Group();
@@ -48,6 +54,11 @@ public class SharedGroup extends Group {
         return factoryGroup;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * draw the group of Bag to the shared group
+     */
     public Group drawBag(Bag bag){
         int[] tileNum = bag.getTile_num();
         Group bagGroup = new Group();
@@ -64,6 +75,11 @@ public class SharedGroup extends Group {
         return bagGroup;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * draw the group of Centre to the shared group
+     */
     public Group drawCentre(Centre centre){
         Tile[] tiles = centre.getTiles();
         int num = centre.getNumber();
@@ -88,6 +104,11 @@ public class SharedGroup extends Group {
         return centreGroup;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * draw the group of Discard to the shared group
+     */
     public Group drawDiscard(Discard discard){
         int[] tileNum = discard.getTile_num();
         Group discardGroup = new Group();
@@ -104,6 +125,11 @@ public class SharedGroup extends Group {
         return discardGroup;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * draw the group of PlayerTurn to the shared group
+     */
     public Group drawPlayerTurn(char playerTurn){
         Group playerTurnGroup = new Group();
         Label label =new Label(String.valueOf(playerTurn) + "'s Turn");
@@ -112,6 +138,11 @@ public class SharedGroup extends Group {
         return playerTurnGroup;
     }
 
+    /**
+     * @author Yuhui Pang
+     * the constructor of SharedGroup
+     * @param sharedState the sharedState need to be draw
+     */
     public SharedGroup(SharedState sharedState) {
         factory = drawFactory(sharedState.getFactory());
         bag = drawBag(sharedState.getBag());
