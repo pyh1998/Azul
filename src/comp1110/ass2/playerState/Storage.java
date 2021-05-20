@@ -10,9 +10,9 @@ public class Storage {
      * Field tileNumber: The number of tiles of each tile type
      */
     public static final int NUMBER_ROWS = 5;
-    public static final int TILE_TYPE_NUMBER = 5;
     private Tile[] tileType;
     private int[] tileNumber;
+    public boolean isValid = true;
 
     /**
      * @author Yuhui Pang, Jiawen Wang, Qinling Zhong
@@ -21,7 +21,7 @@ public class Storage {
      * The index of tile array indicated the row number.
      */
     public Storage() {
-        tileType = new Tile[TILE_TYPE_NUMBER];
+        tileType = new Tile[NUMBER_ROWS];
         tileNumber = new int[NUMBER_ROWS];
     }
 
@@ -36,13 +36,14 @@ public class Storage {
      * @param stateStr The state string of the Storage
      */
     public Storage(String stateStr){
-        tileType = new Tile[TILE_TYPE_NUMBER];
+        tileType = new Tile[NUMBER_ROWS];
         tileNumber = new int[NUMBER_ROWS];
         for(int i = 1; i < stateStr.length(); i += 3){
             int row = stateStr.charAt(i) - '0';
             char ch = stateStr.charAt(i+1);
             Tile tile = Tile.CharToTile(ch);
             int num = stateStr.charAt(i + 2) - '0';
+            if(num > row + 1) isValid = false;
             tileType[row] = tile;
             tileNumber[row] = num;
         }
@@ -223,9 +224,9 @@ public class Storage {
      */
     public int[] getTotalNumOfTiles(){
         int[] totalNum = new int[6];
-
+        for(int i =0;i < NUMBER_ROWS;i++){
+            if(tileType[i] != null) totalNum[tileType[i].getTILE_ID()] += tileNumber[i];
+        }
         return totalNum;
     }
-
-
 }

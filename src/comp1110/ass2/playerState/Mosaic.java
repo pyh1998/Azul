@@ -231,4 +231,24 @@ public class Mosaic {
         return totalNum;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Check if the mosaic is valid
+     */
+    public boolean isStateValid(){
+        for(int i=0;i<WIDTH;i++){
+            int[] rowTileNum = new int[5];
+            int[] colTileNUm = new int[5];
+            for(int j=0;j<HEIGHT;j++){
+                if(tiles[i][j] != null) rowTileNum[tiles[i][j].getTILE_ID()] ++;
+                if(tiles[j][i] != null) colTileNUm[tiles[j][i].getTILE_ID()] ++;
+            }
+            for(int k=0;k<5;k++){
+                if(rowTileNum[k] > 1 || colTileNUm[k] > 1) return false;
+            }
+        }
+        return true;
+    }
+
 }

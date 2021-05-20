@@ -111,6 +111,26 @@ public class PlayerState {
     /**
      * @author Yuhui Pang
      *
+     * Check if the PlayerState is valid
+     */
+    public boolean isStateValid(){
+        if(!mosaic.isStateValid()) return false;
+        if(!storage.isValid) return false;
+        Tile[][] MosaicTiles = mosaic.getTiles();
+        Tile[]  RowTiles = storage.getTileType();
+        for(int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                if(RowTiles[i] != null && MosaicTiles[i][j] != null){
+                    if(RowTiles[i] == MosaicTiles[i][j]) return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @author Yuhui Pang
+     *
      * Get the player number
      * @param allPlayerStateStr the String of playerState, like "A0MS0d11c22b33e44e1FefB0MS0a11b22d33c2F"
      * @return the player number (2 or 3 or 4)
