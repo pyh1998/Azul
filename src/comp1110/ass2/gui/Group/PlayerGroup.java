@@ -151,7 +151,7 @@ public class PlayerGroup extends Group {
         storage.setLayoutY(50);
         mosaic.setLayoutX(300);
         mosaic.setLayoutY(50);
-        floor.setLayoutX(45);
+        floor.setLayoutX(Square.SIZE + Square.SPACE);
         floor.setLayoutY(storage.getLayoutY() + storage.getBoundsInParent().getHeight() + 30);
 
         if(playerChar == 'B' || playerChar == 'D')   this.setLayoutX(600);

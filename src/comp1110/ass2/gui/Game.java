@@ -374,12 +374,12 @@ public class Game extends Application {
             event.consume();
         });
         back.setLayoutX(1000);
-        back.setLayoutY(730);
+        back.setLayoutY(BOARD_HEIGHT - 60);
         Text hint = new Text("Press M - Control BGM");
         hint.setFill(Color.BLACK);
         hint.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,20));
         hint.setLayoutX(1000);
-        hint.setLayoutY(BOARD_HEIGHT + 8);
+        hint.setLayoutY(BOARD_HEIGHT - 8);
         allState.getChildren().addAll(back,hint);
     }
 
