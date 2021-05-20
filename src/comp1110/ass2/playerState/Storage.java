@@ -215,5 +215,17 @@ public class Storage {
         this.tileNumber[rowNumber] = 0;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Get total number of each type of tile in floor
+     * @return the total number of each type of tile in floor
+     */
+    public int[] getTotalNumOfTiles(){
+        int[] totalNum = new int[6];
+
+        return totalNum;
+    }
+
 
 }

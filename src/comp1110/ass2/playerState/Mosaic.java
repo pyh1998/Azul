@@ -215,4 +215,16 @@ public class Mosaic {
         return -1;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Get total number of each type of tile in floor
+     * @return the total number of each type of tile in floor
+     */
+    public int[] getTotalNumOfTiles(){
+        int[] totalNum = new int[6];
+
+        return totalNum;
+    }
+
 }

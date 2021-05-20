@@ -161,4 +161,17 @@ public class Discard {
         this.tile_num[Tile.CharToTile(type).getTILE_ID()] += num;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Get total number of each type of tile in discard
+     * @return the total number of each type of tile in discard
+     */
+    public int[] getTotalNumOfTiles(){
+        int[] totalNum = new int[6];
+        System.arraycopy(tile_num, 0, totalNum, 0, tile_num.length);
+        totalNum[5] = 0;
+        return totalNum;
+    }
+
 }

@@ -200,4 +200,18 @@ public class Centre {
         }
         return unique;
     }
+
+    /**
+     * @author Yuhui Pang
+     *
+     * Get total number of each type of tile in centre
+     * @return the total number of each type of tile in centre
+     */
+    public int[] getTotalNumOfTiles(){
+        int[] totalNum = new int[6];
+        for(Tile tile : tiles){
+            totalNum[tile.getTILE_ID()] ++;
+        }
+        return totalNum;
+    }
 }

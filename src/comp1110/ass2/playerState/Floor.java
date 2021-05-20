@@ -196,4 +196,16 @@ public class Floor {
         }
         return remain;
     }
+
+    /**
+     * @author Yuhui Pang
+     *
+     * Get total number of each type of tile in floor
+     * @return the total number of each type of tile in floor
+     */
+    public int[] getTotalNumOfTiles(){
+        int[] totalNum = new int[6];
+
+        return totalNum;
+    }
 }

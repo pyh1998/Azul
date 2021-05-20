@@ -192,4 +192,17 @@ public class Bag {
     public int getTotalNum() {
         return totalNum;
     }
+
+    /**
+     * @author Yuhui Pang
+     *
+     * Get total number of each type of tile in bag
+     * @return the total number of each type of tile in bag
+     */
+    public int[] getTotalNumOfTiles(){
+        int[] totalNum = new int[6];
+        System.arraycopy(tile_num, 0, totalNum, 0, tile_num.length);
+        totalNum[5] = 0;
+        return totalNum;
+    }
 }

@@ -106,6 +106,20 @@ public class SharedState {
     /**
      * @author Yuhui Pang
      *
+     * Get total number of each type of tile in shared area
+     * @return the total number of each type of tile in shared area
+     */
+    public int[] getTotalNumOfTiles(){
+        int[] totalNum = new int[6];
+        for(int i=0;i<6;i++){
+            totalNum[i] = bag.getTotalNumOfTiles()[i] + centre.getTotalNumOfTiles()[i] + discard.getTotalNumOfTiles()[i] + factory.getTotalNumOfTiles()[i];
+        }
+        return totalNum;
+    }
+
+    /**
+     * @author Yuhui Pang
+     *
      * Set the player in this round
      * @param player the player char need add
      */

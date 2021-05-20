@@ -406,4 +406,18 @@ public class PlayerState {
     public Storage getStorage() {
         return storage;
     }
+
+    /**
+     * @author Yuhui Pang
+     *
+     * Get total number of each type of tile in player area
+     * @return the total number of each type of tile in player area
+     */
+    public int[] getTotalNumOfTiles(){
+        int[] totalNum = new int[6];
+        for(int i=0;i<6;i++){
+            totalNum[i] = floor.getTotalNumOfTiles()[i] + mosaic.getTotalNumOfTiles()[i] + storage.getTotalNumOfTiles()[i];
+        }
+        return totalNum;
+    }
 }

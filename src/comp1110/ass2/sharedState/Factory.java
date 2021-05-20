@@ -221,4 +221,20 @@ public class Factory {
         return unique;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * Get total number of each type of tile in factory
+     * @return the total number of each type of tile in factory
+     */
+    public int[] getTotalNumOfTiles(){
+        int[] totalNum = new int[6];
+        for (Tile[] FTiles : tiles) {
+            for (Tile tile : FTiles) {
+                if (tile != null) totalNum[tile.getTILE_ID()]++;
+            }
+        }
+        return totalNum;
+    }
+
 }

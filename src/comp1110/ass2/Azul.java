@@ -336,12 +336,17 @@ public class Azul {
         }
 
         // FIXME Task 9
-        if (!isSharedStateWellFormed(gameState[0])) {
-            return false;
-        }
-        if (!isPlayerStateWellFormed(gameState[1])) {
-            return false;
-        }
+        //[General]
+        if (!isSharedStateWellFormed(gameState[0])) return false;
+        if (!isPlayerStateWellFormed(gameState[1])) return false;
+        int[] tilesNum = new int[6];
+
+
+
+
+
+
+
 
         PlayerState[] playerStates = PlayerState.getAllPlayerStates(gameState[1]);
         SharedState sharedState = new SharedState(gameState[0], playerStates.length);
