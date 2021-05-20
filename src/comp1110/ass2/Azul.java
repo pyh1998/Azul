@@ -296,6 +296,7 @@ public class Azul {
     }
 
     /**
+     * @author Qinling Zhong
      * Given an entire game State, determine whether the state is valid.
      * A game state is valid if it satisfies the following conditions.
      * <p>

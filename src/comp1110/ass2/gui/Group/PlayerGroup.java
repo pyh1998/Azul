@@ -21,6 +21,11 @@ public class PlayerGroup extends Group {
     private final Group mosaic;
     private final Group floor;
 
+    /**
+     * @author Yuhui Pang
+     *
+     * draw the group of Storage to the player group
+     */
     public Group drawStorage(Storage storage){
         Tile[] tileType = storage.getTileType();
         int[] tileNum = storage.getTileNumber();
@@ -52,6 +57,11 @@ public class PlayerGroup extends Group {
         return storageGroup;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * draw the group of Mosaic to the player group
+     */
     public Group drawMosaic(Mosaic mosaic){
         Tile[][] tiles = mosaic.getTiles();
         Group mosaicGroup = new Group();
@@ -72,6 +82,11 @@ public class PlayerGroup extends Group {
         return mosaicGroup;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * draw the group of Player(id + score) to the player group
+     */
     public Group drawPlayer(Player player){
         Group playerGroup = new Group();
         char playerId = player.getId();
@@ -85,6 +100,11 @@ public class PlayerGroup extends Group {
         return playerGroup;
     }
 
+    /**
+     * @author Yuhui Pang
+     *
+     * draw the group of Floor to the playergroup
+     */
     public Group drawFloor( Floor floor){
         Tile[] tiles =floor.getTiles();
         Group floorGroup = new Group();
@@ -101,12 +121,21 @@ public class PlayerGroup extends Group {
         return floorGroup;
     }
 
+    /**
+     * the char represent the player of current player group
+     */
     private final char playerChar;
 
     public char getPlayer() {
         return playerChar;
     }
 
+    /**
+     * @author Yuhui Pang
+     * the constructor of PlayerGroup
+     * @param playerState the playerState need to be draw
+     * @param playerChar the char represent the player of current player group
+     */
     public PlayerGroup(PlayerState playerState,char playerChar) {
 
         this.playerChar = playerChar;
