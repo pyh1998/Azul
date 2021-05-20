@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -91,6 +92,7 @@ public class Game extends Application {
     private static int index = 0;
     /* images of the rules */
     private static Image [] images = {
+            new Image(Game.class.getResource(URI_BASE + "Rule0.png").toString()),
             new Image(Game.class.getResource(URI_BASE + "Rule1.png").toString()),
             new Image(Game.class.getResource(URI_BASE + "Rule2.png").toString()),
             new Image(Game.class.getResource(URI_BASE + "Rule3.png").toString()),
@@ -101,11 +103,12 @@ public class Game extends Application {
     /* View the rules image given a index */
     private static void showRulesImage(int index) {
         ImageView imageView = new ImageView();
-        imageView.setImage(images[index % 5]);
+        imageView.setImage(images[index % images.length]);
         imageView.setFitWidth(BOARD_HEIGHT);
         imageView.setFitHeight(BOARD_HEIGHT);
-        imageView.setX((BOARD_WIDTH - BOARD_HEIGHT) / 2);
+        imageView.setX((BOARD_WIDTH - BOARD_HEIGHT) / 2.0);
         ruleGroup.getChildren().clear();
+        addBackground(MENU_BACKGROUND_URI,1,ruleGroup);
         ruleGroup.getChildren().add(imageView);
     }
 
@@ -117,7 +120,7 @@ public class Game extends Application {
         score.play();
         menuLoop.stop();
         root.getChildren().clear();
-        addBackground(GAME_BACKGROUND_URI,0.3);
+        addBackground(GAME_BACKGROUND_URI,0.3,root);
         root.getChildren().add(allState);
         startGame();
         setUpSoundLoop();
@@ -145,7 +148,7 @@ public class Game extends Application {
             backCover.setFill(Color.WHITE);
             backCover.setX(0);
             backCover.setY(0);
-            addBackground(MENU_BACKGROUND_URI,1);
+            addBackground(MENU_BACKGROUND_URI,1,root);
             menuSoundLoop();
             menuLoop.play();
             // Play button and its sub-buttons
@@ -190,6 +193,7 @@ public class Game extends Application {
                     (ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
                         if (group.getSelectedToggle() != null) {
                             variantMosaic = group.getSelectedToggle().getUserData().toString().equals("Variant");
+                            score.play();
                         }
                 });
             radioGroup.getChildren().addAll(button1,button2);
@@ -238,14 +242,11 @@ public class Game extends Application {
         public MenuRadioButton(String name){
             super(name);
             this.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,20));
-//            Rectangle bg = new Rectangle(250,30);
-//            bg.setOpacity(0.7);
-//            bg.setFill(Color.BLACK);
-//            bg.setEffect(new GaussianBlur(3.5));
-//            setAlignment(Pos.CENTER_LEFT);
-//            setRotate(-0.5);
-//            this.getChildren().add(bg);
-//            bg.toFront();
+            DropShadow ds = new DropShadow();
+            ds.setOffsetY(3.0);
+            ds.setColor(Color.BLACK);
+            this.setTextFill(Color.WHITE);
+            this.setEffect(ds);
         }
     }
 
@@ -291,13 +292,13 @@ public class Game extends Application {
     /**
      * Add backgrounds
      */
-    private static void addBackground(String imageURL,double opacity){
+    private static void addBackground(String imageURL, double opacity, Group group){
         ImageView background = new ImageView(new Image(imageURL));
         background.setFitWidth(BOARD_WIDTH);
         background.setFitHeight(BOARD_WIDTH);
-        background.setY((BOARD_HEIGHT - BOARD_WIDTH) / 2);
+        background.setY((BOARD_HEIGHT - BOARD_WIDTH) / 2.0);
         background.setOpacity(opacity);
-        root.getChildren().add(background);
+        group.getChildren().add(background);
     }
 
     public static void displayState() {
@@ -588,11 +589,7 @@ public class Game extends Application {
         //  FIXME Task 12: Implement a basic playable Azul game in JavaFX that only allows tiles to be placed in valid places
         //  FIXME Task 14: Implement a computer opponent so that a human can play your game against the computer.
         stage.setTitle("Azul");
-        //Group root = new Group();
         Scene scene = new Scene(root, BOARD_WIDTH, BOARD_HEIGHT);
-        //viewer.start(stage);
-        //String[] gameState = {"A0MSFB0MSF","AF0cdde1bbbe2abde3cdee4bcceCfB1915161614D0000000000"};
-        //viewer.displayState(gameState);
 
         gameMenu = new GameMenu();
         root.getChildren().add(gameMenu);
