@@ -332,6 +332,14 @@ public class PlayerState {
         return count;
     }
 
+    /**
+     * @author Jiawen Wang
+     *
+     * Check whether the game is complete given a playerState string of all players
+     *
+     * @param playerStatesStr a playerState string of all players
+     * @return whether the game is complete
+     */
     public static boolean isGameComplete(String playerStatesStr) {
         PlayerState[] allStates = PlayerState.getAllPlayerStates(playerStatesStr);
         boolean isEnd = false;

@@ -114,7 +114,7 @@ public class Game extends Application {
     }
 
     /**
-     * @author Yuhui Pang, Jiawen Wang
+     * @author Yuhui Pang
      *
      * Initialise game boards according to the player number, size of the square, space between the squares
      * and whether player with computer
