@@ -263,7 +263,7 @@ public class Game extends Application {
     }
 
     /**
-     * @author Yuhui Pang
+     * @author Jiawen Wang
      *
      * Class for the menu button
      */
