@@ -332,7 +332,7 @@ public class Game extends Application {
         String sharedStateStr = gameState[0];
         String playerStateStr = gameState[1];
 
-        //Check if  the input is valid
+        //Check if the input is valid
         if(!Azul.isSharedStateWellFormed(sharedStateStr) || !Azul.isPlayerStateWellFormed(playerStateStr)){
             System.out.println("Invalid:" + Arrays.toString(gameState));
             new Alert(Alert.AlertType.NONE, "Invalid state!", new ButtonType[]{ButtonType.CLOSE}).show();
@@ -354,7 +354,7 @@ public class Game extends Application {
 
         allState.getChildren().add(sharedGroup);
 
-        if(playWithComputer && sharedState.getPlayer() != 'A'){
+        if(playWithComputer && sharedState.getPlayer() != 'A' && (!PlayerState.isGameComplete(gameState[1]))){
             MenuButton compTurn = new MenuButton("Click here to do next!");
             compTurn.setLayoutX(550);
             compTurn.setLayoutY(250);
@@ -568,7 +568,10 @@ public class Game extends Application {
             }
         }
         String sub;
-        if (winners.size() == 1) sub = " wins!";
+        if (winners.size() == playerNum) {
+            winnersStr = "";
+            sub = "draw";
+        } else if (winners.size() == 1) sub = " wins!";
         else sub = " win!";
 
         DropShadow drop = new DropShadow(50, Color.WHITE);
@@ -588,6 +591,18 @@ public class Game extends Application {
         hint.setEffect(drop);
         hint.setTextAlignment(TextAlignment.CENTER);
         root.getChildren().addAll(hint,message);
+        MenuButton back = new MenuButton("Back to Menu");
+        back.setOnMouseClicked(event -> {
+            gameLoop.stop();
+            gameLoopPlaying = false;
+            root.getChildren().clear();
+            gameMenu = new GameMenu();
+            root.getChildren().add(gameMenu);
+            event.consume();
+        });
+        back.setLayoutX(1000);
+        back.setLayoutY(730);
+        root.getChildren().add(back);
     }
 
     /**
