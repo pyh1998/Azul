@@ -108,7 +108,7 @@ public class Game extends Application {
         imageView.setFitHeight(BOARD_HEIGHT);
         imageView.setX((BOARD_WIDTH - BOARD_HEIGHT) / 2.0);
         ruleGroup.getChildren().clear();
-        addBackground(MENU_BACKGROUND_URI,1,ruleGroup);
+        addBackground(MENU_BACKGROUND_URI,0.1,ruleGroup);
         ruleGroup.getChildren().add(imageView);
     }
 
@@ -142,12 +142,6 @@ public class Game extends Application {
             menu1.setTranslateY(MENU_Y);
             menu2.setTranslateX(MENU_X);
             menu2.setTranslateY(MENU_Y);
-            Rectangle backCover = new Rectangle();
-            backCover.setHeight(BOARD_HEIGHT);
-            backCover.setWidth(BOARD_WIDTH);
-            backCover.setFill(Color.WHITE);
-            backCover.setX(0);
-            backCover.setY(0);
             addBackground(MENU_BACKGROUND_URI,1,root);
             menuSoundLoop();
             menuLoop.play();
@@ -210,7 +204,7 @@ public class Game extends Application {
                 score.play();
                 getChildren().clear();
                 showRulesImage(index);
-                getChildren().addAll(backCover,ruleGroup,menu2);
+                getChildren().addAll(ruleGroup,menu2);
             });
             MenuButton butNextPage = new MenuButton("Next Page");
             butNextPage.setOnMouseClicked(event -> {
@@ -218,7 +212,7 @@ public class Game extends Application {
                 score.play();
                 getChildren().clear();
                 showRulesImage(index);
-                getChildren().addAll(backCover,ruleGroup,menu2);
+                getChildren().addAll(ruleGroup,menu2);
             });
             MenuButton butRuleBack = new MenuButton("Back");
             butRuleBack.setOnMouseClicked(event -> {
